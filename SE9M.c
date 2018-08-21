@@ -1,3 +1,7 @@
+/*
+ * Project name
+     Smart House - main 1
+*/
 
 #include "built_in.h"
 #include "timelib.h"
