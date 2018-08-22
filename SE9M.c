@@ -81,18 +81,7 @@ sbit DISPEN_Direction at TRISE2_bit;
  */
 unsigned char   macAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;   // my MAC address
 
-/*#ifdef WITH_DHCP
-unsigned char   ipAddr[4] = {0, 0, 0, 0} ;
-unsigned char gwIpAddr[4] ;          // gateway (router) IP address
-unsigned char ipMask[4] ;            // network mask (for example : 255.255.255.0)
-unsigned char dnsIpAddr[4] ;         // DNS server IP address
-#else
-unsigned char ipAddr[4]    = {192, 168, 1, 18} ;  // my ip addr
-unsigned char gwIpAddr[4]  = {192, 168, 1, 1 } ;  // gateway (router) IP address
-unsigned char ipMask[4]    = {255, 255, 255,  0 } ;  // network mask (for example : 255.255.255.0)
-unsigned char dnsIpAddr[4] = {8, 8, 8, 8 } ;  // DNS server IP address
-#endif*/
-
+//postavljanje pocetnih parametara mreze
 unsigned char ipAddr[4]    = {192, 168, 1, 18} ;  // my ip addr
 unsigned char gwIpAddr[4]  = {192, 168, 1, 1 } ;  // gateway (router) IP address
 unsigned char ipMask[4]    = {255, 255, 255,  0 } ;  // network mask (for example : 255.255.255.0)
@@ -126,10 +115,6 @@ char server1[27];
 char server2[27];
 char server3[27];
 
-//unsigned char ipAddrPom[4]    = {192, 168, 1, 18} ;  // my ip addr
-//unsigned char gwIpAddrPom[4]  = {192, 168, 1, 1 } ;  // gateway (router) IP address
-//unsigned char ipMaskPom[4]    = {255, 255, 255,  0 } ;  // network mask (for example : 255.255.255.0)
-//unsigned char dnsIpAddrPom[4] = {8, 8, 8, 8 } ;  // DNS server IP address
 
 TimeStruct      ts, ls ;                // timestruct for now and last update
 long    epoch = 0 ;                     // unix time now
@@ -304,13 +289,6 @@ const unsigned char   *MODEoption[] =
         "Server 3"
         } ;
 
-/*const unsigned char   *LCDoption[] =
-        {
-        "Marquee",
-        "Date",
-        "Time",
-        "Off"
-        } ;*/
 
 /*
  * stylesheets
@@ -394,33 +372,22 @@ const char      *HTMLsystem = "\
 <tr><td>HTTP Request #</td><td align=right><script>document.write(REQ)</script></td></tr>\
 " ;
 
-/*
- * ADMIN section (private zone)
- */
 
-/*const char      *HTMLadmin = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script src=/admin/s></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500>\
-<tr><td>SNTP Server</td><td align=right><script>document.write(SERVER)</script></td></tr>\
-<tr><td>Update clock from SNTP</td><td align=right><a href=/admin/r>now</a></td></tr>\
-<tr><td>Time Zone</td><td align=right>GMT <script>document.write(TZ)</script></td></tr>\
-<tr><td>LCD Line 1</td><td align=right><script>document.write(LCD1)</script></td></tr>\
-<tr><td>LCD Line 2</td><td align=right><script>document.write(LCD2)</script></td></tr>\
-" ;*/
-
+// Stranica za redirekciju na pocetnu admin stranicu
 const char      *HTMLredirect = "\
 <h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
 <script>document.location.replace(\"/admin\")</script>\
 " ;
-
+// stranica za upisivanje sifre
 const char      *HTMLadmin0 = "\
 <h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
 <script src=/admin/s></script>\
 <table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000>\
 <tr> <td>Password</td> <td><script>document.write(PASS)</script></td> </tr>\
 " ;
-
+/*
+ * ADMIN section (private zone)
+ */
 const char      *HTMLadmin1 = "\
 <h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
 <script src=/admin/s></script>\
@@ -480,14 +447,6 @@ Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www
 </center>\
 </BODY></HTML>" ;
 
-/*const   char    *HTMLfooter = "<HTML><HEAD>\
-</table>\
-<br>\
-See more details on <a href=http://www.micro-examples.com target=_blank>www.micro-examples.com</a>\
-<br>\
-<a href=http://www.mikroe.com target=_blank>www.mikroe.com</a>\
-</center>\
-</BODY></HTML>" ;*/
 
 /*******************************************
  * functions
@@ -496,20 +455,20 @@ See more details on <a href=http://www.micro-examples.com target=_blank>www.micr
 char lease_tmr = 0;
 char lease_time = 0;
 
+//inicijalizacija i obrada ethernet paketa ukoliko je SPI omogucen link==1
 void Eth_Obrada() {
     if (conf.dhcpen == 0) {
-       //if (SPI_Ethernet_doDHCPLeaseTime()) {
+       
        if (lease_time >= 60) {
           lease_time = 0;
-          while (!SPI_Ethernet_renewDHCP(5))   // try to renew until it works
-          ;
+          while (!SPI_Ethernet_renewDHCP(5));  // try to renew until it works        
        }
     }
     if (link == 1) {
-       //SPI1_Init() ;
+       
        SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
        Spi_Ethernet_doPacket() ;
-       //mkSNTPrequest() ;
+       
     }
 }
 
@@ -530,7 +489,6 @@ void    saveConf()
         //         EEPROM_Write(i, *ptr++) ;
         //        }
         }
-
 /*
  * LCD marquee
  */
@@ -551,7 +509,7 @@ void    mkMarquee(unsigned char l)
           memcpy(marqeeBuff, marquee, 16) ;
         marqeeBuff[16] = 0 ;
 
-        //Lcd_Out(l, 1, marqeeBuff) ;
+        
         }
 
 /*
@@ -605,46 +563,7 @@ void    mkMarquee(unsigned char l)
 
 void DNSavings() {
      tmzn = 2;
-     /*uzosam = EEPROM_Read(100);
-     prebaci_dan = EEPROM_Read(101);
-     if ( (dan >= 25) && (dan <= 31) && ((mesec == 3) || (mesec == 10)) ) {
-        if ( ((danuned == 1) || (prebaci_flag == 1)) && (uzosam == 0) ) {
-           prebaci_flag = 0;
-           prebaci_dan = dan;
-           EEPROM_Write(101, prebaci_dan);
-           uzosam = 1;
-           EEPROM_Write(100, uzosam);
-           delay_ms(100);
-        }
-     }
-
-     if ( ( (mesec ==  3) && (uzosam == 1) && (dan == prebaci_dan) && (sati >= 2) ) ) {
-        if (tmzn != (conf.tz + 0) ) {
-           tmzn = conf.tz + 0;
-        }
-     }
-
-     if ( (mesec == 10) && (uzosam == 1) && (dan == prebaci_dan) && (sati >= 3) ) {
-        if (tmzn != (conf.tz - 1) ) {
-           tmzn = conf.tz - 1;
-        }
-     }
-
-     if  ( (mesec == 1) || (mesec == 2) || ((mesec == 3) && (uzosam == 0)) || ((mesec == 3) && (uzosam == 1) && (dan == prebaci_dan) && (sati < 2)) || ((mesec == 10) && (uzosam == 1) && (dan == prebaci_dan) && (sati > 3))          || ((mesec == 10) && (uzosam == 1) && (dan > prebaci_dan))          || (mesec == 11) || (mesec == 12) ) {
-         tmzn = conf.tz - 1;
-     }
-     if  ( ((mesec == 3) && (uzosam == 1) && (dan == prebaci_dan) && (sati > 3))          || ((mesec == 3) && (uzosam == 1) && (dan > prebaci_dan))          || (mesec == 4) || (mesec == 5) || (mesec == 6) || (mesec == 7) || (mesec == 8) || (mesec == 9) || ((mesec == 10) && (uzosam == 0))  || ((mesec == 10) && (uzosam == 1) && (dan == prebaci_dan) && (sati < 2)) ) {
-         tmzn = conf.tz + 0;
-     }
-
-     if (dan < 25) {
-        if (uzosam == 1) {
-           uzosam = 0;
-           EEPROM_Write(100, uzosam);
-           delay_ms(100);
-        }
-        uzosam = 0;
-     }*/
+  
 }
 
 /*
@@ -892,7 +811,7 @@ void mkLCDLine(unsigned char l, unsigned char m)
         }
 
 /*
- * make SNTP request
+ * make SNTP request (ne koristi se u broadcast rezimu)
  */
 void    mkSNTPrequest()
         {
@@ -909,9 +828,7 @@ void    mkSNTPrequest()
 
         if(reloadDNS)   // is SNTP ip address to be reloaded from DNS ?
                 {
-                // yes, it can take a while, so display something
-                //Lcd_Out(2, 1, "Connecting...   ") ;
-
+              
                 if(isalpha(*conf.sntpServer))   // doest host name start with an alphabetic character ?
                         {
                         // yes, try to solve with DNS request
@@ -1027,7 +944,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
         /*
          * parse TCP frame and try to find basic realm authorization
          */
-        //admin = HTTP_basicRealm(reqLength, PRIVATE_LOGINPASSWD) ; // admin is set if login+password matches, cleared otherwise
+
         if(memcmp(getRequest, path_private, sizeof(path_private) - 1) == 0)   // is path under private section ?
                 {
                 
@@ -1036,14 +953,6 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                 // yes, points to sub path
                 ptr = getRequest + sizeof(path_private) - 1;
 
-                // check if access is granted
-                //if(admin == 0)
-                //        {
-                        // no, reply with access denied message
-                        //len = HTTP_accessDenied(ZONE_NAME, MSG_DENIED) ;
-                //        }
-                //else
-                //        {
                         // yes, parse request
                         if(getRequest[sizeof(path_private)] == 's')
                                 {
@@ -1054,7 +963,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
                                 if (admin == 0) {
                                 
-                                // IP address 0
+                                // zahtev za sifru sa web servera
                                 len += putConstString("var PASS=\"") ;
                                 len += putConstString("<input placeholder=") ;
                                 len += putString("password") ;
@@ -1068,15 +977,6 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                 len += putConstString("var DHCPEN=\"") ;
                                 len += mkLCDselect(1, conf.dhcpen) ;
 
-                                /*// LCD line 2 select + options
-                                len += putConstString("var LCD2=\"") ;
-                                len += mkLCDselect(2, conf.lcdL2) ;*/
-
-                                /*// SNTP host name
-                                len += putConstString("var SERVER=\"") ;
-                                len += putConstString("<input onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
-                                len += putString(conf.sntpServer) ;
-                                len += putConstString("\\\">\" ;") ;*/
 
                                 // Old pass
                                 len += putConstString("var PASS0=\"") ;
@@ -1093,57 +993,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                 len += putConstString("\\\">\" ;") ;
 
 
-
-                                /*// time zone select + options
-                                len += putConstString("var TZ=\"") ;
-                                len += putConstString("<select onChange=\\\"document.location.href = '/admin/t/' + this.selectedIndex\\\">") ;
-                                for(i = -11 ; i < 12 ; i++)
-                                        {
-                                        len += putConstString("<option ") ;
-                                        if(i == conf.tz)
-                                                {
-                                                len += putConstString(" selected") ;
-                                                }
-                                        len += putConstString(">") ;
-                                        int2str(i, dyna) ;
-                                        len += putString(dyna) ;
-                                        }
-                                len += putConstString("</select>\";") ;*/
-
-                                /*// unicast enable/disable
-                                len += putConstString("var WMODE=\"") ;
-                                len += putConstString("<select onChange=\\\"document.location.href = '/admin/z/' + this.selectedIndex\\\">") ;
-                                for(i = 1 ; i < 5 ; i++)
-                                        {
-                                        len += putConstString("<option ") ;
-                                        if(i == mode)
-                                                {
-                                                len += putConstString(" selected") ;
-                                                }
-                                        len += putConstString(">") ;
-                                        len += putConstString(MODEoption[i-1]) ;
-                                        }
-                                len += putConstString("</select>\";") ;
-
-
-                                // ntp server
-                                len += putConstString("var SRV1=\"") ;
-                                len += putConstString("<input placeholder=") ;
-                                if (mode == 1) {
-                                   len += putString("server") ;
-                                }
-                                if (mode == 2) {
-                                   len += putString(server1) ;
-                                }
-                                if (mode == 3) {
-                                   len += putString(server2) ;
-                                }
-                                if (mode == 4) {
-                                   len += putString(server3) ;
-                                }
-                                len += putConstString(" onChange=\\\"document.location.href = '/admin/a/' + this.value\\\" value=\\\"") ;
-                                len += putConstString("\\\">\" ;") ;*/
-
+                                // ukoliko je omogucena dinamicka dodela IP adrese
                                 if (conf.dhcpen == 1) {
                                 // time zone select + options
                                 len += putConstString("var SIP=\"") ;
@@ -1164,7 +1014,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                 } else {
                                    s_ip = 1;
                                 }
-                                
+                                // podesavanje IP adrese
                                 if (s_ip == 1) {
                                 // IP address 0
                                 len += putConstString("var IP0=\"") ;
@@ -1215,7 +1065,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                   len += putConstString(">\";") ;
                                 }
                                 }
-                                
+
+                                // Izabrana opcija za postavljanje maske
                                 if (s_ip == 2) {
                                 // MASK address 0
                                 len += putConstString("var M0=\"") ;
@@ -1224,7 +1075,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(ipMaskPom0) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(ipMaskPom[0], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1238,7 +1089,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(ipMaskPom1) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(ipMaskPom[1], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1252,7 +1103,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(ipMaskPom2) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(ipMaskPom[2], txt);
+                               
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1266,7 +1117,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(ipMaskPom3) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(ipMaskPom[3], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1275,6 +1126,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                 }
                                 }
                                 
+                                // izabrana opcija za podesavanje Gateway adrese
                                 if (s_ip == 3) {
                                 // GATEWAY address 0
                                 len += putConstString("var G0=\"") ;
@@ -1283,7 +1135,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(gwIpAddrPom0) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(gwIpAddrPom[0], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1297,7 +1149,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(gwIpAddrPom1) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(gwIpAddrPom[1], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1311,7 +1163,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(gwIpAddrPom2) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(gwIpAddrPom[2], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1325,7 +1177,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(gwIpAddrPom3) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(gwIpAddrPom[3], txt);
+                                
                                 //len += putString(txt) ;
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
@@ -1333,7 +1185,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                   len += putConstString("\";") ;
                                 }
                                 }
-                                
+                                // izabrana opcija za podesavanje DNS-a
                                 if (s_ip == 4) {
                                 // DNS address 0
                                 len += putConstString("var D0=\"") ;
@@ -1342,8 +1194,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(dnsIpAddrPom0) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(dnsIpAddrPom[0], txt);
-                                //len += putString(txt) ;
+                               
+                   
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
                                 } else {
@@ -1356,8 +1208,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(dnsIpAddrPom1) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(dnsIpAddrPom[1], txt);
-                                //len += putString(txt) ;
+                              
+                                
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
                                 } else {
@@ -1370,8 +1222,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(dnsIpAddrPom2) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(dnsIpAddrPom[2], txt);
-                                //len += putString(txt) ;
+                                
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
                                 } else {
@@ -1384,8 +1235,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                    len += putString(dnsIpAddrPom3) ;
                                    len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
                                 }
-                                //ByteToStr(dnsIpAddrPom[3], txt);
-                                //len += putString(txt) ;
+                               
                                 if (conf.dhcpen == 1) {
                                    len += putConstString("\\\">\" ;") ;
                                 } else {
@@ -1409,15 +1259,14 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 Rst_Eth();
                                                 saveConf() ;
                                                 break ;
-                                        /*case '2':
-                                                conf.lcdL2 = getRequest[sizeof(path_private) + 2] - '0' ;
-                                                saveConf() ;
-                                                break ;*/
+                                        
                                         case 'r':
-                                                // force to renew SNTP request  /////////////////////// ovo je za update now
+                                                // force to renew SNTP request  ////////////////////// ovo je za update now
                                                 if (conf.dhcpen == 1) {
+                                                        // upisivanje nove mrezne konfiguracije u eeprom ukoliko je zadovoljen format za adrese
                                                    ///////////////////////////////////////////////////////////////////////////////////////////////////
-                                                   //EEPROM_Write(1, (ipAddrPom0[0]-48)*100 + (ipAddrPom0[1]-48)*10 + (ipAddrPom0[2]-48));
+
+                                                        // provera i upis nove IP adrese
                                                    if ( (ipAddrPom0[0] >= '1') && (ipAddrPom0[0] <= '9') && (ipAddrPom0[1] >= '0') && (ipAddrPom0[1] <= '9') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
                                                       EEPROM_Write(1, (ipAddrPom0[0]-48)*100 + (ipAddrPom0[1]-48)*10 + (ipAddrPom0[2]-48));
                                                    }
@@ -1427,7 +1276,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (ipAddrPom0[0] < '1') && (ipAddrPom0[1] < '1') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
                                                       EEPROM_Write(1, (ipAddrPom0[2]-48));
                                                    }
-                                                   //EEPROM_Write(2, (ipAddrPom1[0]-48)*100 + (ipAddrPom1[1]-48)*10 + (ipAddrPom1[2]-48));
+                                                   
                                                    if ( (ipAddrPom1[0] >= '1') && (ipAddrPom1[0] <= '9') && (ipAddrPom1[1] >= '0') && (ipAddrPom1[1] <= '9') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
                                                       EEPROM_Write(2, (ipAddrPom1[0]-48)*100 + (ipAddrPom1[1]-48)*10 + (ipAddrPom1[2]-48));
                                                    }
@@ -1437,7 +1286,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (ipAddrPom1[0] < '1') && (ipAddrPom1[1] < '1') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
                                                       EEPROM_Write(2, (ipAddrPom1[2]-48));
                                                    }
-                                                   //EEPROM_Write(3, (ipAddrPom2[0]-48)*100 + (ipAddrPom2[1]-48)*10 + (ipAddrPom2[2]-48));
+                                                   
                                                    if ( (ipAddrPom2[0] >= '1') && (ipAddrPom2[0] <= '9') && (ipAddrPom2[1] >= '0') && (ipAddrPom2[1] <= '9') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
                                                       EEPROM_Write(3, (ipAddrPom2[0]-48)*100 + (ipAddrPom2[1]-48)*10 + (ipAddrPom2[2]-48));
                                                    }
@@ -1447,7 +1296,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (ipAddrPom2[0] < '1') && (ipAddrPom2[1] < '1') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
                                                       EEPROM_Write(3, (ipAddrPom2[2]-48));
                                                    }
-                                                   //EEPROM_Write(4, (ipAddrPom3[0]-48)*100 + (ipAddrPom3[1]-48)*10 + (ipAddrPom3[2]-48));
+                                                  
                                                    if ( (ipAddrPom3[0] >= '1') && (ipAddrPom3[0] <= '9') && (ipAddrPom3[1] >= '0') && (ipAddrPom3[1] <= '9') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
                                                       EEPROM_Write(4, (ipAddrPom3[0]-48)*100 + (ipAddrPom3[1]-48)*10 + (ipAddrPom3[2]-48));
                                                    }
@@ -1458,7 +1307,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                       EEPROM_Write(4, (ipAddrPom3[2]-48));
                                                    }
                                                    ///////////////////////////////////////////////////////////////////////////////////////////////////
-                                                   //EEPROM_Write(5, gwIpAddrPom[0]);
+                                              
+                                                   // provera i upis novog Gatewaya
                                                    if ( (gwIpAddrPom0[0] >= '1') && (gwIpAddrPom0[0] <= '9') && (gwIpAddrPom0[1] >= '0') && (gwIpAddrPom0[1] <= '9') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
                                                       EEPROM_Write(5, (gwIpAddrPom0[0]-48)*100 + (gwIpAddrPom0[1]-48)*10 + (gwIpAddrPom0[2]-48));
                                                    }
@@ -1468,7 +1318,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (gwIpAddrPom0[0] < '1') && (gwIpAddrPom0[1] < '1') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
                                                       EEPROM_Write(5, (gwIpAddrPom0[2]-48));
                                                    }
-                                                   //EEPROM_Write(6, gwIpAddrPom[1]);
+                                                   
                                                    if ( (gwIpAddrPom1[0] >= '1') && (gwIpAddrPom1[0] <= '9') && (gwIpAddrPom1[1] >= '0') && (gwIpAddrPom1[1] <= '9') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
                                                       EEPROM_Write(6, (gwIpAddrPom1[0]-48)*100 + (gwIpAddrPom1[1]-48)*10 + (gwIpAddrPom1[2]-48));
                                                    }
@@ -1478,7 +1328,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (gwIpAddrPom1[0] < '1') && (gwIpAddrPom1[1] < '1') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
                                                       EEPROM_Write(6, (gwIpAddrPom1[2]-48));
                                                    }
-                                                   //EEPROM_Write(7, gwIpAddrPom[2]);
+                                                   
                                                    if ( (gwIpAddrPom2[0] >= '1') && (gwIpAddrPom2[0] <= '9') && (gwIpAddrPom2[1] >= '0') && (gwIpAddrPom2[1] <= '9') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
                                                       EEPROM_Write(7, (gwIpAddrPom2[0]-48)*100 + (gwIpAddrPom2[1]-48)*10 + (gwIpAddrPom2[2]-48));
                                                    }
@@ -1488,7 +1338,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (gwIpAddrPom2[0] < '1') && (gwIpAddrPom2[1] < '1') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
                                                       EEPROM_Write(7, (gwIpAddrPom2[2]-48));
                                                    }
-                                                   //EEPROM_Write(8, gwIpAddrPom[3]);
+                                                  
                                                    if ( (gwIpAddrPom3[0] >= '1') && (gwIpAddrPom3[0] <= '9') && (gwIpAddrPom3[1] >= '0') && (gwIpAddrPom3[1] <= '9') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
                                                       EEPROM_Write(8, (gwIpAddrPom3[0]-48)*100 + (gwIpAddrPom3[1]-48)*10 + (gwIpAddrPom3[2]-48));
                                                    }
@@ -1499,7 +1349,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                       EEPROM_Write(8, (gwIpAddrPom3[2]-48));
                                                    }
                                                    ///////////////////////////////////////////////////////////////////////////////////////////////////
-                                                   //EEPROM_Write(9, ipMaskPom[0]);
+                                                   
+                                                   // provera i upis nove maske
                                                    if ( (ipMaskPom0[0] >= '1') && (ipMaskPom0[0] <= '9') && (ipMaskPom0[1] >= '0') && (ipMaskPom0[1] <= '9') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
                                                       EEPROM_Write(9, (ipMaskPom0[0]-48)*100 + (ipMaskPom0[1]-48)*10 + (ipMaskPom0[2]-48));
                                                    }
@@ -1509,7 +1360,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (ipMaskPom0[0] < '1') && (ipMaskPom0[1] < '1') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
                                                       EEPROM_Write(9, (ipMaskPom0[2]-48));
                                                    }
-                                                   //EEPROM_Write(10, ipMaskPom[1]);
+                                                   
                                                    if ( (ipMaskPom1[0] >= '1') && (ipMaskPom1[0] <= '9') && (ipMaskPom1[1] >= '0') && (ipMaskPom1[1] <= '9') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
                                                       EEPROM_Write(10, (ipMaskPom1[0]-48)*100 + (ipMaskPom1[1]-48)*10 + (ipMaskPom1[2]-48));
                                                    }
@@ -1519,7 +1370,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (ipMaskPom1[0] < '1') && (ipMaskPom1[1] < '1') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
                                                       EEPROM_Write(10, (ipMaskPom1[2]-48));
                                                    }
-                                                   //EEPROM_Write(11, ipMaskPom[2]);
+                                                   
                                                    if ( (ipMaskPom2[0] >= '1') && (ipMaskPom2[0] <= '9') && (ipMaskPom2[1] >= '0') && (ipMaskPom2[1] <= '9') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
                                                       EEPROM_Write(11, (ipMaskPom2[0]-48)*100 + (ipMaskPom2[1]-48)*10 + (ipMaskPom2[2]-48));
                                                    }
@@ -1529,7 +1380,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (ipMaskPom2[0] < '1') && (ipMaskPom2[1] < '1') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
                                                       EEPROM_Write(11, (ipMaskPom2[2]-48));
                                                    }
-                                                   //EEPROM_Write(12, ipMaskPom[3]);
+                                                   
                                                    if ( (ipMaskPom3[0] >= '1') && (ipMaskPom3[0] <= '9') && (ipMaskPom3[1] >= '0') && (ipMaskPom3[1] <= '9') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
                                                       EEPROM_Write(12, (ipMaskPom3[0]-48)*100 + (ipMaskPom3[1]-48)*10 + (ipMaskPom3[2]-48));
                                                    }
@@ -1540,7 +1391,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                       EEPROM_Write(12, (ipMaskPom3[2]-48));
                                                    }
                                                    ///////////////////////////////////////////////////////////////////////////////////////////////////
-                                                   //EEPROM_Write(13, dnsIpAddrPom[0]);
+                                                   
+                                                   //provera i upis novog DNS-a
                                                    if ( (dnsIpAddrPom0[0] >= '1') && (dnsIpAddrPom0[0] <= '9') && (dnsIpAddrPom0[1] >= '0') && (dnsIpAddrPom0[1] <= '9') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
                                                       EEPROM_Write(13, (dnsIpAddrPom0[0]-48)*100 + (dnsIpAddrPom0[1]-48)*10 + (dnsIpAddrPom0[2]-48));
                                                    }
@@ -1550,7 +1402,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (dnsIpAddrPom0[0] < '1') && (dnsIpAddrPom0[1] < '1') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
                                                       EEPROM_Write(13, (dnsIpAddrPom0[2]-48));
                                                    }
-                                                   //EEPROM_Write(14, dnsIpAddrPom[1]);
+                                                   
                                                    if ( (dnsIpAddrPom1[0] >= '1') && (dnsIpAddrPom1[0] <= '9') && (dnsIpAddrPom1[1] >= '0') && (dnsIpAddrPom1[1] <= '9') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
                                                       EEPROM_Write(14, (dnsIpAddrPom1[0]-48)*100 + (dnsIpAddrPom1[1]-48)*10 + (dnsIpAddrPom1[2]-48));
                                                    }
@@ -1560,7 +1412,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (dnsIpAddrPom1[0] < '1') && (dnsIpAddrPom1[1] < '1') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
                                                       EEPROM_Write(14, (dnsIpAddrPom1[2]-48));
                                                    }
-                                                   //EEPROM_Write(15, dnsIpAddrPom[2]);
+                                                   
                                                    if ( (dnsIpAddrPom2[0] >= '1') && (dnsIpAddrPom2[0] <= '9') && (dnsIpAddrPom2[1] >= '0') && (dnsIpAddrPom2[1] <= '9') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
                                                       EEPROM_Write(15, (dnsIpAddrPom2[0]-48)*100 + (dnsIpAddrPom2[1]-48)*10 + (dnsIpAddrPom2[2]-48));
                                                    }
@@ -1570,7 +1422,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    if ( (dnsIpAddrPom2[0] < '1') && (dnsIpAddrPom2[1] < '1') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
                                                       EEPROM_Write(15, (dnsIpAddrPom2[2]-48));
                                                    }
-                                                   //EEPROM_Write(16, dnsIpAddrPom[3]);
+                                                   
                                                    if ( (dnsIpAddrPom3[0] >= '1') && (dnsIpAddrPom3[0] <= '9') && (dnsIpAddrPom3[1] >= '0') && (dnsIpAddrPom3[1] <= '9') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
                                                       EEPROM_Write(16, (dnsIpAddrPom3[0]-48)*100 + (dnsIpAddrPom3[1]-48)*10 + (dnsIpAddrPom3[2]-48));
                                                    }
@@ -1585,7 +1437,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 }
                                                 break ;
                                         case 'n':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
+                                                /////////////////////////////////////////////// ovo je izgleda da uzme iz polja
                                                 if (conf.dhcpen == 1) {
                                                    if (s_ip == 1) {
                                                       pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
@@ -1606,7 +1458,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 }
                                                 break ;
                                         case 'o':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
+                                                ////////////////////////////////////////////// ovo je izgleda da uzme iz polja
                                                 if (conf.dhcpen == 1) {
                                                    if (s_ip == 1) {
                                                       pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
@@ -1627,7 +1479,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 }
                                                 break ;
                                         case 'p':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
+                                                ////////////////////////////////////////////// ovo je izgleda da uzme iz polja
                                                 if (conf.dhcpen == 1) {
                                                    if (s_ip == 1) {
                                                       pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
@@ -1648,7 +1500,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 }
                                                 break ;
                                         case 'q':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
+                                                ////////////////////////////////////////////// ovo je izgleda da uzme iz polja
                                                 if (conf.dhcpen == 1) {
                                                    if (s_ip == 1) {
                                                       pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
@@ -1669,8 +1521,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 }
                                                 break ;
                                         case 'v':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                //pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
+                                                //////////////////////\\////////////////////// ovo je izgleda da uzme iz polja
+                                               
                                                 pomocnaSifra[0] = getRequest[sizeof(path_private) + 2] ;
                                                 pomocnaSifra[1] = getRequest[sizeof(path_private) + 3] ;
                                                 pomocnaSifra[2] = getRequest[sizeof(path_private) + 4] ;
@@ -1680,6 +1532,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 pomocnaSifra[6] = getRequest[sizeof(path_private) + 8] ;
                                                 pomocnaSifra[7] = getRequest[sizeof(path_private) + 9] ;
                                                 pomocnaSifra[8] = 0;
+
+                                                // uspesno ulogovanje na admin stranicu
                                                 if (strcmp(sifra,pomocnaSifra) == 0) {
                                                    tmr_rst_en = 1;
                                                    admin = 1;
@@ -1688,12 +1542,12 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                    len += putConstString(HTMLredirect) ;
                                                    len += putConstString(HTMLfooter) ;
                                                    goto ZAVRSI;
-                                                   //len += putConstString("location.reload();");
+                                                   
                                                 }
                                                 break ;
                                         case 'x':
                                                 /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                //pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
+                                                
                                                 oldSifra[0] = getRequest[sizeof(path_private) + 2] ;
                                                 oldSifra[1] = getRequest[sizeof(path_private) + 3] ;
                                                 oldSifra[2] = getRequest[sizeof(path_private) + 4] ;
@@ -1706,7 +1560,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 break ;
                                         case 'y':
                                                 /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                //pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
+                                                
                                                 newSifra[0] = getRequest[sizeof(path_private) + 2] ;
                                                 newSifra[1] = getRequest[sizeof(path_private) + 3] ;
                                                 newSifra[2] = getRequest[sizeof(path_private) + 4] ;
@@ -1717,29 +1571,9 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 newSifra[7] = getRequest[sizeof(path_private) + 9] ;
                                                 newSifra[8] = 0;
                                                 break ;
-                                        /*case 'a':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                if (mode == 2) {
-                                                   for (j=0;j<=26;j++) {
-                                                       server1[j] = getRequest[sizeof(path_private) + 2 + j] ;
-                                                       EEPROM_Write(j+29, server1[j]);
-                                                   }
-                                                }
-                                                if (mode == 3) {
-                                                   for (j=0;j<=26;j++) {
-                                                       server2[j] = getRequest[sizeof(path_private) + 2 + j] ;
-                                                       EEPROM_Write(j+56, server2[j]);
-                                                   }
-                                                }
-                                                if (mode == 4) {
-                                                   for (j=0;j<=26;j++) {
-                                                       server3[j] = getRequest[sizeof(path_private) + 2 + j] ;
-                                                       EEPROM_Write(j+110, server3[j]);
-                                                   }
-                                                }
-                                                delay_ms(100);
-                                                break ;*/
+                                      
                                         case 'w' :
+                                                        // upis nove sifre uz proveru da li je uslov zadovoljen za promenu
                                                 if (strcmp(sifra, oldSifra) == 0) {
                                                    rest = strcpy(sifra, newSifra);
                                                    admin = 0;
@@ -1764,12 +1598,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 }
                                                 saveConf() ;
                                                 break ;
-                                        /*case 'z':
-                                                mode = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                mode += 1 ;
-                                                EEPROM_Write(104, mode);
-                                                delay_ms(100);
-                                                break ;*/
+                                       
                                         case 't':
                                                 // time zone
                                                 conf.tz = atoi(&getRequest[sizeof(path_private) + 2]) ;
@@ -1778,7 +1607,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                                 delay_ms(100);
                                                 break ;
                                         }
-                                // reply to browser with admin HTML page
+                                // reply to browser with admin HTML pages
                                    len += putConstString(HTMLheader) ;
                                    if (admin == 0) {
                                       len += putConstString(HTMLadmin0);
@@ -1815,7 +1644,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                                 }
                         break ;
                 case 'a':
-                        //admin = 0;
+                        
                         // reply with clock info javascript variables
                         len = putConstString(httpHeader) ;
                         len += putConstString(httpMimeTypeScript) ;
@@ -1850,7 +1679,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                         break ;
 
                 case 'b':
-                        //admin = 0;
+                        
                         // reply with sntp info javascript variables
                         len = putConstString(httpHeader) ;
                         len += putConstString(httpMimeTypeScript) ;
@@ -1932,7 +1761,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                         break ;
 
                 case 'c':
-                        //admin = 0;
+                        
                         // reply with network info javascript variables
                         len = putConstString(httpHeader) ;              // HTTP header
                         len += putConstString(httpMimeTypeScript) ;     // with text MIME type
@@ -2000,7 +1829,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
                         len += putConstString("var REQ=") ;
                         len += putString(dyna) ;
                         len += putConstString(";") ;
-
+                        // obrada vremena 
                         Time_epochToDate(epoch - SPI_Ethernet_UserTimerSec + tmzn * 3600, &t) ;
                         DNSavings();
                         ts2str(dyna, &t, TS2STR_ALL | TS2STR_TZ) ;
@@ -2059,14 +1888,13 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
         httpCounter++ ;                             // one more request done
         
-        //IntToStr(len, dyna);
-        //len += putString(dyna) ;
 
         ZAVRSI:
 
         return(len) ;                               // return to the library with the number of bytes to transmit
         }
 
+// sekvenca bitova koja se salje shift registru za prikaz na displeju
 char Print_Seg(char segm, char tacka) {
    char napolje;
    if (segm == 0) {
@@ -2115,22 +1943,19 @@ char Print_Seg(char segm, char tacka) {
    if (segm == 14) {
       napolje = 0b00000100 | tacka;
    }
-
    if (segm == 15) {
       napolje = 0b00000000;
    }
-
    if (segm == 16) {
       napolje = 0b00000001;
    }
-
    if (segm == 17) {
       napolje = 0b10000000;
    }
 
    return napolje;
 }
-        
+//funkcija koja iz shift registra salje odgovarajucu sekvencu za displej
 void PRINT_S(char ledovi) {
     char pom1, pom, ir;
     pom = 0;
@@ -2153,7 +1978,7 @@ void PRINT_S(char ledovi) {
          pom++;
     }
 }
-
+// funkcija za prikazivanje vremena i datuma na displeju
 void Display_Time() {
 
      sec1 = sekundi / 10;
@@ -2204,6 +2029,7 @@ void Display_Time() {
 
 }
 
+// funkcija za prikaz IP adrese na displeju
 void Print_IP() {
      char cif1;
      char cif2;
@@ -2242,7 +2068,7 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
         {
         unsigned char   i ;
         char broadcmd[20];
-
+        // udp terminal za otkrivanje ip adrese 
         if (destPort == 10001) {
            if (reqLength == 9) {
               for (i = 0 ; i < 9 ; i++) {
@@ -2253,7 +2079,7 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
               }
            }
         }
-
+        // udp terminal za obradu sntp zahteva
         if(destPort == 123)             // check SNTP port number
                 {
                 if (reqLength == 48) {
@@ -2308,8 +2134,9 @@ unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remot
                     return(0) ;
                 }
         }
-
+// funkcije prekida
 void interrupt() {
+        //prekid UARTA
      if (PIR1.RCIF == 1) {
         prkomanda = UART1_Read();
         if ( ( (ipt == 0) && (prkomanda == 0xAA) ) || (ipt != 0) ) {
@@ -2324,7 +2151,7 @@ void interrupt() {
            ipt = 0;
         }
      }
-
+     // prekid timer0
      if (INTCON.TMR0IF) {
         presTmr++ ;
         lcdTmr++ ;
@@ -2408,6 +2235,7 @@ void interrupt() {
      }
 }
 
+// Funkcija za gasenje displeja
 void Print_Blank() {
      STROBE = 0;
      PRINT_S(Print_Seg(8, 0));
@@ -2432,7 +2260,7 @@ void Print_Blank() {
      delay_ms(500);
      asm CLRWDT;
 }
-
+// funkcija koja ispisuje redom 0-9 na displeju  
 void Print_All() {
      char pebr;
      char tck1;
@@ -2470,6 +2298,7 @@ void Print_All() {
      }
 }
 
+// funkcija za prikaz PME na displeju
 void Print_Pme() {
      STROBE = 0;
      PRINT_S(Print_Seg(14, 0));
@@ -2481,6 +2310,7 @@ void Print_Pme() {
      STROBE = 1;
 }
 
+// funkcija za PWM modulaciju, kontrola svetla preko fotosenzora
 void Print_Light() {
     ADCON0 = 0b00000001;
     light_res = ADC_Read(0);
@@ -2499,6 +2329,7 @@ void Print_Light() {
     Eth_Obrada();
 }
 
+// funkcija za citanje inicijalizaciju i2c memorije i citanje MAC adrese
 void Mem_Read() {
   char membr;
   MSSPEN  = 1;
@@ -2593,18 +2424,13 @@ void main() {
      INTCON.TMR0IF = 0 ;
      INTCON.TMR0IE = 1 ;
 
+     // beskonacna petlja
      while(1) {
 
           pom_time_pom = EEPROM_Read(0);
+          // ukoliko je sat resetovan na fabricka podesavanja
           if ( (pom_time_pom != 0xAA) || (rst_fab == 1) ) {
-             
-             /*uzosam = 0;
-             EEPROM_Write(100, uzosam);
-             prebaci_dan = dan;
-             EEPROM_Write(101, prebaci_dan);
-             conf.tz = 1;
-             EEPROM_Write(102, conf.tz);*/
-             
+                         
              conf.dhcpen = 1;
              EEPROM_Write(103, conf.dhcpen);
              mode = 1;
@@ -2630,6 +2456,7 @@ void main() {
                 EEPROM_Write(j+110, server3[j]);
              }
 
+             // postavljanje pocetnih mreznih parametra
              ipAddr[0]    = 192;
              ipAddr[1]    = 168;
              ipAddr[2]    = 1;
@@ -2647,6 +2474,7 @@ void main() {
              dnsIpAddr[2] = 1;
              dnsIpAddr[3] = 1;
 
+             // upisivanje mreznih parametra u memoriju
              EEPROM_Write(1, ipAddr[0]);
              EEPROM_Write(2, ipAddr[1]);
              EEPROM_Write(3, ipAddr[2]);
@@ -2691,7 +2519,7 @@ void main() {
           }
           
           Eth_Obrada();
-
+          // citanje sifre iz memorije
           sifra[0]    = EEPROM_Read(20);
           sifra[1]    = EEPROM_Read(21);
           sifra[2]    = EEPROM_Read(22);
@@ -2701,7 +2529,7 @@ void main() {
           sifra[6]    = EEPROM_Read(26);
           sifra[7]    = EEPROM_Read(27);
           sifra[8]    = EEPROM_Read(28);
-
+          // citanje servera iz memorije
           for (j=0;j<=26;j++) {
              server1[j] = EEPROM_Read(j+29);
           }
@@ -2711,7 +2539,7 @@ void main() {
           for (j=0;j<=26;j++) {
              server3[j] = EEPROM_Read(j+110);
           }
-
+          // citanje mrezne postavke iz memorije
           ipAddr[0]    = EEPROM_Read(1);
           ipAddr[1]    = EEPROM_Read(2);
           ipAddr[2]    = EEPROM_Read(3);
@@ -2728,6 +2556,8 @@ void main() {
           dnsIpAddr[1] = EEPROM_Read(14);
           dnsIpAddr[2] = EEPROM_Read(15);
           dnsIpAddr[3] = EEPROM_Read(16);
+
+          //prvo paljenje sata
           if (prolaz == 1) {
              ByteToStr(ipAddr[0], IpAddrPom0);
              ByteToStr(ipAddr[1], IpAddrPom1);
@@ -2766,9 +2596,7 @@ void main() {
              delay_ms(100);
           }
 
-          Eth_Obrada();
-
-          //if (connect_eth == 1) {
+          Eth_Obrada();     
 
           if (reset_eth == 1) {
              reset_eth = 0;
@@ -2818,7 +2646,7 @@ void main() {
 
                  lease_tmr = 1;
                  lease_time = 0;
-
+                 // postavljanje novih mreznih parametara u memoriji
                  EEPROM_Write(1, ipAddr[0]);
                  EEPROM_Write(2, ipAddr[1]);
                  EEPROM_Write(3, ipAddr[2]);
@@ -2871,20 +2699,16 @@ void main() {
               }
               tacka1 = 0;
               Print_Pme();
-              //connect_eth = 0;
+              
            }
 
-           //}
 
            if (Eth1_Link == 1) {
-           //if ( (Eth1_Link == 1) || (connect_eth == 1) ) {
               link = 0;
               lastSync = 0;
            }
 
            Eth_Obrada();
-
-           //if (connect_eth == 0) {
 
            ////////////// ako je taj mode i to vreme ///////////////////////////
            if (req_tmr_3 == 12) {
@@ -2909,20 +2733,7 @@ void main() {
            }
 
            Eth_Obrada();
-
-           /*if (RSTPIN == 0) {
-              rst_flag = 1;
-           } else {
-              rst_flag = 0;
-              rst_flag_1 = 0;
-           }
-           if (rst_flag_1 == 5) {
-              rst_flag = 0;
-              rst_flag_1 = 0;
-              if ( ( (mesec == 3) || (mesec == 10) ) && (dan >= 25) && (dan <= 31) ) {
-                 prebaci_flag = 1;
-              }
-           }*/
+   
 
            if (komgotovo == 1) {
               komgotovo = 0;
@@ -2938,16 +2749,11 @@ void main() {
                  notime_ovf = 0;
               }
            }
-
+           // sinhornizacija vremena i ispisivanje na displeju
            if (pom_mat_sek != sekundi) {
               pom_mat_sek = sekundi;
               Eth_Obrada();
-              /*if (((sekundi > 14) && (sekundi <= 19)) || ((sekundi > 34) && (sekundi <= 39)) || ((sekundi > 54) && (sekundi <= 59))) {
-                 disp_mode = 2;
-              }
-              if (((sekundi >= 0) && (sekundi <= 14)) || ((sekundi > 19) && (sekundi <= 34)) || ((sekundi > 39) && (sekundi <= 54))) {
-                 disp_mode = 1;
-              }*/
+            
               if (disp_mode == 1) {
                  tacka2 = 0;
                  if (tacka1 == 0) {
@@ -2989,7 +2795,6 @@ void main() {
               marquee++ ;                // set marquee pointer
            }
 
-           //}
            asm CLRWDT;
      }
 }

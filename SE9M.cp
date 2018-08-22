@@ -1,7 +1,7 @@
-#line 1 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 1 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 #line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/include/built_in.h"
-#line 1 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/timelib.h"
-#line 27 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/timelib.h"
+#line 1 "d:/luka-probe/git/digitalni-sat/timelib.h"
+#line 27 "d:/luka-probe/git/digitalni-sat/timelib.h"
 typedef struct
  {
  unsigned char ss ;
@@ -12,67 +12,67 @@ typedef struct
  unsigned char mo ;
  unsigned int yy ;
  } TimeStruct ;
-#line 41 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/timelib.h"
+#line 41 "d:/luka-probe/git/digitalni-sat/timelib.h"
 extern long Time_jd1970 ;
-#line 46 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/timelib.h"
+#line 46 "d:/luka-probe/git/digitalni-sat/timelib.h"
 long Time_dateToEpoch(TimeStruct *ts) ;
 void Time_epochToDate(long e, TimeStruct *ts) ;
-#line 1 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
-#line 10 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 1 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
+#line 10 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 unsigned char Ethernet_readPacket();
-#line 24 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 24 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_doTCP(unsigned int start, unsigned int ipHeaderLen, unsigned int payloadAddr);
-#line 38 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 38 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_doUDP(unsigned int start, unsigned char ipHeaderLen, unsigned int payloadAddr);
 char Ethernet_sendUDP2(unsigned char *destMAC, unsigned char *destIP, unsigned int sourcePort, unsigned int destPort, unsigned int pktLen);
-#line 49 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 49 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_doDHCP();
 unsigned char Ethernet_DHCPReceive(void);
 unsigned char Ethernet_DHCPmsg(unsigned char messageType, unsigned char renewFlag);
-#line 62 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 62 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_doDNS();
-#line 72 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 72 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_doARP();
-#line 84 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 84 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_checksum(unsigned int start, unsigned int l);
-#line 100 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 100 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_RAMcopy(unsigned int start, unsigned int stop, unsigned int dest, unsigned char w);
-#line 112 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 112 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_MACswap();
-#line 123 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 123 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_IPswap(void);
-#line 134 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 134 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 unsigned char Ethernet_txPacket(unsigned int l);
-#line 148 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 148 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 unsigned char Ethernet_memcmp(unsigned int addr, unsigned char *s, unsigned char l);
-#line 162 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 162 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_memcpy(unsigned int addr, unsigned char *s, unsigned int l);
-#line 177 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 177 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_writeMemory(unsigned int addr, unsigned char v1, unsigned char v2);
-#line 191 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 191 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_writeMemory2(unsigned int v);
-#line 204 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 204 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_writeMem(unsigned int addr, unsigned char v1);
-#line 216 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 216 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 unsigned char Ethernet_readMem(unsigned int addr);
 
 
 void Ethernet_writeAddr2(unsigned char *addr, unsigned int v);
 unsigned char Ethernet_readReg2(unsigned char *addr);
-#line 234 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 234 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_setRxReadAddress(unsigned addr);
-#line 248 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 248 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_writePHY(unsigned char reg, unsigned short h, unsigned short l);
-#line 262 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 262 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_readPHY(unsigned char reg, unsigned char *h, unsigned char *l);
-#line 274 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 274 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_delay();
-#line 288 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60private.h"
+#line 288 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
 void Ethernet_Init2(unsigned char fullDuplex);
 
 extern unsigned int Ethernet_pktLen;
-#line 1 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60.h"
-#line 47 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60.h"
+#line 1 "d:/luka-probe/git/digitalni-sat/__ethj60.h"
+#line 47 "d:/luka-probe/git/digitalni-sat/__ethj60.h"
 typedef struct
  {
  unsigned char valid;
@@ -96,7 +96,7 @@ typedef struct {
  unsigned canCloseTCP: 1;
  unsigned isBroadcast: 1;
 } TEthPktFlags;
-#line 74 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/__ethj60.h"
+#line 74 "d:/luka-probe/git/digitalni-sat/__ethj60.h"
 extern void Ethernet_Init(unsigned char *mac, unsigned char *ip, unsigned char fullDuplex);
 extern unsigned char Ethernet_doPacket();
 extern void Ethernet_putByte(unsigned char b);
@@ -107,8 +107,8 @@ extern void Ethernet_getBytes(unsigned char *ptr, unsigned int addr, unsigned in
 extern unsigned int Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags * flags);
 extern unsigned int Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags * flags);
 extern void Ethernet_confNetwork(char *ipMask, char *gwIpAddr, char *dnsIpAddr);
-#line 1 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/httputils.h"
-#line 31 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/httputils.h"
+#line 1 "d:/luka-probe/git/digitalni-sat/httputils.h"
+#line 31 "d:/luka-probe/git/digitalni-sat/httputils.h"
 unsigned char HTTP_basicRealm(unsigned int l, unsigned char *passwd) ;
 unsigned char HTTP_getRequest(unsigned char *ptr, unsigned int *len, unsigned int max) ;
 unsigned int HTTP_accessDenied(const unsigned char *zn, const unsigned char *m) ;
@@ -119,7 +119,7 @@ unsigned int HTTP_redirect(unsigned char *url) ;
 unsigned int HTTP_html(const unsigned char *html) ;
 unsigned int HTTP_imageGIF(const unsigned char *img, unsigned int l) ;
 unsigned int HTTP_error() ;
-#line 16 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 11 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 sbit Eth1_Link at RB5_bit;
 sbit SPI_Ethernet_Rst at RA5_bit;
 sbit SPI_Ethernet_CS at RA4_bit;
@@ -161,9 +161,10 @@ sbit RSTPIN_Direction at TRISD4_bit;
 
 sbit DISPEN at RE2_bit;
 sbit DISPEN_Direction at TRISE2_bit;
-#line 87 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 82 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char macAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;
-#line 101 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
+
 unsigned char ipAddr[4] = {192, 168, 1, 18} ;
 unsigned char gwIpAddr[4] = {192, 168, 1, 1 } ;
 unsigned char ipMask[4] = {255, 255, 255, 0 } ;
@@ -196,10 +197,6 @@ char mode;
 char server1[27];
 char server2[27];
 char server3[27];
-
-
-
-
 
 
 TimeStruct ts, ls ;
@@ -287,7 +284,7 @@ char tmr_rst_en = 0;
 char tmr_rst = 0;
 
 char dhcp_flag;
-#line 228 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 208 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char *wday[] =
  {
  "Mon",
@@ -298,7 +295,7 @@ unsigned char *wday[] =
  "Sat",
  "Sun"
  } ;
-#line 242 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 222 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char *mon[] =
  {
  "",
@@ -322,7 +319,7 @@ unsigned char path_private[] = "/admin" ;
 const unsigned char httpHeader[] = "HTTP/1.1 200 OK\nContent-type: " ;
 const unsigned char httpMimeTypeHTML[] = "text/html\n\n" ;
 const unsigned char httpMimeTypeScript[] = "text/plain\n\n" ;
-#line 269 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 249 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 struct
  {
  unsigned char dhcpen ;
@@ -340,7 +337,7 @@ struct
 
 
  } ;
-#line 290 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 270 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const unsigned char *LCDoption[] =
  {
  "Enable",
@@ -362,45 +359,45 @@ const unsigned char *MODEoption[] =
  "Server 2",
  "Server 3"
  } ;
-#line 327 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 300 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *CSSred = "HTTP/1.1 200 OK\nContent-type: text/css\n\nbody {background-color: #ffccdd;}" ;
-#line 333 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 306 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *CSSgreen = "HTTP/1.1 200 OK\nContent-type: text/css\n\nbody {background-color: #ddffcc;}" ;
-#line 346 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 319 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLheader = "HTTP/1.1 200 OK\nContent-type: text/html\n\n<HTML><HEAD><TITLE>PME Clock</TITLE></HEAD><BODY><link rel=\"stylesheet\" type=\"text/css\" href=\"/s.css\"><center><h2>PME Clock</h2>" ;
-#line 358 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 331 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLtime = "<h3>Time | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/a></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Date and Time</td><td align=right><script>document.write(NOW)</script></td></tr><tr><td>Unix Epoch</td><td align=right><script>document.write(EPOCH)</script></td></tr><tr><td>Julian Day</td><td align=right><script>document.write(EPOCH / 24 / 3600 + 2440587.5)</script></td></tr><tr><td>Last sync</td><td align=right><script>document.write(LAST)</script></td></tr>" ;
-#line 373 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 346 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLsntp = "<h3><a href=/>Time</a> | SNTP | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/b></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Server</td><td align=right><script>document.write(SNTP)</script></td></tr><tr><td>Leap</td><td align=right><script>document.write(LEAP)</script></td></tr><tr><td>Version</td><td align=right><script>document.write(VN)</script></td></tr><tr><td>Mode</td><td align=right><script>document.write(MODE)</script></td></tr><tr><td>Stratum</td><td align=right><script>document.write(STRATUM)</script></td></tr><tr><td>Precision</td><td align=right><script>document.write(Math.pow(2, PRECISION - 256))</script></td></tr>" ;
-#line 387 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 360 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLnetwork = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | Network | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/c></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Clock IP</td><td align=right><script>document.write(IP)</script></td></tr><tr><td>Clock MAC</td><td align=right><script>document.write(MAC)</script></td></tr><tr><td>Network Mask</td><td align=right><script>document.write(MASK)</script></td></tr><tr><td>Gateway</td><td align=right><script>document.write(GW)</script></td></tr><tr><td>DNS</td><td align=right><script>document.write(DNS)</script></td></tr><tr><td>Your IP</td><td align=right><script>document.write(CLIENT)</script></td></tr>" ;
-#line 400 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 373 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLsystem = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | System | <a href=/admin>ADMIN</a></h3><script src=/d></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Ethernet device</td><td align=right><script>document.write(SYSTEM)</script></td></tr><tr><td>Fosc</td><td align=right><script>document.write(CLK/1000)</script> Mhz</td></tr><tr><td>Up Since</td><td align=right><script>document.write(UP)</script></td></tr><tr><td>HTTP Request #</td><td align=right><script>document.write(REQ)</script></td></tr>" ;
-#line 420 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 380 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLredirect = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script>document.location.replace(\"/admin\")</script>" ;
-#line 427 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 387 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLadmin0 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS)</script></td> </tr>" ;
-#line 439 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 401 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLadmin1 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr> <td>IP Address</td> <td><script>document.write(IP0)</script></td> <td><script>document.write(IP1)</script></td> <td><script>document.write(IP2)</script></td> <td><script>document.write(IP3)</script></td> </tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 451 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 413 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLadmin2 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr><td>Mask</td><td><script>document.write(M0)</script></td><td><script>document.write(M1)</script></td><td><script>document.write(M2)</script></td><td><script>document.write(M3)</script></td></tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 463 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 425 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLadmin3 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr><td>Gateway</td><td><script>document.write(G0)</script></td><td><script>document.write(G1)</script></td><td><script>document.write(G2)</script></td><td><script>document.write(G3)</script></td></tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 475 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 437 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLadmin4 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr><td>DNS Server</td><td><script>document.write(D0)</script></td><td><script>document.write(D1)</script></td><td><script>document.write(D2)</script></td><td><script>document.write(D3)</script></td></tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 486 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 448 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLfooter = "<HTML><HEAD></table><br>Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www.pme.rs</a></center></BODY></HTML>" ;
-#line 501 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 455 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 char lease_tmr = 0;
 char lease_time = 0;
+
 
 void Eth_Obrada() {
  if (conf.dhcpen == 0) {
 
  if (lease_time >= 60) {
  lease_time = 0;
- while (!SPI_Ethernet_renewDHCP(5))
- ;
+ while (!SPI_Ethernet_renewDHCP(5));
  }
  }
  if (link == 1) {
@@ -410,12 +407,12 @@ void Eth_Obrada() {
 
  }
 }
-#line 524 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 478 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void saveConf()
  {
-#line 537 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 491 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  }
-#line 542 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 495 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void mkMarquee(unsigned char l)
  {
  unsigned char len ;
@@ -435,12 +432,12 @@ void mkMarquee(unsigned char l)
 
 
  }
-#line 611 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 564 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void DNSavings() {
  tmzn = 2;
-#line 653 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
 }
-#line 658 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 572 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void int2str(long l, unsigned char *s)
  {
  unsigned char i, j, n ;
@@ -484,7 +481,7 @@ void int2str(long l, unsigned char *s)
  }
  }
  }
-#line 705 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 619 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void ip2str(unsigned char *s, unsigned char *ip)
  {
  unsigned char i ;
@@ -499,11 +496,11 @@ void ip2str(unsigned char *s, unsigned char *ip)
  strcat(s, ".") ;
  }
  }
-#line 724 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 638 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  {
  unsigned char tmp[6] ;
-#line 731 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 645 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(m &  1 )
  {
  strcpy(s, wday[t->wd]) ;
@@ -530,7 +527,7 @@ void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  {
  *s = 0 ;
  }
-#line 761 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 675 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(m &  2 )
  {
  ByteToStr(t->hh, tmp) ;
@@ -553,7 +550,7 @@ void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  }
  strcat(s, tmp + 1) ;
  }
-#line 787 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 701 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(m &  4 )
  {
  strcat(s, " GMT") ;
@@ -564,7 +561,7 @@ void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  int2str(conf.tz, s + strlen(s)) ;
  }
  }
-#line 801 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 715 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char nibble2hex(unsigned char n)
  {
  n &= 0x0f ;
@@ -574,14 +571,14 @@ unsigned char nibble2hex(unsigned char n)
  }
  return(n + '0') ;
  }
-#line 814 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 728 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void byte2hex(unsigned char *s, unsigned char v)
  {
  *s++ = nibble2hex(v >> 4) ;
  *s++ = nibble2hex(v) ;
  *s = '.' ;
  }
-#line 824 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 738 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned int mkLCDselect(unsigned char l, unsigned char m)
  {
  unsigned char i ;
@@ -603,7 +600,7 @@ unsigned int mkLCDselect(unsigned char l, unsigned char m)
  len +=  SPI_Ethernet_putConstString ("</select>\";") ;
  return(len) ;
  }
-#line 849 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 763 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void mkLCDLine(unsigned char l, unsigned char m)
  {
  switch(m)
@@ -653,7 +650,7 @@ void mkLCDLine(unsigned char l, unsigned char m)
  break ;
  }
  }
-#line 902 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 816 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void mkSNTPrequest()
  {
  unsigned char sntpPkt[50];
@@ -669,8 +666,6 @@ void mkSNTPrequest()
 
  if(reloadDNS)
  {
-
-
 
  if(isalpha(*conf.sntpServer))
  {
@@ -707,7 +702,7 @@ void mkSNTPrequest()
  {
  return ;
  }
-#line 959 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 871 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  memset(sntpPkt, 0, 48) ;
 
 
@@ -726,7 +721,7 @@ void mkSNTPrequest()
 
 
  sntpPkt[9] = 0x10 ;
-#line 988 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 900 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  SPI_Ethernet_sendUDP(conf.sntpIP, 123, 123, sntpPkt, 48) ;
 
  sntpSync = 1 ;
@@ -739,7 +734,7 @@ void Rst_Eth() {
  reset_eth = 1;
 
 }
-#line 1004 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 916 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
  {
  unsigned char dyna[64] ;
@@ -759,12 +754,12 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  {
  return(0) ;
  }
-#line 1027 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 939 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if (HTTP_getRequest(getRequest, &reqLength,  128 ) == 0)
  {
  return(0) ;
  }
-#line 1036 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 948 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(memcmp(getRequest, path_private, sizeof(path_private) - 1) == 0)
  {
 
@@ -772,14 +767,6 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
 
  ptr = getRequest + sizeof(path_private) - 1;
-
-
-
-
-
-
-
-
 
 
  if(getRequest[sizeof(path_private)] == 's')
@@ -804,7 +791,9 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
 
  len +=  SPI_Ethernet_putConstString ("var DHCPEN=\"") ;
  len += mkLCDselect(1, conf.dhcpen) ;
-#line 1087 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
+
+
  len +=  SPI_Ethernet_putConstString ("var PASS0=\"") ;
  len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
  len +=  SPI_Ethernet_putString (oldSifra) ;
@@ -817,7 +806,9 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  len +=  SPI_Ethernet_putString (newSifra) ;
  len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/y/' + this.value\\\" value=\\\"") ;
  len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
-#line 1152 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
+
+
  if (conf.dhcpen == 1) {
 
  len +=  SPI_Ethernet_putConstString ("var SIP=\"") ;
@@ -890,6 +881,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  }
  }
 
+
  if (s_ip == 2) {
 
  len +=  SPI_Ethernet_putConstString ("var M0=\"") ;
@@ -948,6 +940,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  len +=  SPI_Ethernet_putConstString ("\";") ;
  }
  }
+
 
  if (s_ip == 3) {
 
@@ -1045,7 +1038,6 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
  }
 
-
  if (conf.dhcpen == 1) {
  len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
  } else {
@@ -1058,7 +1050,6 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  len +=  SPI_Ethernet_putString (dnsIpAddrPom3) ;
  len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
  }
-
 
  if (conf.dhcpen == 1) {
  len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
@@ -1083,10 +1074,12 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  Rst_Eth();
  saveConf() ;
  break ;
-#line 1421 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
  case 'r':
 
  if (conf.dhcpen == 1) {
+
+
 
 
  if ( (ipAddrPom0[0] >= '1') && (ipAddrPom0[0] <= '9') && (ipAddrPom0[1] >= '0') && (ipAddrPom0[1] <= '9') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
@@ -1130,6 +1123,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  }
 
 
+
  if ( (gwIpAddrPom0[0] >= '1') && (gwIpAddrPom0[0] <= '9') && (gwIpAddrPom0[1] >= '0') && (gwIpAddrPom0[1] <= '9') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
  EEPROM_Write(5, (gwIpAddrPom0[0]-48)*100 + (gwIpAddrPom0[1]-48)*10 + (gwIpAddrPom0[2]-48));
  }
@@ -1171,6 +1165,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  }
 
 
+
  if ( (ipMaskPom0[0] >= '1') && (ipMaskPom0[0] <= '9') && (ipMaskPom0[1] >= '0') && (ipMaskPom0[1] <= '9') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
  EEPROM_Write(9, (ipMaskPom0[0]-48)*100 + (ipMaskPom0[1]-48)*10 + (ipMaskPom0[2]-48));
  }
@@ -1210,6 +1205,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  if ( (ipMaskPom3[0] < '1') && (ipMaskPom3[1] < '1') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
  EEPROM_Write(12, (ipMaskPom3[2]-48));
  }
+
 
 
  if ( (dnsIpAddrPom0[0] >= '1') && (dnsIpAddrPom0[0] <= '9') && (dnsIpAddrPom0[1] >= '0') && (dnsIpAddrPom0[1] <= '9') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
@@ -1351,6 +1347,8 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  pomocnaSifra[6] = getRequest[sizeof(path_private) + 8] ;
  pomocnaSifra[7] = getRequest[sizeof(path_private) + 9] ;
  pomocnaSifra[8] = 0;
+
+
  if (strcmp(sifra,pomocnaSifra) == 0) {
  tmr_rst_en = 1;
  admin = 1;
@@ -1388,8 +1386,9 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  newSifra[7] = getRequest[sizeof(path_private) + 9] ;
  newSifra[8] = 0;
  break ;
-#line 1747 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
  case 'w' :
+
  if (strcmp(sifra, oldSifra) == 0) {
  rest = strcpy(sifra, newSifra);
  admin = 0;
@@ -1414,7 +1413,7 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  }
  saveConf() ;
  break ;
-#line 1778 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
  case 't':
 
  conf.tz = atoi(&getRequest[sizeof(path_private) + 2]) ;
@@ -1705,12 +1704,11 @@ unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remote
  httpCounter++ ;
 
 
-
-
  ZAVRSI:
 
  return(len) ;
  }
+
 
 char Print_Seg(char segm, char tacka) {
  char napolje;
@@ -1760,15 +1758,12 @@ char Print_Seg(char segm, char tacka) {
  if (segm == 14) {
  napolje = 0b00000100 | tacka;
  }
-
  if (segm == 15) {
  napolje = 0b00000000;
  }
-
  if (segm == 16) {
  napolje = 0b00000001;
  }
-
  if (segm == 17) {
  napolje = 0b10000000;
  }
@@ -1849,6 +1844,7 @@ void Display_Time() {
 
 }
 
+
 void Print_IP() {
  char cif1;
  char cif2;
@@ -1879,7 +1875,7 @@ void Print_IP() {
  delay_ms(500);
  asm CLRWDT;
 }
-#line 2246 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 2067 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
  {
  unsigned char i ;
@@ -1952,6 +1948,7 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
  }
 
 void interrupt() {
+
  if (PIR1.RCIF == 1) {
  prkomanda = UART1_Read();
  if ( ( (ipt == 0) && (prkomanda == 0xAA) ) || (ipt != 0) ) {
@@ -2050,6 +2047,7 @@ void interrupt() {
  }
 }
 
+
 void Print_Blank() {
  STROBE = 0;
  PRINT_S(Print_Seg(8, 0));
@@ -2112,6 +2110,7 @@ void Print_All() {
  }
 }
 
+
 void Print_Pme() {
  STROBE = 0;
  PRINT_S(Print_Seg(14, 0));
@@ -2122,6 +2121,7 @@ void Print_Pme() {
  PRINT_S(Print_Seg(10, 0));
  STROBE = 1;
 }
+
 
 void Print_Light() {
  ADCON0 = 0b00000001;
@@ -2140,6 +2140,7 @@ void Print_Light() {
 
  Eth_Obrada();
 }
+
 
 void Mem_Read() {
  char membr;
@@ -2165,7 +2166,7 @@ void Mem_Read() {
 
  SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
 }
-#line 2535 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+#line 2361 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void main() {
 
  TRISA = 0b00000001;
@@ -2232,11 +2233,13 @@ void main() {
  INTCON.TMR0IF = 0 ;
  INTCON.TMR0IE = 1 ;
 
+
  while(1) {
 
  pom_time_pom = EEPROM_Read(0);
+
  if ( (pom_time_pom != 0xAA) || (rst_fab == 1) ) {
-#line 2613 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
  conf.dhcpen = 1;
  EEPROM_Write(103, conf.dhcpen);
  mode = 1;
@@ -2262,6 +2265,7 @@ void main() {
  EEPROM_Write(j+110, server3[j]);
  }
 
+
  ipAddr[0] = 192;
  ipAddr[1] = 168;
  ipAddr[2] = 1;
@@ -2278,6 +2282,7 @@ void main() {
  dnsIpAddr[1] = 168;
  dnsIpAddr[2] = 1;
  dnsIpAddr[3] = 1;
+
 
  EEPROM_Write(1, ipAddr[0]);
  EEPROM_Write(2, ipAddr[1]);
@@ -2360,6 +2365,8 @@ void main() {
  dnsIpAddr[1] = EEPROM_Read(14);
  dnsIpAddr[2] = EEPROM_Read(15);
  dnsIpAddr[3] = EEPROM_Read(16);
+
+
  if (prolaz == 1) {
  ByteToStr(ipAddr[0], IpAddrPom0);
  ByteToStr(ipAddr[1], IpAddrPom1);
@@ -2399,8 +2406,6 @@ void main() {
  }
 
  Eth_Obrada();
-
-
 
  if (reset_eth == 1) {
  reset_eth = 0;
@@ -2507,16 +2512,12 @@ void main() {
  }
 
 
-
  if (Eth1_Link == 1) {
-
  link = 0;
  lastSync = 0;
  }
 
  Eth_Obrada();
-
-
 
 
  if (req_tmr_3 == 12) {
@@ -2541,7 +2542,8 @@ void main() {
  }
 
  Eth_Obrada();
-#line 2932 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
+
  if (komgotovo == 1) {
  komgotovo = 0;
  chksum = (comand[3] ^ comand[4] ^ comand[5] ^ comand[6] ^ comand[7] ^comand[8] ^ comand[9] ^ comand[10] ^ comand[11]) & 0x7F;
@@ -2560,7 +2562,7 @@ void main() {
  if (pom_mat_sek != sekundi) {
  pom_mat_sek = sekundi;
  Eth_Obrada();
-#line 2956 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/SE9M.c"
+
  if (disp_mode == 1) {
  tacka2 = 0;
  if (tacka1 == 0) {
@@ -2601,7 +2603,6 @@ void main() {
  lcdEvent = 0 ;
  marquee++ ;
  }
-
 
  asm CLRWDT;
  }

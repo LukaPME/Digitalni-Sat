@@ -1,6 +1,6 @@
-#line 1 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
-#line 1 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/httputils.h"
-#line 31 "d:/luka-probe/microc/poe sat - nova sema !!!!!!!/httputils.h"
+#line 1 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
+#line 1 "d:/luka-probe/git/digitalni-sat/httputils.h"
+#line 31 "d:/luka-probe/git/digitalni-sat/httputils.h"
 unsigned char HTTP_basicRealm(unsigned int l, unsigned char *passwd) ;
 unsigned char HTTP_getRequest(unsigned char *ptr, unsigned int *len, unsigned int max) ;
 unsigned int HTTP_accessDenied(const unsigned char *zn, const unsigned char *m) ;
@@ -11,22 +11,22 @@ unsigned int HTTP_redirect(unsigned char *url) ;
 unsigned int HTTP_html(const unsigned char *html) ;
 unsigned int HTTP_imageGIF(const unsigned char *img, unsigned int l) ;
 unsigned int HTTP_error() ;
-#line 34 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 34 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 const unsigned char HTTP_NotFound[] = "HTTP/1.1 404 Not Found\n\n" ;
 const unsigned char HTTP_HeaderGif[] = "HTTP/1.1 200 OK\nContent-type: image/gif\n\n" ;
 const unsigned char HTTP_HeaderHtml[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n" ;
 const unsigned char HTTP_Denied[] = "HTTP/1.1 401 Authorization Required\nWWW-Authenticate: Basic realm=\"" ;
 const unsigned char HTTP_Redir[] = "HTTP/1.1 301 Moved Permanently\nLocation: " ;
-#line 80 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 80 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 const char HTTP_b64_reverse[] = "|$$$}rstuvwxyz{$$$$$$$>?@ABCDEFGHIJKLMNOPQRSTUVW$$$$$$XYZ[\\]^_`abcdefghijklmnopq" ;
-#line 89 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 89 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 void HTTP_b64_decode4(unsigned char in[4], unsigned char out[3])
  {
  out[0] = (in[0] << 2) | (in[1] >> 4) ;
  out[1] = (in[1] << 4) | (in[2] >> 2) ;
  out[2] = ((in[2] << 6) & 0xc0) | in[3] ;
  }
-#line 99 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 99 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 void HTTP_b64_unencode(char *src, char *dst)
  {
  unsigned char in[4], out[3], v;
@@ -73,7 +73,7 @@ void HTTP_b64_unencode(char *src, char *dst)
 
  *dst = 0 ;
  }
-#line 159 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 159 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned char HTTP_basicRealm(unsigned int l, unsigned char *passwd)
  {
  unsigned int len = 0 ;
@@ -109,11 +109,11 @@ unsigned char HTTP_basicRealm(unsigned int l, unsigned char *passwd)
 
  return(found) ;
  }
-#line 202 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 202 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned char HTTP_getRequest(unsigned char *buf, unsigned int *len, unsigned int max)
  {
  unsigned int i ;
-#line 209 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 209 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
  if((SPI_Ethernet_getByte() != 'G')
  || (SPI_Ethernet_getByte() != 'E')
  || (SPI_Ethernet_getByte() != 'T')
@@ -122,7 +122,7 @@ unsigned char HTTP_getRequest(unsigned char *buf, unsigned int *len, unsigned in
  {
  return(0) ;
  }
-#line 221 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 221 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
  for(i = 0 ; (i < max) && *len ; i++, buf++)
  {
  *buf = SPI_Ethernet_getByte() ;
@@ -133,7 +133,7 @@ unsigned char HTTP_getRequest(unsigned char *buf, unsigned int *len, unsigned in
 
  return(1) ;
  }
-#line 244 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 244 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned int HTTP_accessDenied(const unsigned char *zn, const unsigned char *m)
  {
  unsigned int len ;
@@ -145,7 +145,7 @@ unsigned int HTTP_accessDenied(const unsigned char *zn, const unsigned char *m)
 
  return(len) ;
  }
-#line 260 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 260 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned int HTTP_redirect(unsigned char *url)
  {
  unsigned int len ;
@@ -156,7 +156,7 @@ unsigned int HTTP_redirect(unsigned char *url)
 
  return(len) ;
  }
-#line 275 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 275 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned int HTTP_html(const unsigned char *html)
  {
  unsigned int len ;
@@ -166,7 +166,7 @@ unsigned int HTTP_html(const unsigned char *html)
 
  return(len) ;
  }
-#line 289 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 289 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned int HTTP_imageGIF(const unsigned char *img, unsigned int l)
  {
  unsigned int len ;
@@ -177,7 +177,7 @@ unsigned int HTTP_imageGIF(const unsigned char *img, unsigned int l)
 
  return(len) ;
  }
-#line 304 "D:/Luka-Probe/MicroC/PoE sat - NOVA SEMA !!!!!!!/httpUtils.c"
+#line 304 "D:/Luka-Probe/Git/Digitalni-Sat/httpUtils.c"
 unsigned int HTTP_error()
  {
  int len;
