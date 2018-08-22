@@ -153,7 +153,6 @@ char danuned;
 char sec_pom = 0;
 
 char reset_eth = 1;
-//char connect_eth = 1;
 char link = 0;
 char prvi_timer = 0;
 char drugi_timer = 0;
@@ -439,7 +438,6 @@ const char      *HTMLadmin4 = "\
 /*
  * HTML common footer
  */
-
 const   char    *HTMLfooter = "<HTML><HEAD>\
 </table>\
 <br>\
@@ -512,28 +510,7 @@ void    mkMarquee(unsigned char l)
         
         }
 
-/*
- * put the constant string pointed to by s to the ENC transmit buffer.
- */
-/*unsigned int    putConstString(const char *s)
-        {
-        unsigned int ctr = 0 ;
 
-        while(*s)
-                {
-                SPI_Ethernet_putByte(*s++) ;
-                ctr++ ;
-                }
-        return(ctr) ;
-        } */
-/*
- * it will be faster to use library SPI_Ethernet_putConstString routine
- * instead of putConstString routine above. However, the code will be a little
- * bit bigger. User should choose between size and speed and pick the implementation that
- * suites him best. If you choose to go with the putConstString definition above
- * the #define line below should be commented out.
- *
- */
 #define putConstString  SPI_Ethernet_putConstString
 
 /*
