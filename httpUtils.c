@@ -156,7 +156,7 @@ void    HTTP_b64_unencode(char *src, char *dst)
  * passwd is username:password
  * returns 1 if found, 0 if failed
  */
-unsigned char   HTTP_basicRealm(unsigned int l, unsigned char *passwd)
+/*unsigned char   HTTP_basicRealm(unsigned int l, unsigned char *passwd)
         {
         unsigned int    len = 0 ;       // my reply length
         unsigned int    i ;             // general purpose integers
@@ -191,7 +191,7 @@ unsigned char   HTTP_basicRealm(unsigned int l, unsigned char *passwd)
 
         return(found) ;
         }
-
+  */
 /*
  * simplified routine to extract document name of a GET request from HTTP header
  * document name is copied to buffer buf
@@ -206,10 +206,10 @@ unsigned char   HTTP_getRequest(unsigned char *buf, unsigned int *len, unsigned 
         /*
          * check if GET method is invoked
          */
-        if((SPI_Ethernet_getByte() != 'G')
-                || (SPI_Ethernet_getByte() != 'E')
-                || (SPI_Ethernet_getByte() != 'T')
-                || (SPI_Ethernet_getByte() != ' ')
+        if((Net_Ethernet_28j60_getByte() != 'G')
+                || (Net_Ethernet_28j60_getByte() != 'E')
+                || (Net_Ethernet_28j60_getByte() != 'T')
+                || (Net_Ethernet_28j60_getByte() != ' ')
                 )
                 {
                 return(0) ;
@@ -220,7 +220,7 @@ unsigned char   HTTP_getRequest(unsigned char *buf, unsigned int *len, unsigned 
          */
         for(i = 0 ; (i < max) && *len ; i++, buf++)
                 {
-                *buf = SPI_Ethernet_getByte() ;
+                *buf = Net_Ethernet_28j60_getByte() ;
                 (*len)-- ;
                 if(*buf < 32) break ;
                 }
@@ -245,10 +245,10 @@ unsigned int    HTTP_accessDenied(const unsigned char *zn, const unsigned char *
         {
         unsigned int len ;
 
-        len = SPI_Ethernet_putConstString(HTTP_Denied) ;
-        len += SPI_Ethernet_putConstString(zn) ;
-        len += SPI_Ethernet_putConstString("\"\n\n") ;
-        len += SPI_Ethernet_putConstString(m) ;
+        len = Net_Ethernet_28j60_putConstString(HTTP_Denied) ;
+        len += Net_Ethernet_28j60_putConstString(zn) ;
+        len += Net_Ethernet_28j60_putConstString("\"\n\n") ;
+        len += Net_Ethernet_28j60_putConstString(m) ;
 
         return(len) ;
         }
@@ -261,9 +261,9 @@ unsigned int    HTTP_redirect(unsigned char *url)
         {
         unsigned int len ;
 
-        len = SPI_Ethernet_putConstString(HTTP_Redir) ;
-        len += SPI_Ethernet_putString(url) ;
-        len += SPI_Ethernet_putConstString("\n\n") ;
+        len = Net_Ethernet_28j60_putConstString(HTTP_Redir) ;
+        len += Net_Ethernet_28j60_putString(url) ;
+        len += Net_Ethernet_28j60_putConstString("\n\n") ;
 
         return(len) ;
         }
@@ -276,8 +276,8 @@ unsigned int    HTTP_html(const unsigned char *html)
         {
         unsigned int len ;
 
-        len = SPI_Ethernet_putConstString(HTTP_HeaderHtml) ;
-        len += SPI_Ethernet_putConstString(html) ;
+        len = Net_Ethernet_28j60_putConstString(HTTP_HeaderHtml) ;
+        len += Net_Ethernet_28j60_putConstString(html) ;
 
         return(len) ;
         }
@@ -290,8 +290,8 @@ unsigned int    HTTP_imageGIF(const unsigned char *img, unsigned int l)
         {
         unsigned int len ;
 
-        len = SPI_Ethernet_putConstString(HTTP_HeaderGif) ;
-        SPI_Ethernet_putConstBytes(img, l) ;
+        len = Net_Ethernet_28j60_putConstString(HTTP_HeaderGif) ;
+        Net_Ethernet_28j60_putConstBytes(img, l) ;
         len += l;
 
         return(len) ;
@@ -305,7 +305,7 @@ unsigned int    HTTP_error()
         {
         int len;
         
-        len = SPI_Ethernet_putConstString(HTTP_NotFound) ;
+        len = Net_Ethernet_28j60_putConstString(HTTP_NotFound) ;
 
         return(len) ;
         }

@@ -11,412 +11,415 @@ main
 	ByteToStr
 		Div_8X8_U
 	Eth_Obrada
-		SPI_Ethernet_renewDHCP
-			SPI_Ethernet_doDHCP
-				memset
-				SPI_Ethernet_DHCPmsg
-					SPI_Ethernet_writeAddr
+		Net_Ethernet_28j60_renewDHCP
+			Net_Ethernet_28j60_doDHCP
+				memset_28j60
+				Net_Ethernet_28j60_DHCPmsg
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
-					SPI_Ethernet_putConstBytes
+					Net_Ethernet_28j60_putConstBytes
 						____DoIFC
-					SPI_Ethernet_putBytes
+					Net_Ethernet_28j60_putBytes
 						____DoIFC
-					SPI_Ethernet_putByte
+					Net_Ethernet_28j60_putByte
 						____DoIFC
-					SPI_Ethernet_sendUDP2
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_flushUDP
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_putBytes
+						Net_Ethernet_28j60_putBytes
 							____DoIFC
-						SPI_Ethernet_writeMemory2
+						Net_Ethernet_28j60_writeMemory2
 							____DoIFC
-						SPI_Ethernet_checksum
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_writeMemory
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_putByte
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-				SPI_Ethernet_DHCPReceive
-					SPI_Ethernet_getByte
+				Net_Ethernet_28j60_DHCPReceive
+					Net_Ethernet_28j60_getByte
 						____DoIFC
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					memcpy
-					memcmp
-				memcpy
-				SPI_Ethernet_confNetwork
-					memcpy
-					mkSubnetBroadcast
-						memcpy
-			SPI_Ethernet_doPacket
-				SPI_Ethernet_setBitReg
+					memcpy_28j60
+					memcmp_28j60
+				memcpy_28j60
+				Net_Ethernet_28j60_confNetwork
+					memcpy_28j60
+					Net_Ethernet_28j60_mkSubnetBroadcast
+						memcpy_28j60
+			Net_Ethernet_28j60_doPacket
+				Net_Ethernet_28j60_setBitReg
 					____DoIFC
-				SPI_Ethernet_clearBitReg
+				Net_Ethernet_28j60_clearBitReg
 					____DoIFC
-				SPI_Ethernet_readReg
+				Net_Ethernet_28j60_readReg
 					____DoIFC
-				SPI_Ethernet_readPacket
-					SPI_Ethernet_clearBitReg
+				Net_Ethernet_28j60_readPacket
+					Net_Ethernet_28j60_clearBitReg
 						____DoIFC
-					SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
 					____DoIFC
-					SPI_Ethernet_readReg
+					Net_Ethernet_28j60_readReg
 						____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_getByte
-						____DoIFC
-					SPI_Ethernet_memcmp
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_doARP
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getByte
+						____DoIFC
+					Net_Ethernet_28j60_memcmp
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_doARP
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_memcmp
-							SPI_Ethernet_readReg
+						Net_Ethernet_28j60_memcmp
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_MACswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_MACswap
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
 						Mul_16X16_U
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						memcpy
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+						memcpy_28j60
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_MACswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_MACswap
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-					SPI_Ethernet_IPswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_IPswap
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_writeMemory
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_putByte
-							____DoIFC
-					SPI_Ethernet_checksum
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMemory
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-						SPI_Ethernet_setBitReg
+					Net_Ethernet_28j60_checksum
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-					SPI_Ethernet_doUDP
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_clearBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_getByte
-							____DoIFC
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_doUDP
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getByte
 							____DoIFC
-						SPI_Ethernet_setRxReadAddress
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-						SPI_Ethernet_doDNS
-							SPI_Ethernet_getByte
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setRxReadAddress
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-						SPI_Ethernet_doDHCP
-							memset
-							SPI_Ethernet_DHCPmsg
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_doDNS
+							Net_Ethernet_28j60_getByte
+								____DoIFC
+						Net_Ethernet_28j60_doDHCP
+							memset_28j60
+							Net_Ethernet_28j60_DHCPmsg
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_putConstBytes
+								Net_Ethernet_28j60_putConstBytes
 									____DoIFC
-								SPI_Ethernet_putBytes
+								Net_Ethernet_28j60_putBytes
 									____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-								SPI_Ethernet_sendUDP2
-									SPI_Ethernet_memcpy
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_flushUDP
+									Net_Ethernet_28j60_memcpy
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_putBytes
+									Net_Ethernet_28j60_putBytes
 										____DoIFC
-									SPI_Ethernet_writeMemory2
+									Net_Ethernet_28j60_writeMemory2
 										____DoIFC
-									SPI_Ethernet_checksum
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
-										SPI_Ethernet_setBitReg
+										Net_Ethernet_28j60_setBitReg
 											____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-									SPI_Ethernet_writeMemory
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_putByte
+										Net_Ethernet_28j60_putByte
 											____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_RAMcopy
-										SPI_Ethernet_readMem
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_RAMcopy
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
-										SPI_Ethernet_clearBitReg
+										Net_Ethernet_28j60_clearBitReg
 											____DoIFC
-										SPI_Ethernet_setBitReg
+										Net_Ethernet_28j60_setBitReg
 											____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-									SPI_Ethernet_putByte
+									Net_Ethernet_28j60_putByte
 										____DoIFC
-									SPI_Ethernet_TXpacket
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
-										SPI_Ethernet_setBitReg
+										Net_Ethernet_28j60_setBitReg
 											____DoIFC
-										SPI_Ethernet_clearBitReg
+										Net_Ethernet_28j60_clearBitReg
 											____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-										SPI_Ethernet_readMem
-											SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-							SPI_Ethernet_DHCPReceive
-								SPI_Ethernet_getByte
+							Net_Ethernet_28j60_DHCPReceive
+								Net_Ethernet_28j60_getByte
 									____DoIFC
-								SPI_Ethernet_getBytes
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_getBytes
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								memcpy
-								memcmp
-							memcpy
-							SPI_Ethernet_confNetwork
-								memcpy
-								mkSubnetBroadcast
-									memcpy
-						SPI_Ethernet_UserUDP
-							SPI_Ethernet_getByte
+								memcpy_28j60
+								memcmp_28j60
+							memcpy_28j60
+							Net_Ethernet_28j60_confNetwork
+								memcpy_28j60
+								Net_Ethernet_28j60_mkSubnetBroadcast
+									memcpy_28j60
+						memcpy_28j60
+						Net_Ethernet_28j60_IsBroadcast
+							memcmp_28j60
+						Net_Ethernet_28j60_UserUDP
+							Net_Ethernet_28j60_getByte
 								____DoIFC
 							Print_IP
 								Div_8X8_U
@@ -465,569 +468,683 @@ main
 								Div_8X8_U
 								Print_Seg
 								PRINT_S
-						SPI_Ethernet_sendUDP2
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_flushUDP
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putBytes
+							Net_Ethernet_28j60_putBytes
 								____DoIFC
-							SPI_Ethernet_writeMemory2
+							Net_Ethernet_28j60_writeMemory2
 								____DoIFC
-							SPI_Ethernet_checksum
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_writeMemory
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_TXpacket
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-					SPI_Ethernet_doTCP
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_doTCP
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_getByte
-							____DoIFC
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
+						Net_Ethernet_28j60_getByte
 							____DoIFC
-						SPI_Ethernet_putByte
-							____DoIFC
-						SPI_Ethernet_writeMemory2
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_writeMemory
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_putByte
-								____DoIFC
-						SPI_Ethernet_MACswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_clearBitReg
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_IPswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_clearBitReg
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_checksum
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setRxReadAddress
-							SPI_Ethernet_writeAddr
-								____DoIFC
-						SPI_Ethernet_UserTCP
-							HTTP_getRequest
-								SPI_Ethernet_getByte
-									____DoIFC
-							memcmp
-							SPI_Ethernet_putConstString
-								____DoIFC
-							SPI_Ethernet_putString
-								____DoIFC
-							mkLCDselect
-								SPI_Ethernet_putConstString
-									____DoIFC
-								SPI_Ethernet_putByte
-									____DoIFC
-								Mul_16X16_U
+						Mul_16X16_U
+						Net_Ethernet_28j60_socketInitTCP
 							Mul_16X16_U
-							EEPROM_Write
-							Rst_Eth
-							saveConf
-							atoi
-								isdigit
-								Mul_16X16_U
-							ByteToStr
-								Div_8X8_U
-							strcmp
-							strcpy
-							ts2str
-								strcpy
-								strcat
-								ByteToStr
-									Div_8X8_U
-								WordToStr
-									Div_16X16_U
-								Div_16X16_U
-								Mul_16X16_U
-								strlen
-								int2str
-									Mul_32x32_U
-									Div_32x32_S
-										SDIV3232L
-										COMFREM
-							int2str
-								Mul_32x32_U
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-							Time_epochToDate
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-								Mul_32x32_U
-							DNSavings
-							ip2str
-								int2str
-									Mul_32x32_U
-									Div_32x32_S
-										SDIV3232L
-										COMFREM
-								strcat
-							strcat
-							byte2hex
-								nibble2hex
-					SPI_Ethernet_setBitReg
-						____DoIFC
-		SPI1_Init_Advanced
-		SPI_Ethernet_doPacket
-			SPI_Ethernet_setBitReg
-				____DoIFC
-			SPI_Ethernet_clearBitReg
-				____DoIFC
-			SPI_Ethernet_readReg
-				____DoIFC
-			SPI_Ethernet_readPacket
-				SPI_Ethernet_clearBitReg
-					____DoIFC
-				SPI_Ethernet_writeAddr
-					____DoIFC
-				____DoIFC
-				SPI_Ethernet_readReg
-					____DoIFC
-				SPI_Ethernet_RAMcopy
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					SPI_Ethernet_clearBitReg
-						____DoIFC
-					SPI_Ethernet_setBitReg
-						____DoIFC
-					SPI_Ethernet_readReg
-						____DoIFC
-				SPI_Ethernet_readMem
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					____DoIFC
-				SPI_Ethernet_getByte
-					____DoIFC
-				SPI_Ethernet_memcmp
-					SPI_Ethernet_readReg
-						____DoIFC
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					____DoIFC
-				SPI_Ethernet_doARP
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_memcmp
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_MACswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_IsBroadcast
+							memcmp_28j60
+						Net_Ethernet_28j60_txTCP
+							Mul_16X16_U
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_putBytes
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_clearBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+						Net_Ethernet_28j60_UserTCP
+							Net_Ethernet_28j60_getByte
+								____DoIFC
+							memcmp
+							Net_Ethernet_28j60_putStringTCP
+								Net_Ethernet_28j60_bufferTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_txTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putBytes
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+										Net_Ethernet_28j60_checksum
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_writeMemory
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+										Net_Ethernet_28j60_TXpacket
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_clearBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+							strlen
+							Net_Ethernet_28j60_putByteTCP
+								Net_Ethernet_28j60_bufferTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_txTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putBytes
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+										Net_Ethernet_28j60_checksum
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_writeMemory
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+										Net_Ethernet_28j60_TXpacket
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_clearBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+							Net_Ethernet_28j60_bufferEmptyTCP
+							Net_Ethernet_28j60_disconnectTCP
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+							Mul_16X16_U
+						Net_Ethernet_28j60_bufferTCP
+							Mul_16X16_U
+							Net_Ethernet_28j60_txTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putBytes
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_clearBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+					Net_Ethernet_28j60_setBitReg
+						____DoIFC
+				Net_Ethernet_28j60_timerTCP
+					Mul_16X16_U
+					Net_Ethernet_28j60_txTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_putBytes
+							____DoIFC
+						Net_Ethernet_28j60_putByte
+							____DoIFC
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
 								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_clearBitReg
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
+		Net_Ethernet_28j60_doPacket
+			Net_Ethernet_28j60_setBitReg
+				____DoIFC
+			Net_Ethernet_28j60_clearBitReg
+				____DoIFC
+			Net_Ethernet_28j60_readReg
+				____DoIFC
+			Net_Ethernet_28j60_readPacket
+				Net_Ethernet_28j60_clearBitReg
+					____DoIFC
+				Net_Ethernet_28j60_writeAddr
+					____DoIFC
+				____DoIFC
+				Net_Ethernet_28j60_readReg
+					____DoIFC
+				Net_Ethernet_28j60_RAMcopy
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					Net_Ethernet_28j60_clearBitReg
+						____DoIFC
+					Net_Ethernet_28j60_setBitReg
+						____DoIFC
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+				Net_Ethernet_28j60_readMem
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					____DoIFC
+				Net_Ethernet_28j60_getByte
+					____DoIFC
+				Net_Ethernet_28j60_memcmp
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					____DoIFC
+				Net_Ethernet_28j60_doARP
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_memcmp
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_MACswap
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_clearBitReg
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_clearBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
 					Mul_16X16_U
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					memcpy
-				SPI_Ethernet_writeMem
-					SPI_Ethernet_writeAddr
+					memcpy_28j60
+				Net_Ethernet_28j60_writeMem
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
 					____DoIFC
-				SPI_Ethernet_MACswap
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_MACswap
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-				SPI_Ethernet_IPswap
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_IPswap
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-				SPI_Ethernet_writeMemory
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_putByte
-						____DoIFC
-				SPI_Ethernet_checksum
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					SPI_Ethernet_setBitReg
-						____DoIFC
-					SPI_Ethernet_readReg
-						____DoIFC
-				SPI_Ethernet_TXpacket
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_writeMemory
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_putByte
 						____DoIFC
-					SPI_Ethernet_setBitReg
+				Net_Ethernet_28j60_checksum
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
-					SPI_Ethernet_clearBitReg
+					Net_Ethernet_28j60_setBitReg
 						____DoIFC
-					SPI_Ethernet_readReg
+					Net_Ethernet_28j60_readReg
 						____DoIFC
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_TXpacket
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-				SPI_Ethernet_doUDP
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					Net_Ethernet_28j60_setBitReg
+						____DoIFC
+					Net_Ethernet_28j60_clearBitReg
+						____DoIFC
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_getByte
-						____DoIFC
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_doUDP
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getByte
 						____DoIFC
-					SPI_Ethernet_setRxReadAddress
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-					SPI_Ethernet_doDNS
-						SPI_Ethernet_getByte
+						____DoIFC
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					Net_Ethernet_28j60_setRxReadAddress
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-					SPI_Ethernet_doDHCP
-						memset
-						SPI_Ethernet_DHCPmsg
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_doDNS
+						Net_Ethernet_28j60_getByte
+							____DoIFC
+					Net_Ethernet_28j60_doDHCP
+						memset_28j60
+						Net_Ethernet_28j60_DHCPmsg
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_putConstBytes
+							Net_Ethernet_28j60_putConstBytes
 								____DoIFC
-							SPI_Ethernet_putBytes
+							Net_Ethernet_28j60_putBytes
 								____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_sendUDP2
-								SPI_Ethernet_memcpy
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_flushUDP
+								Net_Ethernet_28j60_memcpy
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_putBytes
+								Net_Ethernet_28j60_putBytes
 									____DoIFC
-								SPI_Ethernet_writeMemory2
+								Net_Ethernet_28j60_writeMemory2
 									____DoIFC
-								SPI_Ethernet_checksum
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_writeMemory
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_putByte
+									Net_Ethernet_28j60_putByte
 										____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_RAMcopy
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_RAMcopy
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-								SPI_Ethernet_TXpacket
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-						SPI_Ethernet_DHCPReceive
-							SPI_Ethernet_getByte
+						Net_Ethernet_28j60_DHCPReceive
+							Net_Ethernet_28j60_getByte
 								____DoIFC
-							SPI_Ethernet_getBytes
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_getBytes
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							memcpy
-							memcmp
-						memcpy
-						SPI_Ethernet_confNetwork
-							memcpy
-							mkSubnetBroadcast
-								memcpy
-					SPI_Ethernet_UserUDP
-						SPI_Ethernet_getByte
+							memcpy_28j60
+							memcmp_28j60
+						memcpy_28j60
+						Net_Ethernet_28j60_confNetwork
+							memcpy_28j60
+							Net_Ethernet_28j60_mkSubnetBroadcast
+								memcpy_28j60
+					memcpy_28j60
+					Net_Ethernet_28j60_IsBroadcast
+						memcmp_28j60
+					Net_Ethernet_28j60_UserUDP
+						Net_Ethernet_28j60_getByte
 							____DoIFC
 						Print_IP
 							Div_8X8_U
@@ -1076,260 +1193,372 @@ main
 							Div_8X8_U
 							Print_Seg
 							PRINT_S
-					SPI_Ethernet_sendUDP2
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_flushUDP
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_putBytes
+						Net_Ethernet_28j60_putBytes
 							____DoIFC
-						SPI_Ethernet_writeMemory2
+						Net_Ethernet_28j60_writeMemory2
 							____DoIFC
-						SPI_Ethernet_checksum
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_writeMemory
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_putByte
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-				SPI_Ethernet_doTCP
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_doTCP
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_getByte
-						____DoIFC
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
+					Net_Ethernet_28j60_getByte
 						____DoIFC
-					SPI_Ethernet_putByte
-						____DoIFC
-					SPI_Ethernet_writeMemory2
-						____DoIFC
-					SPI_Ethernet_readReg
-						____DoIFC
-					SPI_Ethernet_writeMemory
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_putByte
-							____DoIFC
-					SPI_Ethernet_MACswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_IPswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_checksum
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_clearBitReg
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_clearBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					SPI_Ethernet_setRxReadAddress
-						SPI_Ethernet_writeAddr
-							____DoIFC
-					SPI_Ethernet_UserTCP
-						HTTP_getRequest
-							SPI_Ethernet_getByte
-								____DoIFC
-						memcmp
-						SPI_Ethernet_putConstString
-							____DoIFC
-						SPI_Ethernet_putString
-							____DoIFC
-						mkLCDselect
-							SPI_Ethernet_putConstString
-								____DoIFC
-							SPI_Ethernet_putByte
-								____DoIFC
-							Mul_16X16_U
+					Mul_16X16_U
+					Net_Ethernet_28j60_socketInitTCP
 						Mul_16X16_U
-						EEPROM_Write
-						Rst_Eth
-						saveConf
-						atoi
-							isdigit
+					Net_Ethernet_28j60_IsBroadcast
+						memcmp_28j60
+					Net_Ethernet_28j60_txTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_putBytes
+							____DoIFC
+						Net_Ethernet_28j60_putByte
+							____DoIFC
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_clearBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+					Net_Ethernet_28j60_UserTCP
+						Net_Ethernet_28j60_getByte
+							____DoIFC
+						memcmp
+						Net_Ethernet_28j60_putStringTCP
+							Net_Ethernet_28j60_bufferTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+						strlen
+						Net_Ethernet_28j60_putByteTCP
+							Net_Ethernet_28j60_bufferTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+						Net_Ethernet_28j60_bufferEmptyTCP
+						Net_Ethernet_28j60_disconnectTCP
+							Net_Ethernet_28j60_txTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putBytes
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_clearBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+						Mul_16X16_U
+					Net_Ethernet_28j60_bufferTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_txTCP
 							Mul_16X16_U
-						ByteToStr
-							Div_8X8_U
-						strcmp
-						strcpy
-						ts2str
-							strcpy
-							strcat
-							ByteToStr
-								Div_8X8_U
-							WordToStr
-								Div_16X16_U
-							Div_16X16_U
-							Mul_16X16_U
-							strlen
-							int2str
-								Mul_32x32_U
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-						int2str
-							Mul_32x32_U
-							Div_32x32_S
-								SDIV3232L
-								COMFREM
-						Time_epochToDate
-							Div_32x32_S
-								SDIV3232L
-								COMFREM
-							Mul_32x32_U
-						DNSavings
-						ip2str
-							int2str
-								Mul_32x32_U
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-							strcat
-						strcat
-						byte2hex
-							nibble2hex
-				SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putBytes
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_clearBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+				Net_Ethernet_28j60_setBitReg
 					____DoIFC
+			Net_Ethernet_28j60_timerTCP
+				Mul_16X16_U
+				Net_Ethernet_28j60_txTCP
+					Mul_16X16_U
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_putBytes
+						____DoIFC
+					Net_Ethernet_28j60_putByte
+						____DoIFC
+					Net_Ethernet_28j60_checksum
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_writeMemory
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_putByte
+							____DoIFC
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_clearBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+		Mul_16X16_U
 	Print_All
 		Print_Seg
 		PRINT_S
 	Print_Pme
 		Print_Seg
 		PRINT_S
-	SPI1_Init_Advanced
 	Mem_Read
 		I2C1_Init
 		I2C1_Start
@@ -1343,458 +1572,465 @@ main
 			____DoIFC
 		I2C1_Stop
 		SPI1_Init_Advanced
-	SPI_Ethernet_Init
-		SPI_Ethernet_delay
+	Net_Ethernet_28j60_Init
+		Net_Ethernet_28j60_delay
 			Delay_500us
 		____DoIFC
-		memcpy
-		SPI_Ethernet_clearBitReg
+		memcpy_28j60
+		Net_Ethernet_28j60_clearBitReg
 			____DoIFC
-		SPI_Ethernet_writeAddr
+		Net_Ethernet_28j60_writeAddr
 			____DoIFC
-		SPI_Ethernet_setBitReg
+		Net_Ethernet_28j60_setBitReg
 			____DoIFC
-		SPI_Ethernet_Init2
-			SPI_Ethernet_writeReg
+		Net_Ethernet_28j60_Init2
+			Net_Ethernet_28j60_writeReg
 				____DoIFC
-			SPI_Ethernet_writeAddr
+			Net_Ethernet_28j60_writeAddr
 				____DoIFC
-			SPI_Ethernet_setBitReg
+			Net_Ethernet_28j60_setBitReg
 				____DoIFC
-			SPI_Ethernet_readReg
+			Net_Ethernet_28j60_readReg
 				____DoIFC
-			SPI_Ethernet_readPHY
-				SPI_Ethernet_clearBitReg
+			Net_Ethernet_28j60_readPHY
+				Net_Ethernet_28j60_clearBitReg
 					____DoIFC
-				SPI_Ethernet_setBitReg
+				Net_Ethernet_28j60_setBitReg
 					____DoIFC
-				SPI_Ethernet_writeReg
+				Net_Ethernet_28j60_writeReg
 					____DoIFC
-				SPI_Ethernet_delay
+				Net_Ethernet_28j60_delay
 					Delay_500us
-				SPI_Ethernet_readReg
+				Net_Ethernet_28j60_readReg
 					____DoIFC
-			SPI_Ethernet_writePHY
-				SPI_Ethernet_clearBitReg
+			Net_Ethernet_28j60_writePHY
+				Net_Ethernet_28j60_clearBitReg
 					____DoIFC
-				SPI_Ethernet_setBitReg
+				Net_Ethernet_28j60_setBitReg
 					____DoIFC
-				SPI_Ethernet_writeReg
+				Net_Ethernet_28j60_writeReg
 					____DoIFC
-				SPI_Ethernet_delay
+				Net_Ethernet_28j60_delay
 					Delay_500us
-			SPI_Ethernet_delay
+			Net_Ethernet_28j60_delay
 				Delay_500us
-			memset
-			SPI_Ethernet_clearBitReg
+			memset_28j60
+			Net_Ethernet_28j60_clearBitReg
 				____DoIFC
-	SPI_Ethernet_initDHCP
-		memset
-		SPI_Ethernet_doDHCP
-			memset
-			SPI_Ethernet_DHCPmsg
-				SPI_Ethernet_writeAddr
+	Net_Ethernet_28j60_stackInitTCP
+		Net_Ethernet_28j60_socketInitTCP
+			Mul_16X16_U
+		Mul_16X16_U
+	Net_Ethernet_28j60_initDHCP
+		memset_28j60
+		Net_Ethernet_28j60_doDHCP
+			memset_28j60
+			Net_Ethernet_28j60_DHCPmsg
+				Net_Ethernet_28j60_writeAddr
 					____DoIFC
-				SPI_Ethernet_putConstBytes
+				Net_Ethernet_28j60_putConstBytes
 					____DoIFC
-				SPI_Ethernet_putBytes
+				Net_Ethernet_28j60_putBytes
 					____DoIFC
-				SPI_Ethernet_putByte
+				Net_Ethernet_28j60_putByte
 					____DoIFC
-				SPI_Ethernet_sendUDP2
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_flushUDP
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_putBytes
+					Net_Ethernet_28j60_putBytes
 						____DoIFC
-					SPI_Ethernet_writeMemory2
+					Net_Ethernet_28j60_writeMemory2
 						____DoIFC
-					SPI_Ethernet_checksum
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_checksum
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_readReg
+					Net_Ethernet_28j60_readReg
 						____DoIFC
-					SPI_Ethernet_writeMemory
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMemory
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_putByte
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_putByte
+					Net_Ethernet_28j60_putByte
 						____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-			SPI_Ethernet_DHCPReceive
-				SPI_Ethernet_getByte
+			Net_Ethernet_28j60_DHCPReceive
+				Net_Ethernet_28j60_getByte
 					____DoIFC
-				SPI_Ethernet_getBytes
-					SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_getBytes
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
 					____DoIFC
-				memcpy
-				memcmp
-			memcpy
-			SPI_Ethernet_confNetwork
-				memcpy
-				mkSubnetBroadcast
-					memcpy
-		SPI_Ethernet_doPacket
-			SPI_Ethernet_setBitReg
+				memcpy_28j60
+				memcmp_28j60
+			memcpy_28j60
+			Net_Ethernet_28j60_confNetwork
+				memcpy_28j60
+				Net_Ethernet_28j60_mkSubnetBroadcast
+					memcpy_28j60
+		Net_Ethernet_28j60_doPacket
+			Net_Ethernet_28j60_setBitReg
 				____DoIFC
-			SPI_Ethernet_clearBitReg
+			Net_Ethernet_28j60_clearBitReg
 				____DoIFC
-			SPI_Ethernet_readReg
+			Net_Ethernet_28j60_readReg
 				____DoIFC
-			SPI_Ethernet_readPacket
-				SPI_Ethernet_clearBitReg
+			Net_Ethernet_28j60_readPacket
+				Net_Ethernet_28j60_clearBitReg
 					____DoIFC
-				SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_writeAddr
 					____DoIFC
 				____DoIFC
-				SPI_Ethernet_readReg
+				Net_Ethernet_28j60_readReg
 					____DoIFC
-				SPI_Ethernet_RAMcopy
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_RAMcopy
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
-					SPI_Ethernet_clearBitReg
+					Net_Ethernet_28j60_clearBitReg
 						____DoIFC
-					SPI_Ethernet_setBitReg
+					Net_Ethernet_28j60_setBitReg
 						____DoIFC
-					SPI_Ethernet_readReg
+					Net_Ethernet_28j60_readReg
 						____DoIFC
-				SPI_Ethernet_readMem
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					____DoIFC
-				SPI_Ethernet_getByte
-					____DoIFC
-				SPI_Ethernet_memcmp
-					SPI_Ethernet_readReg
-						____DoIFC
-					SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_readMem
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
 					____DoIFC
-				SPI_Ethernet_doARP
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_getByte
+					____DoIFC
+				Net_Ethernet_28j60_memcmp
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					____DoIFC
+				Net_Ethernet_28j60_doARP
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_memcmp
-						SPI_Ethernet_readReg
+					Net_Ethernet_28j60_memcmp
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_MACswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_MACswap
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
 					Mul_16X16_U
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					memcpy
-				SPI_Ethernet_writeMem
-					SPI_Ethernet_writeAddr
+					memcpy_28j60
+				Net_Ethernet_28j60_writeMem
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
 					____DoIFC
-				SPI_Ethernet_MACswap
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_MACswap
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-				SPI_Ethernet_IPswap
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_IPswap
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-					SPI_Ethernet_memcpy
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-				SPI_Ethernet_writeMemory
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_memcpy
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_putByte
-						____DoIFC
-				SPI_Ethernet_checksum
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					SPI_Ethernet_setBitReg
-						____DoIFC
-					SPI_Ethernet_readReg
-						____DoIFC
-				SPI_Ethernet_TXpacket
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_writeMemory
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_putByte
 						____DoIFC
-					SPI_Ethernet_setBitReg
+				Net_Ethernet_28j60_checksum
+					Net_Ethernet_28j60_writeAddr
 						____DoIFC
-					SPI_Ethernet_clearBitReg
+					Net_Ethernet_28j60_setBitReg
 						____DoIFC
-					SPI_Ethernet_readReg
+					Net_Ethernet_28j60_readReg
 						____DoIFC
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_TXpacket
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-				SPI_Ethernet_doUDP
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					Net_Ethernet_28j60_setBitReg
+						____DoIFC
+					Net_Ethernet_28j60_clearBitReg
+						____DoIFC
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_getByte
-						____DoIFC
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_doUDP
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getByte
 						____DoIFC
-					SPI_Ethernet_setRxReadAddress
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-					SPI_Ethernet_doDNS
-						SPI_Ethernet_getByte
+						____DoIFC
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					Net_Ethernet_28j60_setRxReadAddress
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-					SPI_Ethernet_doDHCP
-						memset
-						SPI_Ethernet_DHCPmsg
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_doDNS
+						Net_Ethernet_28j60_getByte
+							____DoIFC
+					Net_Ethernet_28j60_doDHCP
+						memset_28j60
+						Net_Ethernet_28j60_DHCPmsg
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_putConstBytes
+							Net_Ethernet_28j60_putConstBytes
 								____DoIFC
-							SPI_Ethernet_putBytes
+							Net_Ethernet_28j60_putBytes
 								____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_sendUDP2
-								SPI_Ethernet_memcpy
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_flushUDP
+								Net_Ethernet_28j60_memcpy
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_putBytes
+								Net_Ethernet_28j60_putBytes
 									____DoIFC
-								SPI_Ethernet_writeMemory2
+								Net_Ethernet_28j60_writeMemory2
 									____DoIFC
-								SPI_Ethernet_checksum
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_writeMemory
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_putByte
+									Net_Ethernet_28j60_putByte
 										____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_RAMcopy
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_RAMcopy
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-								SPI_Ethernet_TXpacket
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-						SPI_Ethernet_DHCPReceive
-							SPI_Ethernet_getByte
+						Net_Ethernet_28j60_DHCPReceive
+							Net_Ethernet_28j60_getByte
 								____DoIFC
-							SPI_Ethernet_getBytes
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_getBytes
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							memcpy
-							memcmp
-						memcpy
-						SPI_Ethernet_confNetwork
-							memcpy
-							mkSubnetBroadcast
-								memcpy
-					SPI_Ethernet_UserUDP
-						SPI_Ethernet_getByte
+							memcpy_28j60
+							memcmp_28j60
+						memcpy_28j60
+						Net_Ethernet_28j60_confNetwork
+							memcpy_28j60
+							Net_Ethernet_28j60_mkSubnetBroadcast
+								memcpy_28j60
+					memcpy_28j60
+					Net_Ethernet_28j60_IsBroadcast
+						memcmp_28j60
+					Net_Ethernet_28j60_UserUDP
+						Net_Ethernet_28j60_getByte
 							____DoIFC
 						Print_IP
 							Div_8X8_U
@@ -1843,268 +2079,381 @@ main
 							Div_8X8_U
 							Print_Seg
 							PRINT_S
-					SPI_Ethernet_sendUDP2
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_flushUDP
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_putBytes
+						Net_Ethernet_28j60_putBytes
 							____DoIFC
-						SPI_Ethernet_writeMemory2
+						Net_Ethernet_28j60_writeMemory2
 							____DoIFC
-						SPI_Ethernet_checksum
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_writeMemory
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_putByte
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-				SPI_Ethernet_doTCP
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
+				Net_Ethernet_28j60_doTCP
+					Net_Ethernet_28j60_getBytes
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_getByte
-						____DoIFC
-					SPI_Ethernet_getBytes
-						SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
+					Net_Ethernet_28j60_getByte
 						____DoIFC
-					SPI_Ethernet_putByte
-						____DoIFC
-					SPI_Ethernet_writeMemory2
-						____DoIFC
-					SPI_Ethernet_readReg
-						____DoIFC
-					SPI_Ethernet_writeMemory
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_putByte
-							____DoIFC
-					SPI_Ethernet_MACswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_IPswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_checksum
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_clearBitReg
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_clearBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					SPI_Ethernet_setRxReadAddress
-						SPI_Ethernet_writeAddr
-							____DoIFC
-					SPI_Ethernet_UserTCP
-						HTTP_getRequest
-							SPI_Ethernet_getByte
-								____DoIFC
-						memcmp
-						SPI_Ethernet_putConstString
-							____DoIFC
-						SPI_Ethernet_putString
-							____DoIFC
-						mkLCDselect
-							SPI_Ethernet_putConstString
-								____DoIFC
-							SPI_Ethernet_putByte
-								____DoIFC
-							Mul_16X16_U
+					Mul_16X16_U
+					Net_Ethernet_28j60_socketInitTCP
 						Mul_16X16_U
-						EEPROM_Write
-						Rst_Eth
-						saveConf
-						atoi
-							isdigit
+					Net_Ethernet_28j60_IsBroadcast
+						memcmp_28j60
+					Net_Ethernet_28j60_txTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_putBytes
+							____DoIFC
+						Net_Ethernet_28j60_putByte
+							____DoIFC
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_clearBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+					Net_Ethernet_28j60_UserTCP
+						Net_Ethernet_28j60_getByte
+							____DoIFC
+						memcmp
+						Net_Ethernet_28j60_putStringTCP
+							Net_Ethernet_28j60_bufferTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+						strlen
+						Net_Ethernet_28j60_putByteTCP
+							Net_Ethernet_28j60_bufferTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+						Net_Ethernet_28j60_bufferEmptyTCP
+						Net_Ethernet_28j60_disconnectTCP
+							Net_Ethernet_28j60_txTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putBytes
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_clearBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+						Mul_16X16_U
+					Net_Ethernet_28j60_bufferTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_txTCP
 							Mul_16X16_U
-						ByteToStr
-							Div_8X8_U
-						strcmp
-						strcpy
-						ts2str
-							strcpy
-							strcat
-							ByteToStr
-								Div_8X8_U
-							WordToStr
-								Div_16X16_U
-							Div_16X16_U
-							Mul_16X16_U
-							strlen
-							int2str
-								Mul_32x32_U
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-						int2str
-							Mul_32x32_U
-							Div_32x32_S
-								SDIV3232L
-								COMFREM
-						Time_epochToDate
-							Div_32x32_S
-								SDIV3232L
-								COMFREM
-							Mul_32x32_U
-						DNSavings
-						ip2str
-							int2str
-								Mul_32x32_U
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-							strcat
-						strcat
-						byte2hex
-							nibble2hex
-				SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putBytes
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_clearBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+				Net_Ethernet_28j60_setBitReg
 					____DoIFC
-	SPI_Ethernet_getIpAddress
+			Net_Ethernet_28j60_timerTCP
+				Mul_16X16_U
+				Net_Ethernet_28j60_txTCP
+					Mul_16X16_U
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_putBytes
+						____DoIFC
+					Net_Ethernet_28j60_putByte
+						____DoIFC
+					Net_Ethernet_28j60_checksum
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_writeMemory
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_putByte
+							____DoIFC
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_clearBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+	Net_Ethernet_28j60_getIpAddress
 	memcpy
-	SPI_Ethernet_getIpMask
-	SPI_Ethernet_getGwIpAddress
-	SPI_Ethernet_getDnsIpAddress
+	Net_Ethernet_28j60_getIpMask
+	Net_Ethernet_28j60_getGwIpAddress
+	Net_Ethernet_28j60_getDnsIpAddress
 	Print_IP
 		Div_8X8_U
 		Div_16x16_S
 			Div_16x16_S_L
 		Print_Seg
 		PRINT_S
-	SPI_Ethernet_confNetwork
-		memcpy
-		mkSubnetBroadcast
-			memcpy
+	SPI1_Init
+	Net_Ethernet_28j60_confNetwork
+		memcpy_28j60
+		Net_Ethernet_28j60_mkSubnetBroadcast
+			memcpy_28j60
 	Rst_Eth
 	Print_Light
 		ADC_Read
@@ -2125,412 +2474,415 @@ main
 			Div_16x16_S_L
 		Div_8X8_U
 		Eth_Obrada
-			SPI_Ethernet_renewDHCP
-				SPI_Ethernet_doDHCP
-					memset
-					SPI_Ethernet_DHCPmsg
-						SPI_Ethernet_writeAddr
+			Net_Ethernet_28j60_renewDHCP
+				Net_Ethernet_28j60_doDHCP
+					memset_28j60
+					Net_Ethernet_28j60_DHCPmsg
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_putConstBytes
+						Net_Ethernet_28j60_putConstBytes
 							____DoIFC
-						SPI_Ethernet_putBytes
+						Net_Ethernet_28j60_putBytes
 							____DoIFC
-						SPI_Ethernet_putByte
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-						SPI_Ethernet_sendUDP2
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_flushUDP
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putBytes
+							Net_Ethernet_28j60_putBytes
 								____DoIFC
-							SPI_Ethernet_writeMemory2
+							Net_Ethernet_28j60_writeMemory2
 								____DoIFC
-							SPI_Ethernet_checksum
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_writeMemory
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_TXpacket
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-					SPI_Ethernet_DHCPReceive
-						SPI_Ethernet_getByte
+					Net_Ethernet_28j60_DHCPReceive
+						Net_Ethernet_28j60_getByte
 							____DoIFC
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						memcpy
-						memcmp
-					memcpy
-					SPI_Ethernet_confNetwork
-						memcpy
-						mkSubnetBroadcast
-							memcpy
-				SPI_Ethernet_doPacket
-					SPI_Ethernet_setBitReg
+						memcpy_28j60
+						memcmp_28j60
+					memcpy_28j60
+					Net_Ethernet_28j60_confNetwork
+						memcpy_28j60
+						Net_Ethernet_28j60_mkSubnetBroadcast
+							memcpy_28j60
+				Net_Ethernet_28j60_doPacket
+					Net_Ethernet_28j60_setBitReg
 						____DoIFC
-					SPI_Ethernet_clearBitReg
+					Net_Ethernet_28j60_clearBitReg
 						____DoIFC
-					SPI_Ethernet_readReg
+					Net_Ethernet_28j60_readReg
 						____DoIFC
-					SPI_Ethernet_readPacket
-						SPI_Ethernet_clearBitReg
+					Net_Ethernet_28j60_readPacket
+						Net_Ethernet_28j60_clearBitReg
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_getByte
-							____DoIFC
-						SPI_Ethernet_memcmp
-							SPI_Ethernet_readReg
-								____DoIFC
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_doARP
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getByte
+							____DoIFC
+						Net_Ethernet_28j60_memcmp
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_doARP
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_memcmp
-								SPI_Ethernet_readReg
+							Net_Ethernet_28j60_memcmp
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_MACswap
-								SPI_Ethernet_RAMcopy
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_MACswap
+								Net_Ethernet_28j60_RAMcopy
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_memcpy
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_memcpy
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_TXpacket
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
 							Mul_16X16_U
-							SPI_Ethernet_getBytes
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_getBytes
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							memcpy
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+							memcpy_28j60
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_MACswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_MACswap
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-						SPI_Ethernet_IPswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_IPswap
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_writeMemory
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putByte
-								____DoIFC
-						SPI_Ethernet_checksum
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_setBitReg
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-						SPI_Ethernet_doUDP
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_clearBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_getByte
-								____DoIFC
-							SPI_Ethernet_getBytes
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_doUDP
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_getByte
 								____DoIFC
-							SPI_Ethernet_setRxReadAddress
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_getBytes
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-							SPI_Ethernet_doDNS
-								SPI_Ethernet_getByte
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setRxReadAddress
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-							SPI_Ethernet_doDHCP
-								memset
-								SPI_Ethernet_DHCPmsg
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_doDNS
+								Net_Ethernet_28j60_getByte
+									____DoIFC
+							Net_Ethernet_28j60_doDHCP
+								memset_28j60
+								Net_Ethernet_28j60_DHCPmsg
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_putConstBytes
+									Net_Ethernet_28j60_putConstBytes
 										____DoIFC
-									SPI_Ethernet_putBytes
+									Net_Ethernet_28j60_putBytes
 										____DoIFC
-									SPI_Ethernet_putByte
+									Net_Ethernet_28j60_putByte
 										____DoIFC
-									SPI_Ethernet_sendUDP2
-										SPI_Ethernet_memcpy
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_flushUDP
+										Net_Ethernet_28j60_memcpy
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_putBytes
+										Net_Ethernet_28j60_putBytes
 											____DoIFC
-										SPI_Ethernet_writeMemory2
+										Net_Ethernet_28j60_writeMemory2
 											____DoIFC
-										SPI_Ethernet_checksum
-											SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_checksum
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
-											SPI_Ethernet_setBitReg
+											Net_Ethernet_28j60_setBitReg
 												____DoIFC
-											SPI_Ethernet_readReg
+											Net_Ethernet_28j60_readReg
 												____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-										SPI_Ethernet_writeMemory
-											SPI_Ethernet_writeMem
-												SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeMemory
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
 													____DoIFC
 												____DoIFC
-											SPI_Ethernet_putByte
+											Net_Ethernet_28j60_putByte
 												____DoIFC
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_RAMcopy
-											SPI_Ethernet_readMem
-												SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_RAMcopy
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
 													____DoIFC
 												____DoIFC
-											SPI_Ethernet_writeMem
-												SPI_Ethernet_writeAddr
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
 													____DoIFC
 												____DoIFC
-											SPI_Ethernet_writeAddr
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
-											SPI_Ethernet_clearBitReg
+											Net_Ethernet_28j60_clearBitReg
 												____DoIFC
-											SPI_Ethernet_setBitReg
+											Net_Ethernet_28j60_setBitReg
 												____DoIFC
-											SPI_Ethernet_readReg
+											Net_Ethernet_28j60_readReg
 												____DoIFC
-										SPI_Ethernet_putByte
+										Net_Ethernet_28j60_putByte
 											____DoIFC
-										SPI_Ethernet_TXpacket
-											SPI_Ethernet_writeMem
-												SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_TXpacket
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
 													____DoIFC
 												____DoIFC
-											SPI_Ethernet_writeAddr
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
-											SPI_Ethernet_setBitReg
+											Net_Ethernet_28j60_setBitReg
 												____DoIFC
-											SPI_Ethernet_clearBitReg
+											Net_Ethernet_28j60_clearBitReg
 												____DoIFC
-											SPI_Ethernet_readReg
+											Net_Ethernet_28j60_readReg
 												____DoIFC
-											SPI_Ethernet_readMem
-												SPI_Ethernet_writeAddr
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
 													____DoIFC
 												____DoIFC
-								SPI_Ethernet_DHCPReceive
-									SPI_Ethernet_getByte
+								Net_Ethernet_28j60_DHCPReceive
+									Net_Ethernet_28j60_getByte
 										____DoIFC
-									SPI_Ethernet_getBytes
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_getBytes
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									memcpy
-									memcmp
-								memcpy
-								SPI_Ethernet_confNetwork
-									memcpy
-									mkSubnetBroadcast
-										memcpy
-							SPI_Ethernet_UserUDP
-								SPI_Ethernet_getByte
+									memcpy_28j60
+									memcmp_28j60
+								memcpy_28j60
+								Net_Ethernet_28j60_confNetwork
+									memcpy_28j60
+									Net_Ethernet_28j60_mkSubnetBroadcast
+										memcpy_28j60
+							memcpy_28j60
+							Net_Ethernet_28j60_IsBroadcast
+								memcmp_28j60
+							Net_Ethernet_28j60_UserUDP
+								Net_Ethernet_28j60_getByte
 									____DoIFC
 								Print_IP
 									Div_8X8_U
@@ -2579,569 +2931,683 @@ main
 									Div_8X8_U
 									Print_Seg
 									PRINT_S
-							SPI_Ethernet_sendUDP2
-								SPI_Ethernet_memcpy
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_flushUDP
+								Net_Ethernet_28j60_memcpy
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_putBytes
+								Net_Ethernet_28j60_putBytes
 									____DoIFC
-								SPI_Ethernet_writeMemory2
+								Net_Ethernet_28j60_writeMemory2
 									____DoIFC
-								SPI_Ethernet_checksum
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_writeMemory
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_putByte
+									Net_Ethernet_28j60_putByte
 										____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_RAMcopy
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_RAMcopy
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-								SPI_Ethernet_TXpacket
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
-									SPI_Ethernet_setBitReg
+									Net_Ethernet_28j60_setBitReg
 										____DoIFC
-									SPI_Ethernet_clearBitReg
+									Net_Ethernet_28j60_clearBitReg
 										____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-						SPI_Ethernet_doTCP
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_doTCP
+							Net_Ethernet_28j60_getBytes
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_getByte
-								____DoIFC
-							SPI_Ethernet_getBytes
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
+							Net_Ethernet_28j60_getByte
 								____DoIFC
-							SPI_Ethernet_putByte
-								____DoIFC
-							SPI_Ethernet_writeMemory2
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-							SPI_Ethernet_writeMemory
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_putByte
-									____DoIFC
-							SPI_Ethernet_MACswap
-								SPI_Ethernet_RAMcopy
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
-											____DoIFC
-										____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
-											____DoIFC
-										____DoIFC
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									SPI_Ethernet_clearBitReg
-										____DoIFC
-									SPI_Ethernet_setBitReg
-										____DoIFC
-									SPI_Ethernet_readReg
-										____DoIFC
-								SPI_Ethernet_memcpy
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-							SPI_Ethernet_IPswap
-								SPI_Ethernet_RAMcopy
-									SPI_Ethernet_readMem
-										SPI_Ethernet_writeAddr
-											____DoIFC
-										____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
-											____DoIFC
-										____DoIFC
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									SPI_Ethernet_clearBitReg
-										____DoIFC
-									SPI_Ethernet_setBitReg
-										____DoIFC
-									SPI_Ethernet_readReg
-										____DoIFC
-								SPI_Ethernet_memcpy
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-							SPI_Ethernet_checksum
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_clearBitReg
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-							SPI_Ethernet_TXpacket
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_clearBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_setRxReadAddress
-								SPI_Ethernet_writeAddr
-									____DoIFC
-							SPI_Ethernet_UserTCP
-								HTTP_getRequest
-									SPI_Ethernet_getByte
-										____DoIFC
-								memcmp
-								SPI_Ethernet_putConstString
-									____DoIFC
-								SPI_Ethernet_putString
-									____DoIFC
-								mkLCDselect
-									SPI_Ethernet_putConstString
-										____DoIFC
-									SPI_Ethernet_putByte
-										____DoIFC
-									Mul_16X16_U
+							Mul_16X16_U
+							Net_Ethernet_28j60_socketInitTCP
 								Mul_16X16_U
-								EEPROM_Write
-								Rst_Eth
-								saveConf
-								atoi
-									isdigit
-									Mul_16X16_U
-								ByteToStr
-									Div_8X8_U
-								strcmp
-								strcpy
-								ts2str
-									strcpy
-									strcat
-									ByteToStr
-										Div_8X8_U
-									WordToStr
-										Div_16X16_U
-									Div_16X16_U
-									Mul_16X16_U
-									strlen
-									int2str
-										Mul_32x32_U
-										Div_32x32_S
-											SDIV3232L
-											COMFREM
-								int2str
-									Mul_32x32_U
-									Div_32x32_S
-										SDIV3232L
-										COMFREM
-								Time_epochToDate
-									Div_32x32_S
-										SDIV3232L
-										COMFREM
-									Mul_32x32_U
-								DNSavings
-								ip2str
-									int2str
-										Mul_32x32_U
-										Div_32x32_S
-											SDIV3232L
-											COMFREM
-									strcat
-								strcat
-								byte2hex
-									nibble2hex
-						SPI_Ethernet_setBitReg
-							____DoIFC
-			SPI1_Init_Advanced
-			SPI_Ethernet_doPacket
-				SPI_Ethernet_setBitReg
-					____DoIFC
-				SPI_Ethernet_clearBitReg
-					____DoIFC
-				SPI_Ethernet_readReg
-					____DoIFC
-				SPI_Ethernet_readPacket
-					SPI_Ethernet_clearBitReg
-						____DoIFC
-					SPI_Ethernet_writeAddr
-						____DoIFC
-					____DoIFC
-					SPI_Ethernet_readReg
-						____DoIFC
-					SPI_Ethernet_RAMcopy
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_clearBitReg
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_readMem
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_getByte
-						____DoIFC
-					SPI_Ethernet_memcmp
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						____DoIFC
-					SPI_Ethernet_doARP
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_memcmp
-							SPI_Ethernet_readReg
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-						SPI_Ethernet_MACswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_IsBroadcast
+								memcmp_28j60
+							Net_Ethernet_28j60_txTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_putBytes
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_clearBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+							Net_Ethernet_28j60_UserTCP
+								Net_Ethernet_28j60_getByte
+									____DoIFC
+								memcmp
+								Net_Ethernet_28j60_putStringTCP
+									Net_Ethernet_28j60_bufferTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_txTCP
+											Mul_16X16_U
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putBytes
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+											Net_Ethernet_28j60_checksum
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												Net_Ethernet_28j60_setBitReg
+													____DoIFC
+												Net_Ethernet_28j60_readReg
+													____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_writeMemory
+												Net_Ethernet_28j60_writeMem
+													Net_Ethernet_28j60_writeAddr
+														____DoIFC
+													____DoIFC
+												Net_Ethernet_28j60_putByte
+													____DoIFC
+											Net_Ethernet_28j60_TXpacket
+												Net_Ethernet_28j60_writeMem
+													Net_Ethernet_28j60_writeAddr
+														____DoIFC
+													____DoIFC
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												Net_Ethernet_28j60_setBitReg
+													____DoIFC
+												Net_Ethernet_28j60_clearBitReg
+													____DoIFC
+												Net_Ethernet_28j60_readReg
+													____DoIFC
+												Net_Ethernet_28j60_readMem
+													Net_Ethernet_28j60_writeAddr
+														____DoIFC
+													____DoIFC
+								strlen
+								Net_Ethernet_28j60_putByteTCP
+									Net_Ethernet_28j60_bufferTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_txTCP
+											Mul_16X16_U
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putBytes
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+											Net_Ethernet_28j60_checksum
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												Net_Ethernet_28j60_setBitReg
+													____DoIFC
+												Net_Ethernet_28j60_readReg
+													____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_writeMemory
+												Net_Ethernet_28j60_writeMem
+													Net_Ethernet_28j60_writeAddr
+														____DoIFC
+													____DoIFC
+												Net_Ethernet_28j60_putByte
+													____DoIFC
+											Net_Ethernet_28j60_TXpacket
+												Net_Ethernet_28j60_writeMem
+													Net_Ethernet_28j60_writeAddr
+														____DoIFC
+													____DoIFC
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												Net_Ethernet_28j60_setBitReg
+													____DoIFC
+												Net_Ethernet_28j60_clearBitReg
+													____DoIFC
+												Net_Ethernet_28j60_readReg
+													____DoIFC
+												Net_Ethernet_28j60_readMem
+													Net_Ethernet_28j60_writeAddr
+														____DoIFC
+													____DoIFC
+								Net_Ethernet_28j60_bufferEmptyTCP
+								Net_Ethernet_28j60_disconnectTCP
+									Net_Ethernet_28j60_txTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putBytes
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+										Net_Ethernet_28j60_checksum
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_writeMemory
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+										Net_Ethernet_28j60_TXpacket
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_clearBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+								Mul_16X16_U
+							Net_Ethernet_28j60_bufferTCP
+								Mul_16X16_U
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+					Net_Ethernet_28j60_timerTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_txTCP
+							Mul_16X16_U
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putBytes
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
 									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+			Net_Ethernet_28j60_doPacket
+				Net_Ethernet_28j60_setBitReg
+					____DoIFC
+				Net_Ethernet_28j60_clearBitReg
+					____DoIFC
+				Net_Ethernet_28j60_readReg
+					____DoIFC
+				Net_Ethernet_28j60_readPacket
+					Net_Ethernet_28j60_clearBitReg
+						____DoIFC
+					Net_Ethernet_28j60_writeAddr
+						____DoIFC
+					____DoIFC
+					Net_Ethernet_28j60_readReg
+						____DoIFC
+					Net_Ethernet_28j60_RAMcopy
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_clearBitReg
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+					Net_Ethernet_28j60_readMem
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_getByte
+						____DoIFC
+					Net_Ethernet_28j60_memcmp
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						____DoIFC
+					Net_Ethernet_28j60_doARP
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_memcmp
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_MACswap
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_clearBitReg
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_clearBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
 						Mul_16X16_U
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						memcpy
-					SPI_Ethernet_writeMem
-						SPI_Ethernet_writeAddr
+						memcpy_28j60
+					Net_Ethernet_28j60_writeMem
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
 						____DoIFC
-					SPI_Ethernet_MACswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_MACswap
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-					SPI_Ethernet_IPswap
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_IPswap
+						Net_Ethernet_28j60_RAMcopy
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-							SPI_Ethernet_clearBitReg
+							Net_Ethernet_28j60_clearBitReg
 								____DoIFC
-							SPI_Ethernet_setBitReg
+							Net_Ethernet_28j60_setBitReg
 								____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-						SPI_Ethernet_memcpy
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							____DoIFC
-					SPI_Ethernet_writeMemory
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_memcpy
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_putByte
-							____DoIFC
-					SPI_Ethernet_checksum
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setBitReg
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-					SPI_Ethernet_TXpacket
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_writeMemory
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_putByte
 							____DoIFC
-						SPI_Ethernet_setBitReg
+					Net_Ethernet_28j60_checksum
+						Net_Ethernet_28j60_writeAddr
 							____DoIFC
-						SPI_Ethernet_clearBitReg
+						Net_Ethernet_28j60_setBitReg
 							____DoIFC
-						SPI_Ethernet_readReg
+						Net_Ethernet_28j60_readReg
 							____DoIFC
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_TXpacket
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-					SPI_Ethernet_doUDP
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setBitReg
+							____DoIFC
+						Net_Ethernet_28j60_clearBitReg
+							____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_getByte
-							____DoIFC
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_doUDP
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getByte
 							____DoIFC
-						SPI_Ethernet_setRxReadAddress
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-						SPI_Ethernet_doDNS
-							SPI_Ethernet_getByte
+							____DoIFC
+						Net_Ethernet_28j60_writeAddr
+							____DoIFC
+						Net_Ethernet_28j60_setRxReadAddress
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
-						SPI_Ethernet_doDHCP
-							memset
-							SPI_Ethernet_DHCPmsg
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_doDNS
+							Net_Ethernet_28j60_getByte
+								____DoIFC
+						Net_Ethernet_28j60_doDHCP
+							memset_28j60
+							Net_Ethernet_28j60_DHCPmsg
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_putConstBytes
+								Net_Ethernet_28j60_putConstBytes
 									____DoIFC
-								SPI_Ethernet_putBytes
+								Net_Ethernet_28j60_putBytes
 									____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-								SPI_Ethernet_sendUDP2
-									SPI_Ethernet_memcpy
-										SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_flushUDP
+									Net_Ethernet_28j60_memcpy
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_putBytes
+									Net_Ethernet_28j60_putBytes
 										____DoIFC
-									SPI_Ethernet_writeMemory2
+									Net_Ethernet_28j60_writeMemory2
 										____DoIFC
-									SPI_Ethernet_checksum
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
-										SPI_Ethernet_setBitReg
+										Net_Ethernet_28j60_setBitReg
 											____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-									SPI_Ethernet_readReg
+									Net_Ethernet_28j60_readReg
 										____DoIFC
-									SPI_Ethernet_writeMemory
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_putByte
+										Net_Ethernet_28j60_putByte
 											____DoIFC
-									SPI_Ethernet_writeMem
-										SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
 										____DoIFC
-									SPI_Ethernet_RAMcopy
-										SPI_Ethernet_readMem
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_RAMcopy
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
-										SPI_Ethernet_clearBitReg
+										Net_Ethernet_28j60_clearBitReg
 											____DoIFC
-										SPI_Ethernet_setBitReg
+										Net_Ethernet_28j60_setBitReg
 											____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-									SPI_Ethernet_putByte
+									Net_Ethernet_28j60_putByte
 										____DoIFC
-									SPI_Ethernet_TXpacket
-										SPI_Ethernet_writeMem
-											SPI_Ethernet_writeAddr
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-										SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_writeAddr
 											____DoIFC
-										SPI_Ethernet_setBitReg
+										Net_Ethernet_28j60_setBitReg
 											____DoIFC
-										SPI_Ethernet_clearBitReg
+										Net_Ethernet_28j60_clearBitReg
 											____DoIFC
-										SPI_Ethernet_readReg
+										Net_Ethernet_28j60_readReg
 											____DoIFC
-										SPI_Ethernet_readMem
-											SPI_Ethernet_writeAddr
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
 												____DoIFC
 											____DoIFC
-							SPI_Ethernet_DHCPReceive
-								SPI_Ethernet_getByte
+							Net_Ethernet_28j60_DHCPReceive
+								Net_Ethernet_28j60_getByte
 									____DoIFC
-								SPI_Ethernet_getBytes
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_getBytes
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								memcpy
-								memcmp
-							memcpy
-							SPI_Ethernet_confNetwork
-								memcpy
-								mkSubnetBroadcast
-									memcpy
-						SPI_Ethernet_UserUDP
-							SPI_Ethernet_getByte
+								memcpy_28j60
+								memcmp_28j60
+							memcpy_28j60
+							Net_Ethernet_28j60_confNetwork
+								memcpy_28j60
+								Net_Ethernet_28j60_mkSubnetBroadcast
+									memcpy_28j60
+						memcpy_28j60
+						Net_Ethernet_28j60_IsBroadcast
+							memcmp_28j60
+						Net_Ethernet_28j60_UserUDP
+							Net_Ethernet_28j60_getByte
 								____DoIFC
 							Print_IP
 								Div_8X8_U
@@ -3190,253 +3656,366 @@ main
 								Div_8X8_U
 								Print_Seg
 								PRINT_S
-						SPI_Ethernet_sendUDP2
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_flushUDP
+							Net_Ethernet_28j60_memcpy
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_putBytes
+							Net_Ethernet_28j60_putBytes
 								____DoIFC
-							SPI_Ethernet_writeMemory2
+							Net_Ethernet_28j60_writeMemory2
 								____DoIFC
-							SPI_Ethernet_checksum
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_readReg
+							Net_Ethernet_28j60_readReg
 								____DoIFC
-							SPI_Ethernet_writeMemory
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_putByte
+								Net_Ethernet_28j60_putByte
 									____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
 								____DoIFC
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_RAMcopy
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-							SPI_Ethernet_putByte
+							Net_Ethernet_28j60_putByte
 								____DoIFC
-							SPI_Ethernet_TXpacket
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-								SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_writeAddr
 									____DoIFC
-								SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_setBitReg
 									____DoIFC
-								SPI_Ethernet_clearBitReg
+								Net_Ethernet_28j60_clearBitReg
 									____DoIFC
-								SPI_Ethernet_readReg
+								Net_Ethernet_28j60_readReg
 									____DoIFC
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
 										____DoIFC
 									____DoIFC
-					SPI_Ethernet_doTCP
-						SPI_Ethernet_readMem
-							SPI_Ethernet_writeAddr
+					Net_Ethernet_28j60_doTCP
+						Net_Ethernet_28j60_getBytes
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_getByte
-							____DoIFC
-						SPI_Ethernet_getBytes
-							SPI_Ethernet_writeAddr
+						Net_Ethernet_28j60_readMem
+							Net_Ethernet_28j60_writeAddr
 								____DoIFC
 							____DoIFC
-						SPI_Ethernet_writeMem
-							SPI_Ethernet_writeAddr
-								____DoIFC
+						Net_Ethernet_28j60_getByte
 							____DoIFC
-						SPI_Ethernet_putByte
-							____DoIFC
-						SPI_Ethernet_writeMemory2
-							____DoIFC
-						SPI_Ethernet_readReg
-							____DoIFC
-						SPI_Ethernet_writeMemory
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_putByte
-								____DoIFC
-						SPI_Ethernet_MACswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_clearBitReg
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_IPswap
-							SPI_Ethernet_RAMcopy
-								SPI_Ethernet_readMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeMem
-									SPI_Ethernet_writeAddr
-										____DoIFC
-									____DoIFC
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								SPI_Ethernet_clearBitReg
-									____DoIFC
-								SPI_Ethernet_setBitReg
-									____DoIFC
-								SPI_Ethernet_readReg
-									____DoIFC
-							SPI_Ethernet_memcpy
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_checksum
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_RAMcopy
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-						SPI_Ethernet_TXpacket
-							SPI_Ethernet_writeMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-							SPI_Ethernet_writeAddr
-								____DoIFC
-							SPI_Ethernet_setBitReg
-								____DoIFC
-							SPI_Ethernet_clearBitReg
-								____DoIFC
-							SPI_Ethernet_readReg
-								____DoIFC
-							SPI_Ethernet_readMem
-								SPI_Ethernet_writeAddr
-									____DoIFC
-								____DoIFC
-						SPI_Ethernet_writeAddr
-							____DoIFC
-						SPI_Ethernet_setRxReadAddress
-							SPI_Ethernet_writeAddr
-								____DoIFC
-						SPI_Ethernet_UserTCP
-							HTTP_getRequest
-								SPI_Ethernet_getByte
-									____DoIFC
-							memcmp
-							SPI_Ethernet_putConstString
-								____DoIFC
-							SPI_Ethernet_putString
-								____DoIFC
-							mkLCDselect
-								SPI_Ethernet_putConstString
-									____DoIFC
-								SPI_Ethernet_putByte
-									____DoIFC
-								Mul_16X16_U
+						Mul_16X16_U
+						Net_Ethernet_28j60_socketInitTCP
 							Mul_16X16_U
-							EEPROM_Write
-							Rst_Eth
-							saveConf
-							atoi
-								isdigit
+						Net_Ethernet_28j60_IsBroadcast
+							memcmp_28j60
+						Net_Ethernet_28j60_txTCP
+							Mul_16X16_U
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putBytes
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+							Net_Ethernet_28j60_checksum
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_writeMemory
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+							Net_Ethernet_28j60_TXpacket
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								Net_Ethernet_28j60_setBitReg
+									____DoIFC
+								Net_Ethernet_28j60_clearBitReg
+									____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_readMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+						Net_Ethernet_28j60_UserTCP
+							Net_Ethernet_28j60_getByte
+								____DoIFC
+							memcmp
+							Net_Ethernet_28j60_putStringTCP
+								Net_Ethernet_28j60_bufferTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_txTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putBytes
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+										Net_Ethernet_28j60_checksum
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_writeMemory
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+										Net_Ethernet_28j60_TXpacket
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_clearBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+							strlen
+							Net_Ethernet_28j60_putByteTCP
+								Net_Ethernet_28j60_bufferTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_txTCP
+										Mul_16X16_U
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putBytes
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+										Net_Ethernet_28j60_checksum
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_writeMemory
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_putByte
+												____DoIFC
+										Net_Ethernet_28j60_TXpacket
+											Net_Ethernet_28j60_writeMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											Net_Ethernet_28j60_setBitReg
+												____DoIFC
+											Net_Ethernet_28j60_clearBitReg
+												____DoIFC
+											Net_Ethernet_28j60_readReg
+												____DoIFC
+											Net_Ethernet_28j60_readMem
+												Net_Ethernet_28j60_writeAddr
+													____DoIFC
+												____DoIFC
+							Net_Ethernet_28j60_bufferEmptyTCP
+							Net_Ethernet_28j60_disconnectTCP
+								Net_Ethernet_28j60_txTCP
+									Mul_16X16_U
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putBytes
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+									Net_Ethernet_28j60_checksum
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_writeMemory
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_putByte
+											____DoIFC
+									Net_Ethernet_28j60_TXpacket
+										Net_Ethernet_28j60_writeMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										Net_Ethernet_28j60_setBitReg
+											____DoIFC
+										Net_Ethernet_28j60_clearBitReg
+											____DoIFC
+										Net_Ethernet_28j60_readReg
+											____DoIFC
+										Net_Ethernet_28j60_readMem
+											Net_Ethernet_28j60_writeAddr
+												____DoIFC
+											____DoIFC
+							Mul_16X16_U
+						Net_Ethernet_28j60_bufferTCP
+							Mul_16X16_U
+							Net_Ethernet_28j60_txTCP
 								Mul_16X16_U
-							ByteToStr
-								Div_8X8_U
-							strcmp
-							strcpy
-							ts2str
-								strcpy
-								strcat
-								ByteToStr
-									Div_8X8_U
-								WordToStr
-									Div_16X16_U
-								Div_16X16_U
-								Mul_16X16_U
-								strlen
-								int2str
-									Mul_32x32_U
-									Div_32x32_S
-										SDIV3232L
-										COMFREM
-							int2str
-								Mul_32x32_U
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-							Time_epochToDate
-								Div_32x32_S
-									SDIV3232L
-									COMFREM
-								Mul_32x32_U
-							DNSavings
-							ip2str
-								int2str
-									Mul_32x32_U
-									Div_32x32_S
-										SDIV3232L
-										COMFREM
-								strcat
-							strcat
-							byte2hex
-								nibble2hex
-					SPI_Ethernet_setBitReg
+								Net_Ethernet_28j60_writeMem
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									____DoIFC
+								Net_Ethernet_28j60_putBytes
+									____DoIFC
+								Net_Ethernet_28j60_putByte
+									____DoIFC
+								Net_Ethernet_28j60_checksum
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+								Net_Ethernet_28j60_readReg
+									____DoIFC
+								Net_Ethernet_28j60_writeMemory
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_putByte
+										____DoIFC
+								Net_Ethernet_28j60_TXpacket
+									Net_Ethernet_28j60_writeMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+									Net_Ethernet_28j60_writeAddr
+										____DoIFC
+									Net_Ethernet_28j60_setBitReg
+										____DoIFC
+									Net_Ethernet_28j60_clearBitReg
+										____DoIFC
+									Net_Ethernet_28j60_readReg
+										____DoIFC
+									Net_Ethernet_28j60_readMem
+										Net_Ethernet_28j60_writeAddr
+											____DoIFC
+										____DoIFC
+					Net_Ethernet_28j60_setBitReg
 						____DoIFC
+				Net_Ethernet_28j60_timerTCP
+					Mul_16X16_U
+					Net_Ethernet_28j60_txTCP
+						Mul_16X16_U
+						Net_Ethernet_28j60_writeMem
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							____DoIFC
+						Net_Ethernet_28j60_putBytes
+							____DoIFC
+						Net_Ethernet_28j60_putByte
+							____DoIFC
+						Net_Ethernet_28j60_checksum
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+						Net_Ethernet_28j60_readReg
+							____DoIFC
+						Net_Ethernet_28j60_writeMemory
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_putByte
+								____DoIFC
+						Net_Ethernet_28j60_TXpacket
+							Net_Ethernet_28j60_writeMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+							Net_Ethernet_28j60_writeAddr
+								____DoIFC
+							Net_Ethernet_28j60_setBitReg
+								____DoIFC
+							Net_Ethernet_28j60_clearBitReg
+								____DoIFC
+							Net_Ethernet_28j60_readReg
+								____DoIFC
+							Net_Ethernet_28j60_readMem
+								Net_Ethernet_28j60_writeAddr
+									____DoIFC
+								____DoIFC
+			Mul_16X16_U
 	Display_Time
 		Div_8X8_U
 		Print_Seg

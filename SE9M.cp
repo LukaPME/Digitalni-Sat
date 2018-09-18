@@ -17,96 +17,181 @@ extern long Time_jd1970 ;
 #line 46 "d:/luka-probe/git/digitalni-sat/timelib.h"
 long Time_dateToEpoch(TimeStruct *ts) ;
 void Time_epochToDate(long e, TimeStruct *ts) ;
-#line 1 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-#line 10 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-unsigned char Ethernet_readPacket();
-#line 24 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_doTCP(unsigned int start, unsigned int ipHeaderLen, unsigned int payloadAddr);
-#line 38 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_doUDP(unsigned int start, unsigned char ipHeaderLen, unsigned int payloadAddr);
-char Ethernet_sendUDP2(unsigned char *destMAC, unsigned char *destIP, unsigned int sourcePort, unsigned int destPort, unsigned int pktLen);
-#line 49 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_doDHCP();
-unsigned char Ethernet_DHCPReceive(void);
-unsigned char Ethernet_DHCPmsg(unsigned char messageType, unsigned char renewFlag);
-#line 62 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_doDNS();
-#line 72 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_doARP();
-#line 84 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_checksum(unsigned int start, unsigned int l);
-#line 100 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_RAMcopy(unsigned int start, unsigned int stop, unsigned int dest, unsigned char w);
-#line 112 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_MACswap();
-#line 123 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_IPswap(void);
-#line 134 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-unsigned char Ethernet_txPacket(unsigned int l);
-#line 148 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-unsigned char Ethernet_memcmp(unsigned int addr, unsigned char *s, unsigned char l);
-#line 162 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_memcpy(unsigned int addr, unsigned char *s, unsigned int l);
-#line 177 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_writeMemory(unsigned int addr, unsigned char v1, unsigned char v2);
-#line 191 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_writeMemory2(unsigned int v);
-#line 204 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_writeMem(unsigned int addr, unsigned char v1);
-#line 216 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-unsigned char Ethernet_readMem(unsigned int addr);
-
-
-void Ethernet_writeAddr2(unsigned char *addr, unsigned int v);
-unsigned char Ethernet_readReg2(unsigned char *addr);
-#line 234 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_setRxReadAddress(unsigned addr);
-#line 248 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_writePHY(unsigned char reg, unsigned short h, unsigned short l);
-#line 262 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_readPHY(unsigned char reg, unsigned char *h, unsigned char *l);
-#line 274 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_delay();
-#line 288 "d:/luka-probe/git/digitalni-sat/__ethj60private.h"
-void Ethernet_Init2(unsigned char fullDuplex);
-
-extern unsigned int Ethernet_pktLen;
-#line 1 "d:/luka-probe/git/digitalni-sat/__ethj60.h"
-#line 47 "d:/luka-probe/git/digitalni-sat/__ethj60.h"
+#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60.h"
+#line 111 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60.h"
 typedef struct
  {
  unsigned char valid;
  unsigned long tmr;
  unsigned char ip[4];
  unsigned char mac[6];
- } Ethernet_arpCacheStruct;
+ } Net_Ethernet_28j60_arpCacheStruct;
 
-extern Ethernet_arpCacheStruct Ethernet_arpCache[];
+extern Net_Ethernet_28j60_arpCacheStruct Net_Ethernet_28j60_arpCache[];
 
-extern unsigned char Ethernet_macAddr[6];
-extern unsigned char Ethernet_ipAddr[4];
-extern unsigned char Ethernet_gwIpAddr[4];
-extern unsigned char Ethernet_ipMask[4];
-extern unsigned char Ethernet_dnsIpAddr[4];
-extern unsigned char Ethernet_rmtIpAddr[4];
+extern unsigned char Net_Ethernet_28j60_macAddr[6];
+extern unsigned char Net_Ethernet_28j60_ipAddr[4];
+extern unsigned char Net_Ethernet_28j60_gwIpAddr[4];
+extern unsigned char Net_Ethernet_28j60_ipMask[4];
+extern unsigned char Net_Ethernet_28j60_dnsIpAddr[4];
+extern unsigned char Net_Ethernet_28j60_rmtIpAddr[4];
 
-extern unsigned long Ethernet_userTimerSec;
+extern unsigned long Net_Ethernet_28j60_userTimerSec;
+
+
 
 typedef struct {
- unsigned canCloseTCP: 1;
- unsigned isBroadcast: 1;
-} TEthPktFlags;
-#line 74 "d:/luka-probe/git/digitalni-sat/__ethj60.h"
-extern void Ethernet_Init(unsigned char *mac, unsigned char *ip, unsigned char fullDuplex);
-extern unsigned char Ethernet_doPacket();
-extern void Ethernet_putByte(unsigned char b);
-extern void Ethernet_putBytes(unsigned char *ptr, unsigned int n);
-extern void Ethernet_putConstBytes(const unsigned char *ptr, unsigned int n);
-extern unsigned char Ethernet_getByte();
-extern void Ethernet_getBytes(unsigned char *ptr, unsigned int addr, unsigned int n);
-extern unsigned int Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags * flags);
-extern unsigned int Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags * flags);
-extern void Ethernet_confNetwork(char *ipMask, char *gwIpAddr, char *dnsIpAddr);
+ char remoteIP[4];
+ char remoteMAC[6];
+ unsigned int remotePort;
+ unsigned int destPort;
+ unsigned int dataLength;
+ unsigned int broadcastMark;
+} UDP_28j60_Dsc;
+
+
+extern UDP_28j60_Dsc udpRecord_28j60;
+
+
+
+typedef struct {
+ char remoteIP[4];
+ char remoteMAC[6];
+ unsigned int remotePort;
+ unsigned int destPort;
+
+ unsigned int dataLength;
+ unsigned int remoteMSS;
+ unsigned int myWin;
+ unsigned int myMSS;
+ unsigned long mySeq;
+ unsigned long myACK;
+
+ char stateTimer;
+ char retransmitTimer;
+ unsigned int packetID;
+ char open;
+ char ID;
+ char broadcastMark;
+ char state;
+
+
+
+
+
+
+
+
+
+ unsigned int nextSend;
+ unsigned int lastACK;
+ unsigned int lastSent;
+ unsigned int lastWritten;
+ unsigned int numToSend;
+ char buffState;
+ char *txBuffer;
+
+
+} SOCKET_28j60_Dsc;
+
+
+extern const char NUM_OF_SOCKET_28j60;
+extern const unsigned int TCP_TX_SIZE_28j60;
+extern const unsigned int MY_MSS_28j60;
+extern const unsigned int SYN_FIN_WAIT_28j60;
+extern const unsigned int RETRANSMIT_WAIT_28j60;
+
+extern char tx_buffers_28j60[][];
+extern SOCKET_28j60_Dsc socket_28j60[];
+#line 206 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60.h"
+extern void Net_Ethernet_28j60_Init(unsigned char *resetPort, unsigned char resetBit, unsigned char *CSport, unsigned char CSbit, unsigned char *mac, unsigned char *ip, unsigned char configuration);
+extern unsigned char Net_Ethernet_28j60_doPacket();
+extern void Net_Ethernet_28j60_putByte(unsigned char b);
+extern void Net_Ethernet_28j60_putBytes(unsigned char *ptr, unsigned int n);
+extern void Net_Ethernet_28j60_putConstBytes(const unsigned char *ptr, unsigned int n);
+extern unsigned char Net_Ethernet_28j60_getByte();
+extern void Net_Ethernet_28j60_getBytes(unsigned char *ptr, unsigned int addr, unsigned int n);
+extern unsigned int Net_Ethernet_28j60_UserUDP(UDP_28j60_Dsc *udpDsc);
+extern void Net_Ethernet_28j60_payloadInitUDP();
+extern void Net_Ethernet_28j60_UserTCP(SOCKET_28j60_Dsc *socket);
+extern void Net_Ethernet_28j60_confNetwork(char *ipMask, char *gwIpAddr, char *dnsIpAddr);
+
+extern char Net_Ethernet_28j60_connectTCP(char *remoteIP, unsigned int remote_port ,unsigned int my_port, SOCKET_28j60_Dsc **used_socket);
+extern char Net_Ethernet_28j60_disconnectTCP(SOCKET_28j60_Dsc *socket);
+extern char Net_Ethernet_28j60_startSendTCP(SOCKET_28j60_Dsc *socket);
+
+extern char Net_Ethernet_28j60_putByteTCP(char ch, SOCKET_28j60_Dsc *socket);
+extern unsigned int Net_Ethernet_28j60_putBytesTCP(char *ptr,unsigned int n, SOCKET_28j60_Dsc *socket);
+extern unsigned int Net_Ethernet_28j60_putConstBytesTCP(const char *ptr,unsigned int n, SOCKET_28j60_Dsc *socket);
+extern unsigned int Net_Ethernet_28j60_putStringTCP(char *ptr, SOCKET_28j60_Dsc *socket);
+extern unsigned int Net_Ethernet_28j60_putConstStringTCP(const char *ptr, SOCKET_28j60_Dsc *socket);
+extern char Net_Ethernet_28j60_bufferEmptyTCP(SOCKET_28j60_Dsc *socket);
+extern void Net_Ethernet_28j60_stackInitTCP();
+#line 1 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+#line 10 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+unsigned char Net_Ethernet_28j60_readPacket();
+#line 24 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+char Net_Ethernet_28j60_doTCP(unsigned int start, unsigned int ipHeaderLen, unsigned int payloadAddr);
+#line 38 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_doUDP(unsigned int start, unsigned char ipHeaderLen, unsigned int payloadAddr);
+unsigned int Net_Ethernet_28j60_flushUDP(unsigned char *destMac, unsigned char *destIP, unsigned int sourcePort, unsigned int destPort, unsigned int pktLen);
+#line 49 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_doDHCP();
+unsigned char Net_Ethernet_28j60_DHCPReceive(void);
+unsigned char Net_Ethernet_28j60_DHCPmsg(unsigned char messageType, unsigned char renewFlag);
+#line 62 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_doDNS();
+#line 72 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_doARP();
+#line 84 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_checksum(unsigned int start, unsigned int l);
+#line 100 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_RAMcopy(unsigned int start, unsigned int stop, unsigned int dest, unsigned char w);
+#line 111 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_MACswap();
+#line 122 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_IPswap(void);
+#line 133 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+unsigned char Net_Ethernet_28j60_TXpacket(unsigned int l);
+#line 147 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+unsigned char Net_Ethernet_28j60_memcmp(unsigned int addr, unsigned char *s, unsigned char l);
+#line 161 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_memcpy(unsigned int addr, unsigned char *s, unsigned int l);
+#line 176 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_writeMemory(unsigned int addr, unsigned char v1, unsigned char v2);
+#line 190 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_writeMemory2(unsigned int v);
+#line 203 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_writeMem(unsigned int addr, unsigned char v1);
+#line 215 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+unsigned char Net_Ethernet_28j60_readMem(unsigned int addr);
+#line 228 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+unsigned char Net_Ethernet_28j60_readReg(unsigned char addr);
+#line 242 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_writeReg(unsigned char addr, unsigned short v);
+#line 256 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_setBitReg(unsigned char addr, unsigned char mask);
+#line 270 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_clearBitReg(unsigned char addr, unsigned char mask);
+#line 284 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_setRxReadAddress(unsigned addr);
+#line 298 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_writeAddr(unsigned char addr, unsigned int v);
+#line 312 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_writePHY(unsigned char reg, unsigned short h, unsigned short l);
+#line 326 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_readPHY(unsigned char reg, unsigned char *h, unsigned char *l);
+#line 338 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_delay();
+#line 352 "c:/users/public/documents/mikroelektronika/mikroc pro for pic/packages/network_ethernet_pic/uses/__netethenc28j60private.h"
+void Net_Ethernet_28j60_Init2(unsigned char fullDuplex);
+void Net_Ethernet_28j60_socketInitTCP(char id);
+void Net_Ethernet_28j60_timerTCP();
+
+extern unsigned int Net_Ethernet_28j60_pktLen;
+
+extern char Net_Ethernet_28j60_bufferTCP(char c, char tx, char curr_sock);
+extern char Net_Ethernet_28j60_txTCP (char flag, char curr_sock);
 #line 1 "d:/luka-probe/git/digitalni-sat/httputils.h"
 #line 31 "d:/luka-probe/git/digitalni-sat/httputils.h"
 unsigned char HTTP_basicRealm(unsigned int l, unsigned char *passwd) ;
@@ -119,13 +204,16 @@ unsigned int HTTP_redirect(unsigned char *url) ;
 unsigned int HTTP_html(const unsigned char *html) ;
 unsigned int HTTP_imageGIF(const unsigned char *img, unsigned int l) ;
 unsigned int HTTP_error() ;
-#line 11 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 12 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 sbit Eth1_Link at RB5_bit;
-sbit SPI_Ethernet_Rst at RA5_bit;
-sbit SPI_Ethernet_CS at RA4_bit;
+sbit Net_Ethernet_28j60_Rst at LATA5_bit;
+sbit Net_Ethernet_28j60_CS at LATA4_bit;
 sbit Eth1_Link_Direction at TRISB5_bit;
-sbit SPI_Ethernet_Rst_Direction at TRISA5_bit;
-sbit SPI_Ethernet_CS_Direction at TRISA4_bit;
+sbit Net_Ethernet_28j60_Rst_Direction at TRISA5_bit;
+sbit Net_Ethernet_28j60_CS_Direction at TRISA4_bit;
+SOCKET_28j60_Dsc *socketHTML;
+char sendHTML_mark = 0;
+unsigned int pos[10];
 
 
 
@@ -161,7 +249,7 @@ sbit RSTPIN_Direction at TRISD4_bit;
 
 sbit DISPEN at RE2_bit;
 sbit DISPEN_Direction at TRISE2_bit;
-#line 82 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 86 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char macAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;
 
 
@@ -217,6 +305,7 @@ unsigned char serverFlags = 0 ;
 char serverPrecision = 0 ;
 short tmzn = 0;
 char txt[5];
+char junk;
 
 char chksum;
 char prkomanda = 0;
@@ -236,7 +325,6 @@ char danuned;
 char sec_pom = 0;
 
 char reset_eth = 1;
-
 char link = 0;
 char prvi_timer = 0;
 char drugi_timer = 0;
@@ -284,7 +372,11 @@ char tmr_rst_en = 0;
 char tmr_rst = 0;
 
 char dhcp_flag;
-#line 208 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+
+char ik;
+
+char sta = 0;
+#line 216 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char *wday[] =
  {
  "Mon",
@@ -295,7 +387,7 @@ unsigned char *wday[] =
  "Sat",
  "Sun"
  } ;
-#line 222 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 230 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char *mon[] =
  {
  "",
@@ -315,11 +407,13 @@ unsigned char *mon[] =
 
 unsigned int httpCounter = 0 ;
 unsigned char path_private[] = "/admin" ;
-
-const unsigned char httpHeader[] = "HTTP/1.1 200 OK\nContent-type: " ;
-const unsigned char httpMimeTypeHTML[] = "text/html\n\n" ;
+#line 252 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+unsigned char httpHeader[] = "HTTP/1.1 200 OK\nContent-Length: 7787\nConnection: close\nContent-type: ";
+unsigned char httpMimeTypeHTML[] = "text/html\n\n";
 const unsigned char httpMimeTypeScript[] = "text/plain\n\n" ;
-#line 249 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+unsigned char httpMethod[] = "GET /";
+unsigned char httpRequ[] = "GET / HTTP/1.1";
+#line 260 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 struct
  {
  unsigned char dhcpen ;
@@ -337,7 +431,7 @@ struct
 
 
  } ;
-#line 270 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 281 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const unsigned char *LCDoption[] =
  {
  "Enable",
@@ -359,35 +453,17 @@ const unsigned char *MODEoption[] =
  "Server 2",
  "Server 3"
  } ;
-#line 300 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 311 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *CSSred = "HTTP/1.1 200 OK\nContent-type: text/css\n\nbody {background-color: #ffccdd;}" ;
-#line 306 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 317 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *CSSgreen = "HTTP/1.1 200 OK\nContent-type: text/css\n\nbody {background-color: #ddffcc;}" ;
-#line 319 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLheader = "HTTP/1.1 200 OK\nContent-type: text/html\n\n<HTML><HEAD><TITLE>PME Clock</TITLE></HEAD><BODY><link rel=\"stylesheet\" type=\"text/css\" href=\"/s.css\"><center><h2>PME Clock</h2>" ;
-#line 331 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 356 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+char HTMLheader[] = "<HTML><HEAD><TITLE>PME Clock</TITLE></HEAD><BODY><link rel=\"stylesheet\" type=\"text/css\" href=\"/s.css\"><center><h2>PME Clock</h2><h3>Time | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/a></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Date and Time</td><td align=right><script>document.write(NOW)</script></td></tr><tr><td>Unix Epoch</td><td align=right><script>document.write(EPOCH)</script></td></tr><tr><td>Julian Day</td><td align=right><script>document.write(EPOCH / 24 / 3600 + 2440587.5)</script></td></tr><tr><td>Last sync</td><td align=right><script>document.write(LAST)</script></td></tr><HTML><HEAD></table><br>Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www.pme.rs</a></center></BODY></HTML>";
+#line 370 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLtime = "<h3>Time | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/a></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Date and Time</td><td align=right><script>document.write(NOW)</script></td></tr><tr><td>Unix Epoch</td><td align=right><script>document.write(EPOCH)</script></td></tr><tr><td>Julian Day</td><td align=right><script>document.write(EPOCH / 24 / 3600 + 2440587.5)</script></td></tr><tr><td>Last sync</td><td align=right><script>document.write(LAST)</script></td></tr>" ;
-#line 346 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLsntp = "<h3><a href=/>Time</a> | SNTP | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/b></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Server</td><td align=right><script>document.write(SNTP)</script></td></tr><tr><td>Leap</td><td align=right><script>document.write(LEAP)</script></td></tr><tr><td>Version</td><td align=right><script>document.write(VN)</script></td></tr><tr><td>Mode</td><td align=right><script>document.write(MODE)</script></td></tr><tr><td>Stratum</td><td align=right><script>document.write(STRATUM)</script></td></tr><tr><td>Precision</td><td align=right><script>document.write(Math.pow(2, PRECISION - 256))</script></td></tr>" ;
-#line 360 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLnetwork = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | Network | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/c></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Clock IP</td><td align=right><script>document.write(IP)</script></td></tr><tr><td>Clock MAC</td><td align=right><script>document.write(MAC)</script></td></tr><tr><td>Network Mask</td><td align=right><script>document.write(MASK)</script></td></tr><tr><td>Gateway</td><td align=right><script>document.write(GW)</script></td></tr><tr><td>DNS</td><td align=right><script>document.write(DNS)</script></td></tr><tr><td>Your IP</td><td align=right><script>document.write(CLIENT)</script></td></tr>" ;
-#line 373 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLsystem = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | System | <a href=/admin>ADMIN</a></h3><script src=/d></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Ethernet device</td><td align=right><script>document.write(SYSTEM)</script></td></tr><tr><td>Fosc</td><td align=right><script>document.write(CLK/1000)</script> Mhz</td></tr><tr><td>Up Since</td><td align=right><script>document.write(UP)</script></td></tr><tr><td>HTTP Request #</td><td align=right><script>document.write(REQ)</script></td></tr>" ;
-#line 380 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLredirect = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script>document.location.replace(\"/admin\")</script>" ;
-#line 387 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLadmin0 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS)</script></td> </tr>" ;
-#line 401 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLadmin1 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr> <td>IP Address</td> <td><script>document.write(IP0)</script></td> <td><script>document.write(IP1)</script></td> <td><script>document.write(IP2)</script></td> <td><script>document.write(IP3)</script></td> </tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 413 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLadmin2 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr><td>Mask</td><td><script>document.write(M0)</script></td><td><script>document.write(M1)</script></td><td><script>document.write(M2)</script></td><td><script>document.write(M3)</script></td></tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 425 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLadmin3 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr><td>Gateway</td><td><script>document.write(G0)</script></td><td><script>document.write(G1)</script></td><td><script>document.write(G2)</script></td><td><script>document.write(G3)</script></td></tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 437 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-const char *HTMLadmin4 = "<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3><script src=/admin/s></script><meta http-equiv=\"refresh\" content=\"180\" /><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000><tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr><tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr><tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr><tr><td>DNS Server</td><td><script>document.write(D0)</script></td><td><script>document.write(D1)</script></td><td><script>document.write(D2)</script></td><td><script>document.write(D3)</script></td></tr><tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>" ;
-#line 448 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 484 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 const char *HTMLfooter = "<HTML><HEAD></table><br>Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www.pme.rs</a></center></BODY></HTML>" ;
-#line 455 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 491 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 char lease_tmr = 0;
 char lease_time = 0;
 
@@ -397,22 +473,28 @@ void Eth_Obrada() {
 
  if (lease_time >= 60) {
  lease_time = 0;
- while (!SPI_Ethernet_renewDHCP(5));
+ while (!Net_Ethernet_28j60_renewDHCP(5));
  }
  }
  if (link == 1) {
 
- SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
- Spi_Ethernet_doPacket() ;
+
+
+ Net_Ethernet_28j60_doPacket();
+
+ for (ik = 0; ik < NUM_OF_SOCKET_28j60; ik++) {
+ if (socket_28j60[ik].open == 0)
+ pos[ik] = 0;
+ }
 
  }
 }
-#line 478 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 520 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void saveConf()
  {
-#line 491 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 533 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  }
-#line 495 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 537 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void mkMarquee(unsigned char l)
  {
  unsigned char len ;
@@ -432,12 +514,15 @@ void mkMarquee(unsigned char l)
 
 
  }
-#line 564 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+
+
+
+
 void DNSavings() {
  tmzn = 2;
 
 }
-#line 572 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 568 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void int2str(long l, unsigned char *s)
  {
  unsigned char i, j, n ;
@@ -481,7 +566,7 @@ void int2str(long l, unsigned char *s)
  }
  }
  }
-#line 619 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 615 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void ip2str(unsigned char *s, unsigned char *ip)
  {
  unsigned char i ;
@@ -496,11 +581,11 @@ void ip2str(unsigned char *s, unsigned char *ip)
  strcat(s, ".") ;
  }
  }
-#line 638 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 634 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  {
  unsigned char tmp[6] ;
-#line 645 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 641 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(m &  1 )
  {
  strcpy(s, wday[t->wd]) ;
@@ -527,7 +612,7 @@ void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  {
  *s = 0 ;
  }
-#line 675 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 671 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(m &  2 )
  {
  ByteToStr(t->hh, tmp) ;
@@ -550,7 +635,7 @@ void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  }
  strcat(s, tmp + 1) ;
  }
-#line 701 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 697 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  if(m &  4 )
  {
  strcat(s, " GMT") ;
@@ -561,7 +646,7 @@ void ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
  int2str(conf.tz, s + strlen(s)) ;
  }
  }
-#line 715 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 711 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 unsigned char nibble2hex(unsigned char n)
  {
  n &= 0x0f ;
@@ -571,36 +656,14 @@ unsigned char nibble2hex(unsigned char n)
  }
  return(n + '0') ;
  }
-#line 728 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 724 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void byte2hex(unsigned char *s, unsigned char v)
  {
  *s++ = nibble2hex(v >> 4) ;
  *s++ = nibble2hex(v) ;
  *s = '.' ;
  }
-#line 738 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-unsigned int mkLCDselect(unsigned char l, unsigned char m)
- {
- unsigned char i ;
- unsigned int len ;
-
- len =  SPI_Ethernet_putConstString ("<select onChange=\\\"document.location.href = '/admin/") ;
- SPI_Ethernet_putByte('0' + l) ; len++ ;
- len +=  SPI_Ethernet_putConstString ("/' + this.selectedIndex\\\">") ;
- for(i = 0 ; i < 2 ; i++)
- {
- len +=  SPI_Ethernet_putConstString ("<option ") ;
- if(i == m)
- {
- len +=  SPI_Ethernet_putConstString (" selected") ;
- }
- len +=  SPI_Ethernet_putConstString (">") ;
- len +=  SPI_Ethernet_putConstString (LCDoption[i]) ;
- }
- len +=  SPI_Ethernet_putConstString ("</select>\";") ;
- return(len) ;
- }
-#line 763 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 759 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void mkLCDLine(unsigned char l, unsigned char m)
  {
  switch(m)
@@ -650,14 +713,14 @@ void mkLCDLine(unsigned char l, unsigned char m)
  break ;
  }
  }
-#line 816 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 812 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void mkSNTPrequest()
  {
  unsigned char sntpPkt[50];
  unsigned char * remoteIpAddr;
 
  if (sntpSync)
- if (SPI_Ethernet_UserTimerSec >= sntpTimer)
+ if (Net_Ethernet_28j60_UserTimerSec >= sntpTimer)
  if (!lastSync) {
  sntpSync = 0;
  if (!memcmp(conf.sntpIP, "\0\0\0\0", 4))
@@ -671,7 +734,7 @@ void mkSNTPrequest()
  {
 
  memset(conf.sntpIP, 0, 4);
- if(remoteIpAddr = SPI_Ethernet_dnsResolve(conf.sntpServer, 5))
+ if(remoteIpAddr = Net_Ethernet_28j60_dnsResolve(conf.sntpServer, 5))
  {
 
  memcpy(conf.sntpIP, remoteIpAddr, 4) ;
@@ -702,7 +765,7 @@ void mkSNTPrequest()
  {
  return ;
  }
-#line 871 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 867 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
  memset(sntpPkt, 0, 48) ;
 
 
@@ -721,993 +784,19 @@ void mkSNTPrequest()
 
 
  sntpPkt[9] = 0x10 ;
-#line 900 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
- SPI_Ethernet_sendUDP(conf.sntpIP, 123, 123, sntpPkt, 48) ;
+#line 896 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+ Net_Ethernet_28j60_sendUDP(conf.sntpIP, 123, 123, sntpPkt, 48) ;
 
  sntpSync = 1 ;
  lastSync = 0 ;
- sntpTimer = SPI_Ethernet_UserTimerSec + 2;
+ sntpTimer = Net_Ethernet_28j60_UserTimerSec + 2;
  }
 
 void Rst_Eth() {
- SPI_Ethernet_Rst = 0;
+ Net_Ethernet_28j60_Rst = 0;
  reset_eth = 1;
 
 }
-#line 916 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
- {
- unsigned char dyna[64] ;
- unsigned char getRequest[ 128  + 1] ;
-
- unsigned int len = 0 ;
- int i ;
-
- char fbr;
-
-
-
-
-
-
- if (localPort != 80)
- {
- return(0) ;
- }
-#line 939 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
- if (HTTP_getRequest(getRequest, &reqLength,  128 ) == 0)
- {
- return(0) ;
- }
-#line 948 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
- if(memcmp(getRequest, path_private, sizeof(path_private) - 1) == 0)
- {
-
- unsigned char *ptr ;
-
-
- ptr = getRequest + sizeof(path_private) - 1;
-
-
- if(getRequest[sizeof(path_private)] == 's')
- {
-
-
- len =  SPI_Ethernet_putConstString (httpHeader) ;
- len +=  SPI_Ethernet_putConstString (httpMimeTypeScript) ;
-
- if (admin == 0) {
-
-
- len +=  SPI_Ethernet_putConstString ("var PASS=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString ("password") ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/v/' + this.value\\\" value=\\\"") ;
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
-
- } else {
-
- uzobyte = 1;
-
- len +=  SPI_Ethernet_putConstString ("var DHCPEN=\"") ;
- len += mkLCDselect(1, conf.dhcpen) ;
-
-
-
- len +=  SPI_Ethernet_putConstString ("var PASS0=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (oldSifra) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/x/' + this.value\\\" value=\\\"") ;
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
-
-
- len +=  SPI_Ethernet_putConstString ("var PASS1=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (newSifra) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/y/' + this.value\\\" value=\\\"") ;
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
-
-
-
- if (conf.dhcpen == 1) {
-
- len +=  SPI_Ethernet_putConstString ("var SIP=\"") ;
- len +=  SPI_Ethernet_putConstString ("<select onChange=\\\"document.location.href = '/admin/u/' + this.selectedIndex\\\">") ;
- for(i = 1 ; i < 5 ; i++)
- {
- len +=  SPI_Ethernet_putConstString ("<option ") ;
- if(i == s_ip)
- {
- len +=  SPI_Ethernet_putConstString (" selected") ;
- }
- len +=  SPI_Ethernet_putConstString (">") ;
- len +=  SPI_Ethernet_putConstString (IPoption[i-1]) ;
-
-
- }
- len +=  SPI_Ethernet_putConstString ("</select>\";") ;
- } else {
- s_ip = 1;
- }
-
- if (s_ip == 1) {
-
- len +=  SPI_Ethernet_putConstString ("var IP0=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipAddrPom0) ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
- }
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString (">\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var IP1=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipAddrPom1) ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
- }
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString (">\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var IP2=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipAddrPom2) ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
- }
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString (">\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var IP3=\"") ;
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipAddrPom3) ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
- }
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString (">\";") ;
- }
- }
-
-
- if (s_ip == 2) {
-
- len +=  SPI_Ethernet_putConstString ("var M0=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipMaskPom0) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var M1=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipMaskPom1) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var M2=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipMaskPom2) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var M3=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (ipMaskPom3) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
- }
-
-
- if (s_ip == 3) {
-
- len +=  SPI_Ethernet_putConstString ("var G0=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (gwIpAddrPom0) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var G1=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (gwIpAddrPom1) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var G2=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (gwIpAddrPom2) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var G3=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (gwIpAddrPom3) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
- }
-
- if (s_ip == 4) {
-
- len +=  SPI_Ethernet_putConstString ("var D0=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (dnsIpAddrPom0) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var D1=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (dnsIpAddrPom1) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
- }
-
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var D2=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (dnsIpAddrPom2) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
- }
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
-
- len +=  SPI_Ethernet_putConstString ("var D3=\"") ;
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("<input placeholder=") ;
- len +=  SPI_Ethernet_putString (dnsIpAddrPom3) ;
- len +=  SPI_Ethernet_putConstString (" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
- }
-
- if (conf.dhcpen == 1) {
- len +=  SPI_Ethernet_putConstString ("\\\">\" ;") ;
- } else {
- len +=  SPI_Ethernet_putConstString ("\";") ;
- }
- }
-
- }
-
- }
- else
- {
-
- switch(getRequest[sizeof(path_private)])
- {
- case '1' :
-
- conf.dhcpen = getRequest[sizeof(path_private) + 2] - '0' ;
- EEPROM_Write(103, conf.dhcpen);
- delay_ms(100);
- Rst_Eth();
- saveConf() ;
- break ;
-
- case 'r':
-
- if (conf.dhcpen == 1) {
-
-
-
-
- if ( (ipAddrPom0[0] >= '1') && (ipAddrPom0[0] <= '9') && (ipAddrPom0[1] >= '0') && (ipAddrPom0[1] <= '9') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
- EEPROM_Write(1, (ipAddrPom0[0]-48)*100 + (ipAddrPom0[1]-48)*10 + (ipAddrPom0[2]-48));
- }
- if ( (ipAddrPom0[0] < '1') && (ipAddrPom0[1] >= '1') && (ipAddrPom0[1] <= '9') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
- EEPROM_Write(1, (ipAddrPom0[1]-48)*10 + (ipAddrPom0[2]-48));
- }
- if ( (ipAddrPom0[0] < '1') && (ipAddrPom0[1] < '1') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
- EEPROM_Write(1, (ipAddrPom0[2]-48));
- }
-
- if ( (ipAddrPom1[0] >= '1') && (ipAddrPom1[0] <= '9') && (ipAddrPom1[1] >= '0') && (ipAddrPom1[1] <= '9') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
- EEPROM_Write(2, (ipAddrPom1[0]-48)*100 + (ipAddrPom1[1]-48)*10 + (ipAddrPom1[2]-48));
- }
- if ( (ipAddrPom1[0] < '1') && (ipAddrPom1[1] >= '1') && (ipAddrPom1[1] <= '9') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
- EEPROM_Write(2, (ipAddrPom1[1]-48)*10 + (ipAddrPom1[2]-48));
- }
- if ( (ipAddrPom1[0] < '1') && (ipAddrPom1[1] < '1') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
- EEPROM_Write(2, (ipAddrPom1[2]-48));
- }
-
- if ( (ipAddrPom2[0] >= '1') && (ipAddrPom2[0] <= '9') && (ipAddrPom2[1] >= '0') && (ipAddrPom2[1] <= '9') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
- EEPROM_Write(3, (ipAddrPom2[0]-48)*100 + (ipAddrPom2[1]-48)*10 + (ipAddrPom2[2]-48));
- }
- if ( (ipAddrPom2[0] < '1') && (ipAddrPom2[1] >= '1') && (ipAddrPom2[1] <= '9') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
- EEPROM_Write(3, (ipAddrPom2[1]-48)*10 + (ipAddrPom2[2]-48));
- }
- if ( (ipAddrPom2[0] < '1') && (ipAddrPom2[1] < '1') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
- EEPROM_Write(3, (ipAddrPom2[2]-48));
- }
-
- if ( (ipAddrPom3[0] >= '1') && (ipAddrPom3[0] <= '9') && (ipAddrPom3[1] >= '0') && (ipAddrPom3[1] <= '9') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
- EEPROM_Write(4, (ipAddrPom3[0]-48)*100 + (ipAddrPom3[1]-48)*10 + (ipAddrPom3[2]-48));
- }
- if ( (ipAddrPom3[0] < '1') && (ipAddrPom3[1] >= '1') && (ipAddrPom3[1] <= '9') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
- EEPROM_Write(4, (ipAddrPom3[1]-48)*10 + (ipAddrPom3[2]-48));
- }
- if ( (ipAddrPom3[0] < '1') && (ipAddrPom3[1] < '1') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
- EEPROM_Write(4, (ipAddrPom3[2]-48));
- }
-
-
-
- if ( (gwIpAddrPom0[0] >= '1') && (gwIpAddrPom0[0] <= '9') && (gwIpAddrPom0[1] >= '0') && (gwIpAddrPom0[1] <= '9') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
- EEPROM_Write(5, (gwIpAddrPom0[0]-48)*100 + (gwIpAddrPom0[1]-48)*10 + (gwIpAddrPom0[2]-48));
- }
- if ( (gwIpAddrPom0[0] < '1') && (gwIpAddrPom0[1] >= '1') && (gwIpAddrPom0[1] <= '9') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
- EEPROM_Write(5, (gwIpAddrPom0[1]-48)*10 + (gwIpAddrPom0[2]-48));
- }
- if ( (gwIpAddrPom0[0] < '1') && (gwIpAddrPom0[1] < '1') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
- EEPROM_Write(5, (gwIpAddrPom0[2]-48));
- }
-
- if ( (gwIpAddrPom1[0] >= '1') && (gwIpAddrPom1[0] <= '9') && (gwIpAddrPom1[1] >= '0') && (gwIpAddrPom1[1] <= '9') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
- EEPROM_Write(6, (gwIpAddrPom1[0]-48)*100 + (gwIpAddrPom1[1]-48)*10 + (gwIpAddrPom1[2]-48));
- }
- if ( (gwIpAddrPom1[0] < '1') && (gwIpAddrPom1[1] >= '1') && (gwIpAddrPom1[1] <= '9') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
- EEPROM_Write(6, (gwIpAddrPom1[1]-48)*10 + (gwIpAddrPom1[2]-48));
- }
- if ( (gwIpAddrPom1[0] < '1') && (gwIpAddrPom1[1] < '1') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
- EEPROM_Write(6, (gwIpAddrPom1[2]-48));
- }
-
- if ( (gwIpAddrPom2[0] >= '1') && (gwIpAddrPom2[0] <= '9') && (gwIpAddrPom2[1] >= '0') && (gwIpAddrPom2[1] <= '9') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
- EEPROM_Write(7, (gwIpAddrPom2[0]-48)*100 + (gwIpAddrPom2[1]-48)*10 + (gwIpAddrPom2[2]-48));
- }
- if ( (gwIpAddrPom2[0] < '1') && (gwIpAddrPom2[1] >= '1') && (gwIpAddrPom2[1] <= '9') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
- EEPROM_Write(7, (gwIpAddrPom2[1]-48)*10 + (gwIpAddrPom2[2]-48));
- }
- if ( (gwIpAddrPom2[0] < '1') && (gwIpAddrPom2[1] < '1') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
- EEPROM_Write(7, (gwIpAddrPom2[2]-48));
- }
-
- if ( (gwIpAddrPom3[0] >= '1') && (gwIpAddrPom3[0] <= '9') && (gwIpAddrPom3[1] >= '0') && (gwIpAddrPom3[1] <= '9') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
- EEPROM_Write(8, (gwIpAddrPom3[0]-48)*100 + (gwIpAddrPom3[1]-48)*10 + (gwIpAddrPom3[2]-48));
- }
- if ( (gwIpAddrPom3[0] < '1') && (gwIpAddrPom3[1] >= '1') && (gwIpAddrPom3[1] <= '9') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
- EEPROM_Write(8, (gwIpAddrPom3[1]-48)*10 + (gwIpAddrPom3[2]-48));
- }
- if ( (gwIpAddrPom3[0] < '1') && (gwIpAddrPom3[1] < '1') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
- EEPROM_Write(8, (gwIpAddrPom3[2]-48));
- }
-
-
-
- if ( (ipMaskPom0[0] >= '1') && (ipMaskPom0[0] <= '9') && (ipMaskPom0[1] >= '0') && (ipMaskPom0[1] <= '9') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
- EEPROM_Write(9, (ipMaskPom0[0]-48)*100 + (ipMaskPom0[1]-48)*10 + (ipMaskPom0[2]-48));
- }
- if ( (ipMaskPom0[0] < '1') && (ipMaskPom0[1] >= '1') && (ipMaskPom0[1] <= '9') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
- EEPROM_Write(9, (ipMaskPom0[1]-48)*10 + (ipMaskPom0[2]-48));
- }
- if ( (ipMaskPom0[0] < '1') && (ipMaskPom0[1] < '1') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
- EEPROM_Write(9, (ipMaskPom0[2]-48));
- }
-
- if ( (ipMaskPom1[0] >= '1') && (ipMaskPom1[0] <= '9') && (ipMaskPom1[1] >= '0') && (ipMaskPom1[1] <= '9') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
- EEPROM_Write(10, (ipMaskPom1[0]-48)*100 + (ipMaskPom1[1]-48)*10 + (ipMaskPom1[2]-48));
- }
- if ( (ipMaskPom1[0] < '1') && (ipMaskPom1[1] >= '1') && (ipMaskPom1[1] <= '9') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
- EEPROM_Write(10, (ipMaskPom1[1]-48)*10 + (ipMaskPom1[2]-48));
- }
- if ( (ipMaskPom1[0] < '1') && (ipMaskPom1[1] < '1') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
- EEPROM_Write(10, (ipMaskPom1[2]-48));
- }
-
- if ( (ipMaskPom2[0] >= '1') && (ipMaskPom2[0] <= '9') && (ipMaskPom2[1] >= '0') && (ipMaskPom2[1] <= '9') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
- EEPROM_Write(11, (ipMaskPom2[0]-48)*100 + (ipMaskPom2[1]-48)*10 + (ipMaskPom2[2]-48));
- }
- if ( (ipMaskPom2[0] < '1') && (ipMaskPom2[1] >= '1') && (ipMaskPom2[1] <= '9') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
- EEPROM_Write(11, (ipMaskPom2[1]-48)*10 + (ipMaskPom2[2]-48));
- }
- if ( (ipMaskPom2[0] < '1') && (ipMaskPom2[1] < '1') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
- EEPROM_Write(11, (ipMaskPom2[2]-48));
- }
-
- if ( (ipMaskPom3[0] >= '1') && (ipMaskPom3[0] <= '9') && (ipMaskPom3[1] >= '0') && (ipMaskPom3[1] <= '9') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
- EEPROM_Write(12, (ipMaskPom3[0]-48)*100 + (ipMaskPom3[1]-48)*10 + (ipMaskPom3[2]-48));
- }
- if ( (ipMaskPom3[0] < '1') && (ipMaskPom3[1] >= '1') && (ipMaskPom3[1] <= '9') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
- EEPROM_Write(12, (ipMaskPom3[1]-48)*10 + (ipMaskPom3[2]-48));
- }
- if ( (ipMaskPom3[0] < '1') && (ipMaskPom3[1] < '1') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
- EEPROM_Write(12, (ipMaskPom3[2]-48));
- }
-
-
-
- if ( (dnsIpAddrPom0[0] >= '1') && (dnsIpAddrPom0[0] <= '9') && (dnsIpAddrPom0[1] >= '0') && (dnsIpAddrPom0[1] <= '9') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
- EEPROM_Write(13, (dnsIpAddrPom0[0]-48)*100 + (dnsIpAddrPom0[1]-48)*10 + (dnsIpAddrPom0[2]-48));
- }
- if ( (dnsIpAddrPom0[0] < '1') && (dnsIpAddrPom0[1] >= '1') && (dnsIpAddrPom0[1] <= '9') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
- EEPROM_Write(13, (dnsIpAddrPom0[1]-48)*10 + (dnsIpAddrPom0[2]-48));
- }
- if ( (dnsIpAddrPom0[0] < '1') && (dnsIpAddrPom0[1] < '1') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
- EEPROM_Write(13, (dnsIpAddrPom0[2]-48));
- }
-
- if ( (dnsIpAddrPom1[0] >= '1') && (dnsIpAddrPom1[0] <= '9') && (dnsIpAddrPom1[1] >= '0') && (dnsIpAddrPom1[1] <= '9') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
- EEPROM_Write(14, (dnsIpAddrPom1[0]-48)*100 + (dnsIpAddrPom1[1]-48)*10 + (dnsIpAddrPom1[2]-48));
- }
- if ( (dnsIpAddrPom1[0] < '1') && (dnsIpAddrPom1[1] >= '1') && (dnsIpAddrPom1[1] <= '9') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
- EEPROM_Write(14, (dnsIpAddrPom1[1]-48)*10 + (dnsIpAddrPom1[2]-48));
- }
- if ( (dnsIpAddrPom1[0] < '1') && (dnsIpAddrPom1[1] < '1') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
- EEPROM_Write(14, (dnsIpAddrPom1[2]-48));
- }
-
- if ( (dnsIpAddrPom2[0] >= '1') && (dnsIpAddrPom2[0] <= '9') && (dnsIpAddrPom2[1] >= '0') && (dnsIpAddrPom2[1] <= '9') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
- EEPROM_Write(15, (dnsIpAddrPom2[0]-48)*100 + (dnsIpAddrPom2[1]-48)*10 + (dnsIpAddrPom2[2]-48));
- }
- if ( (dnsIpAddrPom2[0] < '1') && (dnsIpAddrPom2[1] >= '1') && (dnsIpAddrPom2[1] <= '9') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
- EEPROM_Write(15, (dnsIpAddrPom2[1]-48)*10 + (dnsIpAddrPom2[2]-48));
- }
- if ( (dnsIpAddrPom2[0] < '1') && (dnsIpAddrPom2[1] < '1') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
- EEPROM_Write(15, (dnsIpAddrPom2[2]-48));
- }
-
- if ( (dnsIpAddrPom3[0] >= '1') && (dnsIpAddrPom3[0] <= '9') && (dnsIpAddrPom3[1] >= '0') && (dnsIpAddrPom3[1] <= '9') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
- EEPROM_Write(16, (dnsIpAddrPom3[0]-48)*100 + (dnsIpAddrPom3[1]-48)*10 + (dnsIpAddrPom3[2]-48));
- }
- if ( (dnsIpAddrPom3[0] < '1') && (dnsIpAddrPom3[1] >= '1') && (dnsIpAddrPom3[1] <= '9') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
- EEPROM_Write(16, (dnsIpAddrPom3[1]-48)*10 + (dnsIpAddrPom3[2]-48));
- }
- if ( (dnsIpAddrPom3[0] < '1') && (dnsIpAddrPom3[1] < '1') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
- EEPROM_Write(16, (dnsIpAddrPom3[2]-48));
- }
- delay_ms(100);
- Rst_Eth();
- }
- break ;
- case 'n':
-
- if (conf.dhcpen == 1) {
- if (s_ip == 1) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,IpAddrPom0);
- }
- if (s_ip == 2) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,ipMaskPom0);
- }
- if (s_ip == 3) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,gwIpAddrPom0);
- }
- if (s_ip == 4) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,dnsIpAddrPom0);
- }
- }
- break ;
- case 'o':
-
- if (conf.dhcpen == 1) {
- if (s_ip == 1) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,IpAddrPom1);
- }
- if (s_ip == 2) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,ipMaskPom1);
- }
- if (s_ip == 3) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,gwIpAddrPom1);
- }
- if (s_ip == 4) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,dnsIpAddrPom1);
- }
- }
- break ;
- case 'p':
-
- if (conf.dhcpen == 1) {
- if (s_ip == 1) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,IpAddrPom2);
- }
- if (s_ip == 2) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,ipMaskPom2);
- }
- if (s_ip == 3) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,gwIpAddrPom2);
- }
- if (s_ip == 4) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,dnsIpAddrPom2);
- }
- }
- break ;
- case 'q':
-
- if (conf.dhcpen == 1) {
- if (s_ip == 1) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,IpAddrPom3);
- }
- if (s_ip == 2) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,ipMaskPom3);
- }
- if (s_ip == 3) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,gwIpAddrPom3);
- }
- if (s_ip == 4) {
- pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
- ByteToStr(pomocni,dnsIpAddrPom3);
- }
- }
- break ;
- case 'v':
-
-
- pomocnaSifra[0] = getRequest[sizeof(path_private) + 2] ;
- pomocnaSifra[1] = getRequest[sizeof(path_private) + 3] ;
- pomocnaSifra[2] = getRequest[sizeof(path_private) + 4] ;
- pomocnaSifra[3] = getRequest[sizeof(path_private) + 5] ;
- pomocnaSifra[4] = getRequest[sizeof(path_private) + 6] ;
- pomocnaSifra[5] = getRequest[sizeof(path_private) + 7] ;
- pomocnaSifra[6] = getRequest[sizeof(path_private) + 8] ;
- pomocnaSifra[7] = getRequest[sizeof(path_private) + 9] ;
- pomocnaSifra[8] = 0;
-
-
- if (strcmp(sifra,pomocnaSifra) == 0) {
- tmr_rst_en = 1;
- admin = 1;
- len = 0;
- len +=  SPI_Ethernet_putConstString (HTMLheader) ;
- len +=  SPI_Ethernet_putConstString (HTMLredirect) ;
- len +=  SPI_Ethernet_putConstString (HTMLfooter) ;
- goto ZAVRSI;
-
- }
- break ;
- case 'x':
-
-
- oldSifra[0] = getRequest[sizeof(path_private) + 2] ;
- oldSifra[1] = getRequest[sizeof(path_private) + 3] ;
- oldSifra[2] = getRequest[sizeof(path_private) + 4] ;
- oldSifra[3] = getRequest[sizeof(path_private) + 5] ;
- oldSifra[4] = getRequest[sizeof(path_private) + 6] ;
- oldSifra[5] = getRequest[sizeof(path_private) + 7] ;
- oldSifra[6] = getRequest[sizeof(path_private) + 8] ;
- oldSifra[7] = getRequest[sizeof(path_private) + 9] ;
- oldSifra[8] = 0;
- break ;
- case 'y':
-
-
- newSifra[0] = getRequest[sizeof(path_private) + 2] ;
- newSifra[1] = getRequest[sizeof(path_private) + 3] ;
- newSifra[2] = getRequest[sizeof(path_private) + 4] ;
- newSifra[3] = getRequest[sizeof(path_private) + 5] ;
- newSifra[4] = getRequest[sizeof(path_private) + 6] ;
- newSifra[5] = getRequest[sizeof(path_private) + 7] ;
- newSifra[6] = getRequest[sizeof(path_private) + 8] ;
- newSifra[7] = getRequest[sizeof(path_private) + 9] ;
- newSifra[8] = 0;
- break ;
-
- case 'w' :
-
- if (strcmp(sifra, oldSifra) == 0) {
- rest = strcpy(sifra, newSifra);
- admin = 0;
- }
- EEPROM_Write(20, sifra[0]);
- EEPROM_Write(21, sifra[1]);
- EEPROM_Write(22, sifra[2]);
- EEPROM_Write(23, sifra[3]);
- EEPROM_Write(24, sifra[4]);
- EEPROM_Write(25, sifra[5]);
- EEPROM_Write(26, sifra[6]);
- EEPROM_Write(27, sifra[7]);
- EEPROM_Write(28, sifra[8]);
- strcpy(oldSifra, "OLD     ");
- strcpy(newSifra, "NEW     ");
- delay_ms(100);
- break ;
- case 'u':
- if (conf.dhcpen == 1) {
- s_ip = atoi(&getRequest[sizeof(path_private) + 2]) ;
- s_ip += 1 ;
- }
- saveConf() ;
- break ;
-
- case 't':
-
- conf.tz = atoi(&getRequest[sizeof(path_private) + 2]) ;
- conf.tz -= 11 ;
- Eeprom_Write(102, conf.tz);
- delay_ms(100);
- break ;
- }
-
- len +=  SPI_Ethernet_putConstString (HTMLheader) ;
- if (admin == 0) {
- len +=  SPI_Ethernet_putConstString (HTMLadmin0);
- } else {
- if (s_ip == 1) {
- len +=  SPI_Ethernet_putConstString (HTMLadmin1) ;
- }
- if (s_ip == 2) {
- len +=  SPI_Ethernet_putConstString (HTMLadmin2) ;
- }
- if (s_ip == 3) {
- len +=  SPI_Ethernet_putConstString (HTMLadmin3) ;
- }
- if (s_ip == 4) {
- len +=  SPI_Ethernet_putConstString (HTMLadmin4) ;
- }
- }
- len +=  SPI_Ethernet_putConstString (HTMLfooter) ;
- }
-
- }
- else switch(getRequest[1])
- {
-
- case 's':
-
- if(lastSync == 0)
- {
- len =  SPI_Ethernet_putConstString (CSSred) ;
- }
- else
- {
- len =  SPI_Ethernet_putConstString (CSSgreen) ;
- }
- break ;
- case 'a':
-
-
- len =  SPI_Ethernet_putConstString (httpHeader) ;
- len +=  SPI_Ethernet_putConstString (httpMimeTypeScript) ;
-
-
- ts2str(dyna, &ts,  ( 1  | 2 )  |  4 ) ;
- len +=  SPI_Ethernet_putConstString ("var NOW=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- int2str(epoch, dyna) ;
- len +=  SPI_Ethernet_putConstString ("var EPOCH=") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString (";") ;
-
-
- if(lastSync == 0)
- {
- strcpy(dyna, "???") ;
- }
- else
- {
- Time_epochToDate(lastSync + tmzn * 3600, &ls) ;
- DNSavings();
- ts2str(dyna, &ls,  ( 1  | 2 )  |  4 ) ;
- }
- len +=  SPI_Ethernet_putConstString ("var LAST=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- break ;
-
- case 'b':
-
-
- len =  SPI_Ethernet_putConstString (httpHeader) ;
- len +=  SPI_Ethernet_putConstString (httpMimeTypeScript) ;
-
-
- ip2str(dyna, conf.sntpIP) ;
- len +=  SPI_Ethernet_putConstString ("var SNTP=\"") ;
- len +=  SPI_Ethernet_putString (conf.sntpServer) ;
- len +=  SPI_Ethernet_putConstString (" (") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString (")") ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- if(serverStratum == 0)
- {
- strcpy(dyna, "Unspecified") ;
- }
- else if(serverStratum == 1)
- {
- strcpy(dyna, "1 (primary)") ;
- }
- else if(serverStratum < 16)
- {
- int2str(serverStratum, dyna) ;
- strcat(dyna, "(secondary)") ;
- }
- else
- {
- int2str(serverStratum, dyna) ;
- strcat(dyna, " (reserved)") ;
- }
- len +=  SPI_Ethernet_putConstString ("var STRATUM=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- switch(serverFlags & 0b11000000)
- {
- case 0b00000000: strcpy(dyna, "No warning") ; break ;
- case 0b01000000: strcpy(dyna, "Last minute has 61 seconds") ; break ;
- case 0b10000000: strcpy(dyna, "Last minute has 59 seconds") ; break ;
- case 0b11000000: strcpy(dyna, "SNTP server not synchronized") ; break ;
- }
- len +=  SPI_Ethernet_putConstString ("var LEAP=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- int2str(serverPrecision, dyna) ;
- len +=  SPI_Ethernet_putConstString ("var PRECISION=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- switch(serverFlags & 0b00111000)
- {
- case 0b00011000: strcpy(dyna, "IPv4 only") ; break ;
- case 0b00110000: strcpy(dyna, "IPv4, IPv6 and OSI") ; break ;
- default: strcpy(dyna, "Undefined") ; break ;
- }
- len +=  SPI_Ethernet_putConstString ("var VN=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- switch(serverFlags & 0b00000111)
- {
- case 0b00000000: strcpy(dyna, "Reserved") ; break ;
- case 0b00000001: strcpy(dyna, "Symmetric active") ; break ;
- case 0b00000010: strcpy(dyna, "Symmetric passive") ; break ;
- case 0b00000011: strcpy(dyna, "Client") ; break ;
- case 0b00000100: strcpy(dyna, "Server") ; break ;
- case 0b00000101: strcpy(dyna, "Broadcast") ; break ;
- case 0b00000110: strcpy(dyna, "Reserved for NTP control message") ; break ;
- case 0b00000111: strcpy(dyna, "Reserved for private use") ; break ;
- }
- len +=  SPI_Ethernet_putConstString ("var MODE=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- break ;
-
- case 'c':
-
-
- len =  SPI_Ethernet_putConstString (httpHeader) ;
- len +=  SPI_Ethernet_putConstString (httpMimeTypeScript) ;
-
-
- ip2str(dyna, ipAddr) ;
- len +=  SPI_Ethernet_putConstString ("var IP=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- byte2hex(dyna, macAddr[0]) ;
- byte2hex(dyna + 3, macAddr[1]) ;
- byte2hex(dyna + 6, macAddr[2]) ;
- byte2hex(dyna + 9, macAddr[3]) ;
- byte2hex(dyna + 12, macAddr[4]) ;
- byte2hex(dyna + 15, macAddr[5]) ;
- *(dyna + 17) = 0 ;
- len +=  SPI_Ethernet_putConstString ("var MAC=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- ip2str(dyna, remoteHost) ;
- len +=  SPI_Ethernet_putConstString ("var CLIENT=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- ip2str(dyna, gwIpAddr) ;
- len +=  SPI_Ethernet_putConstString ("var GW=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- ip2str(dyna, ipMask) ;
- len +=  SPI_Ethernet_putConstString ("var MASK=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- ip2str(dyna, dnsIpAddr) ;
- len +=  SPI_Ethernet_putConstString ("var DNS=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
- break ;
-
- case 'd':
- {
-
- TimeStruct t ;
-
- len =  SPI_Ethernet_putConstString (httpHeader) ;
- len +=  SPI_Ethernet_putConstString (httpMimeTypeScript) ;
-
- len +=  SPI_Ethernet_putConstString ("var SYSTEM=\"ENC28J60\";") ;
-
- int2str(Clock_kHz(), dyna) ;
- len +=  SPI_Ethernet_putConstString ("var CLK=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- int2str(httpCounter, dyna) ;
- len +=  SPI_Ethernet_putConstString ("var REQ=") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString (";") ;
-
- Time_epochToDate(epoch - SPI_Ethernet_UserTimerSec + tmzn * 3600, &t) ;
- DNSavings();
- ts2str(dyna, &t,  ( 1  | 2 )  |  4 ) ;
- len +=  SPI_Ethernet_putConstString ("var UP=\"") ;
- len +=  SPI_Ethernet_putString (dyna) ;
- len +=  SPI_Ethernet_putConstString ("\";") ;
-
-
- break ;
- }
-
- case '4':
- admin = 0;
- strcpy(oldSifra, "OLD     ");
- strcpy(newSifra, "NEW     ");
-
- len +=  SPI_Ethernet_putConstString (HTMLheader) ;
- len +=  SPI_Ethernet_putConstString (HTMLsystem) ;
- len +=  SPI_Ethernet_putConstString (HTMLfooter) ;
- break ;
-
- case '3':
- admin = 0;
- strcpy(oldSifra, "OLD     ");
- strcpy(newSifra, "NEW     ");
-
- len +=  SPI_Ethernet_putConstString (HTMLheader) ;
- len +=  SPI_Ethernet_putConstString (HTMLnetwork) ;
- len +=  SPI_Ethernet_putConstString (HTMLfooter) ;
- break ;
-
- case '2':
- admin = 0;
- strcpy(oldSifra, "OLD     ");
- strcpy(newSifra, "NEW     ");
-
- len +=  SPI_Ethernet_putConstString (HTMLheader) ;
- len +=  SPI_Ethernet_putConstString (HTMLsntp) ;
- len +=  SPI_Ethernet_putConstString (HTMLfooter) ;
- break ;
-
- case '1':
- default:
- if (uzobyte == 1) {
- uzobyte = 0;
- } else {
- admin = 0;
- strcpy(oldSifra, "OLD     ");
- strcpy(newSifra, "NEW     ");
- }
-
- len +=  SPI_Ethernet_putConstString (HTMLheader) ;
- len +=  SPI_Ethernet_putConstString (HTMLtime) ;
- len +=  SPI_Ethernet_putConstString (HTMLfooter) ;
- }
-
- httpCounter++ ;
-
-
- ZAVRSI:
-
- return(len) ;
- }
 
 
 char Print_Seg(char segm, char tacka) {
@@ -1794,6 +883,7 @@ void PRINT_S(char ledovi) {
  }
 }
 
+
 void Display_Time() {
 
  sec1 = sekundi / 10;
@@ -1814,12 +904,13 @@ void Display_Time() {
  asm nop;
  asm nop;
  asm nop;
- PRINT_S(Print_Seg(sec2, 0));
- PRINT_S(Print_Seg(sec1, 0));
- PRINT_S(Print_Seg(min2, 0));
- PRINT_S(Print_Seg(min1, 0));
- PRINT_S(Print_Seg(hr2, tacka1));
- PRINT_S(Print_Seg(hr1, tacka2));
+#line 1021 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+ PRINT_S(Print_Seg(sta, 0));
+ PRINT_S(Print_Seg(sta, 0));
+ PRINT_S(Print_Seg(sta, 0));
+ PRINT_S(Print_Seg(sta, 0));
+ PRINT_S(Print_Seg(sta, 0));
+ PRINT_S(Print_Seg(sta, 0));
  asm nop;
  asm nop;
  asm nop;
@@ -1843,6 +934,72 @@ void Display_Time() {
  }
 
 }
+#line 1055 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+void Net_Ethernet_28j60_UserTCP(SOCKET_28j60_Dsc *socket) {
+
+ unsigned char dyna[64] ;
+ unsigned char getRequest[ 128  + 1] ;
+ unsigned int len = 0 ;
+ int res;
+
+ int i ;
+ char fbr;
+ unsigned int ij;
+
+ if (socket->destPort != 80)
+ {
+ return;
+ }
+ for(len = 0; len < 10; len++){
+ getRequest[len] = Net_Ethernet_28j60_getByte();
+ }
+ getRequest[len] = 0;
+#line 1083 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+ if(memcmp(getRequest, httpMethod, 5)&&(socket->state != 3)){
+ return;
+ }
+
+ if(memcmp(getRequest, httpRequ, 9)==0){
+ sendHTML_mark = 1;
+ socketHTML = socket;
+ }
+
+ if((sendHTML_mark == 1)&&(socketHTML == socket)) {
+
+ if(pos[socket->ID]==0) {
+
+ sta = 1;
+ Net_Ethernet_28j60_putStringTCP(httpHeader, socket);
+ Net_Ethernet_28j60_putStringTCP(httpMimeTypeHTML, socket);
+ }
+
+ while(pos[socket->ID] < (strlen(HTMLheader+1)) ) {
+ sta = 2;
+ if(Net_Ethernet_28j60_putByteTCP(HTMLheader[pos[socket->ID]++], socket) == 0) {
+ pos[socket->ID]--;
+ sta = 3;
+ break;
+ }
+ }
+#line 1122 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+ if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= (strlen(HTMLheader)+1))) {
+
+ Net_Ethernet_28j60_disconnectTCP(socket);
+ socket_28j60[socket->ID].state = 0;
+ sendHTML_mark = 0;
+ pos[socket->ID] = 0;
+ }
+#line 2081 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+ httpCounter++ ;
+
+
+ ZAVRSI:
+
+
+ junk = 0;
+
+ }
+ }
 
 
 void Print_IP() {
@@ -1875,16 +1032,16 @@ void Print_IP() {
  delay_ms(500);
  asm CLRWDT;
 }
-#line 2067 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
-unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
+#line 2128 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+unsigned int Net_Ethernet_28j60_UserUDP(UDP_28j60_Dsc *udpDsc)
  {
  unsigned char i ;
  char broadcmd[20];
 
- if (destPort == 10001) {
- if (reqLength == 9) {
+ if (udpDsc->destPort == 10001) {
+ if (udpDsc->dataLength == 9) {
  for (i = 0 ; i < 9 ; i++) {
- broadcmd[i] = SPI_Ethernet_getByte() ;
+ broadcmd[i] = Net_Ethernet_28j60_getByte() ;
  }
  if ( (broadcmd[0] == 'I') && (broadcmd[1] == 'D') && (broadcmd[2] == 'E') && (broadcmd[3] == 'N') && (broadcmd[4] == 'T') && (broadcmd[5] == 'I') && (broadcmd[6] == 'F') && (broadcmd[7] == 'Y') && (broadcmd[8] == '!') ) {
  Print_IP();
@@ -1892,27 +1049,27 @@ unsigned int SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remote
  }
  }
 
- if(destPort == 123)
+ if(udpDsc->destPort == 123)
  {
- if (reqLength == 48) {
+ if (udpDsc->dataLength == 48) {
 
  unsigned long tts ;
 
- serverFlags = SPI_Ethernet_getByte() ;
- serverStratum = SPI_Ethernet_getByte() ;
- SPI_Ethernet_getByte() ;
- serverPrecision = SPI_Ethernet_getByte() ;
+ serverFlags = Net_Ethernet_28j60_getByte() ;
+ serverStratum = Net_Ethernet_28j60_getByte() ;
+ Net_Ethernet_28j60_getByte() ;
+ serverPrecision = Net_Ethernet_28j60_getByte() ;
 
  for(i = 0 ; i < 36 ; i++)
  {
- SPI_Ethernet_getByte() ;
+ Net_Ethernet_28j60_getByte() ;
  }
 
 
-  ((char *)&tts)[3]  = SPI_Ethernet_getByte() ;
-  ((char *)&tts)[2]  = SPI_Ethernet_getByte() ;
-  ((char *)&tts)[1]  = SPI_Ethernet_getByte() ;
-  ((char *)&tts)[0]  = SPI_Ethernet_getByte() ;
+  ((char *)&tts)[3]  = Net_Ethernet_28j60_getByte() ;
+  ((char *)&tts)[2]  = Net_Ethernet_28j60_getByte() ;
+  ((char *)&tts)[1]  = Net_Ethernet_28j60_getByte() ;
+  ((char *)&tts)[0]  = Net_Ethernet_28j60_getByte() ;
 
 
  epoch = tts - 2208988800 ;
@@ -1999,7 +1156,7 @@ void interrupt() {
 
 
 
- SPI_Ethernet_UserTimerSec++ ;
+ Net_Ethernet_28j60_UserTimerSec++ ;
  epoch++ ;
  presTmr = 0 ;
 
@@ -2165,8 +1322,9 @@ void Mem_Read() {
  asm nop;
 
  SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
+
 }
-#line 2361 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
+#line 2423 "D:/Luka-Probe/Git/Digitalni-Sat/SE9M.c"
 void main() {
 
  TRISA = 0b00000001;
@@ -2187,10 +1345,10 @@ void main() {
 
  Eth1_Link_Direction = 1;
 
- SPI_Ethernet_Rst_Direction = 0;
- SPI_Ethernet_Rst = 0;
- SPI_Ethernet_CS_Direction = 0;
- SPI_Ethernet_CS = 0;
+ Net_Ethernet_28j60_Rst_Direction = 0;
+ Net_Ethernet_28j60_Rst = 0;
+ Net_Ethernet_28j60_CS_Direction = 0;
+ Net_Ethernet_28j60_CS = 0;
 
  RSTPIN_Direction = 1;
 
@@ -2224,6 +1382,9 @@ void main() {
  PWM1_Set_Duty(max_light);
 
 
+ for(ik = 0; ik < NUM_OF_SOCKET_28j60; ik++)
+ pos[ik] = 0;
+
  UART1_Init(9600);
  PIE1.RCIE = 1;
  GIE_bit = 1;
@@ -2232,6 +1393,7 @@ void main() {
  T0CON = 0b11000000 ;
  INTCON.TMR0IF = 0 ;
  INTCON.TMR0IE = 1 ;
+
 
 
  while(1) {
@@ -2412,12 +1574,13 @@ void main() {
  prvi_timer = 1;
  drugi_timer = 0;
  timer_flag = 0;
+
  Print_Pme();
  }
  if ( (prvi_timer == 1) && (timer_flag >= 1) ) {
  prvi_timer = 0;
  drugi_timer = 1;
- SPI_Ethernet_Rst = 1;
+ Net_Ethernet_28j60_Rst = 1;
  timer_flag = 0;
  Print_Pme();
  }
@@ -2433,7 +1596,7 @@ void main() {
  tacka1 = 1;
  Print_Pme();
 
- SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
+
  Print_Pme();
  if (conf.dhcpen == 0) {
  Mem_Read();
@@ -2444,14 +1607,13 @@ void main() {
 
  dhcp_flag = 1;
  EEPROM_Write(105, dhcp_flag);
-
- Spi_Ethernet_Init(macAddr, ipAddr,  1 ) ;
-
- while (SPI_Ethernet_initDHCP(5) == 0) ;
- memcpy(ipAddr, SPI_Ethernet_getIpAddress(), 4) ;
- memcpy(ipMask, SPI_Ethernet_getIpMask(), 4) ;
- memcpy(gwIpAddr, SPI_Ethernet_getGwIpAddress(), 4) ;
- memcpy(dnsIpAddr, SPI_Ethernet_getDnsIpAddress(), 4) ;
+ Net_Ethernet_28j60_Init(macAddr, ipAddr,  1 ) ;
+ Net_Ethernet_28j60_stackInitTCP();
+ while (Net_Ethernet_28j60_initDHCP(5) == 0) ;
+ memcpy(ipAddr, Net_Ethernet_28j60_getIpAddress(), 4) ;
+ memcpy(ipMask, Net_Ethernet_28j60_getIpMask(), 4) ;
+ memcpy(gwIpAddr, Net_Ethernet_28j60_getGwIpAddress(), 4) ;
+ memcpy(dnsIpAddr, Net_Ethernet_28j60_getDnsIpAddress(), 4) ;
 
  lease_tmr = 1;
  lease_time = 0;
@@ -2495,15 +1657,18 @@ void main() {
 
  dhcp_flag = 0;
  EEPROM_Write(105, dhcp_flag);
-
  delay_ms(100);
  Print_IP();
  }
  if (conf.dhcpen == 1) {
  lease_tmr = 0;
  Mem_Read();
- Spi_Ethernet_Init(macAddr, ipAddr,  1 ) ;
- SPI_Ethernet_confNetwork(ipMask, gwIpAddr, dnsIpAddr) ;
+ Net_Ethernet_28j60_stackInitTCP();
+ SPI1_Init();
+ SPI_Rd_Ptr = SPI1_Read;
+ Net_Ethernet_28j60_Init(macAddr, ipAddr,  1 ) ;
+ Net_Ethernet_28j60_confNetwork(ipMask, gwIpAddr, dnsIpAddr) ;
+
  Print_IP();
  }
  tacka1 = 0;
