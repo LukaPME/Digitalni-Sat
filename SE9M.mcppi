@@ -17,8 +17,7 @@ Value=2000
 Value=
 [FILES]
 File0=SE9M.c
-File1=httpUtils.c
-Count=2
+Count=1
 [BINARIES]
 Count=0
 [IMAGES]
@@ -26,9 +25,8 @@ Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
 File0=SE9M.c
-File1=..\..\MicroC\HTTP_Demo_28j60\recources.h
-File2=..\..\MicroC\HTTP_Demo_28j60\HTTP_Demo_28j60.c
-Count=3
+File1=html.h
+Count=2
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -42,10 +40,10 @@ Count=1
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\Network_Ethernet_PIC\Uses\
 Count=1
 [HEADERS]
-File0=httpUtils.h
-File1=timelib.h
-File2=.\Uses\__NetEthEnc28j60.h
-File3=.\Uses\__NetEthEnc28j60Private.h
+File0=timelib.h
+File1=__NetEthEnc28j60.h
+File2=__NetEthEnc28j60Private.h
+File3=html.h
 Count=4
 [PLDS]
 Count=0
@@ -83,38 +81,30 @@ File29=RS485
 File30=Software_I2C
 File31=Software_SPI
 File32=Software_UART
-File33=Sound
-File34=SPI
-File35=SPI_Glcd
-File36=SPI_Lcd8
-File37=SPI_T6963C
-File38=Sprintf
-File39=Sprinti
-File40=Sprintl
-File41=T6963C
-File42=TFT
-File43=TFT_16bit
-File44=TFT_TouchPanel
-File45=Time
-File46=TouchPanel
-File47=Trigonometry
-File48=UART
-File49=Net_Ethernet_28j60
-File50=Net_Ethernet_28j60_Defs
-File51=Net_Ethernet_24j600_Defs
-File52=Net_Ethernet_24j600
-File53=SPI_Lcd
-Count=54
+File33=SPI
+File34=Sprintf
+File35=Sprinti
+File36=Sprintl
+File37=T6963C
+File38=Time
+File39=Trigonometry
+File40=UART
+File41=Net_Ethernet_28j60
+File42=Net_Ethernet_28j60_Defs
+File43=Net_Ethernet_24j600_Defs
+File44=Net_Ethernet_24j600
+Count=45
 [EXPANDED_NODES]
 0=SE9M.mcppi
-4=Header Files
-7=Uses
+1=Sources
+3=Header Files
 Count=3
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
-108=C_String
+45=Conversions
+380=SPI
 844=Additional Libraries
 1920=Network_Ethernet_PIC
 1996=Net_Ethernet_28j60
-Count=7
+Count=8

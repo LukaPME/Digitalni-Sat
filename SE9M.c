@@ -1,9 +1,8 @@
 #include "built_in.h"
 #include "timelib.h"
-
 #include "__NetEthEnc28j60.h"
 #include "__NetEthEnc28j60Private.h"
-#include "httpUtils.h"
+#include "html.h"
 
 #define Net_Ethernet_28j60_HALFDUPLEX     0
 #define Net_Ethernet_28j60_FULLDUPLEX     1
@@ -15,9 +14,6 @@ sbit Net_Ethernet_28j60_CS  at LATA4_bit;
 sbit Eth1_Link_Direction at TRISB5_bit;
 sbit Net_Ethernet_28j60_Rst_Direction at TRISA5_bit;
 sbit Net_Ethernet_28j60_CS_Direction  at TRISA4_bit;
-SOCKET_28j60_Dsc *socketHTML;
-char sendHTML_mark = 0;
-unsigned int pos[10];
 ///////////////////////// ETHERNET /////////////////////////////////////////////
 
 ///////////////////////// RS485 COMMUNICATION //////////////////////////////////
@@ -55,38 +51,17 @@ sbit DISPEN at RE2_bit;
 sbit DISPEN_Direction at TRISE2_bit;
 ///////////////////////// DISPLAY ON/OFF ///////////////////////////////////////
 
-/*
- * select either dynamic (with dhcp) network configuration, or static configuration
- */
-// #define WITH_DHCP
-
-/*
- * ts2str() mode flags
- */
 #define TS2STR_DATE     1
 #define TS2STR_TIME     2
 #define TS2STR_TZ       4
 #define TS2STR_ALL      (TS2STR_DATE | TS2STR_TIME)
-
-/*
- * number of byte to parse in HTTP request
- */
-#define HTTP_REQUEST_SIZE       128
-
-/*
- * basic realm : admin private zone
- */
-#define PRIVATE_LOGINPASSWD     "admin:clock"                           // user + password
-#define ZONE_NAME               "Ethernal Clock administration"         // zone signature
-#define MSG_DENIED              "Authorization Required"                // access denied message
-
 /***********************************
  * RAM variables
  */
 unsigned char   macAddr[6] = {0x00, 0x14, 0xA5, 0x76, 0x19, 0x3f} ;   // my MAC address
 
 //postavljanje pocetnih parametara mreze
-unsigned char ipAddr[4]    = {192, 168, 1, 18} ;  // my ip addr
+unsigned char ipAddr[4]    = {192, 168, 1, 99} ;  // my ip addr
 unsigned char gwIpAddr[4]  = {192, 168, 1, 1 } ;  // gateway (router) IP address
 unsigned char ipMask[4]    = {255, 255, 255,  0 } ;  // network mask (for example : 255.255.255.0)
 unsigned char dnsIpAddr[4] = {8, 8, 8, 8 } ;  // DNS server IP address
@@ -112,7 +87,6 @@ char sifra[9];
 char pomocnaSifra[9] = "        ";
 char oldSifra[9]     = "OLD     ";
 char newSifra[9]     = "NEW     ";
-unsigned char   admin = 0;
 char uzobyte = 0;
 char mode;
 char server1[27];
@@ -120,25 +94,33 @@ char server2[27];
 char server3[27];
 
 
-TimeStruct      ts, ls ;                // timestruct for now and last update
-long    epoch = 0 ;                     // unix time now
+TimeStruct    ts, ls ,t1_s;                // timestruct for now and last update
+long    epoch = 0 , epoch_fract = 0;
+long    t_ref,t_org,t_rec, t_xmt, t_dst ;                  // unix time now
+long    t_ref_fract,t_org_fract,t_rec_fract,t_xmt_fract,t_dst_fract;
 long    lastSync = 0 ;                  // unix time of last sntp update
 unsigned long   sntpTimer = 0;         // sntp response timer
 unsigned int    presTmr = 0 ;             // timer prescaler
+//char rez[68];
+//char res[68];
+//char fract[34];
+char modeChange;
+char cnt;
+char modeCnt;
 
 unsigned char   bufInfo[200] ;          // LCD buffer
 unsigned char   *marquee = 0;           // marquee pointer
 unsigned char   lcdEvent = 0;           // marquee event flag
 unsigned int    lcdTmr   = 0;           // marquee timer
 
-unsigned char   sntpSync = 0 ;          // sntp sync flag
+unsigned char   sntpSync = 1 ;          // sntp sync flag
+unsigned char   sync_flag = 0;
 unsigned char   reloadDNS = 1 ;         // dns up to date flag
-unsigned char   serverStratum = 0 ;     // sntp server stratum
+unsigned char   serverStratum = 0 , poll = 0 ;     // sntp server stratum
 unsigned char   serverFlags = 0 ;       // sntp server flags
 char            serverPrecision = 0 ;   // sntp server precision
 short           tmzn = 0;
 char            txt[5];
-char junk;
 
 char chksum;
 char prkomanda = 0;
@@ -206,10 +188,6 @@ char tmr_rst = 0;
 
 char dhcp_flag;
 
-char ik;
-
-char sta = 0;
-
 /*
  * week day names
  */
@@ -244,36 +222,60 @@ unsigned char   *mon[] =
         "Dec"
         } ;
 
-unsigned int  httpCounter = 0 ;                         // number of http requests
-unsigned char path_private[]    = "/admin" ;            // private zone path name
-
-/*const unsigned char httpHeader[] = "HTTP/1.1 200 OK\nContent-type: " ;  // HTTP header
-const unsigned char httpMimeTypeHTML[] = "text/html\n\n" ;              // HTML MIME type*/
-unsigned char httpHeader[] = "HTTP/1.1 200 OK\nContent-Length: 7787\nConnection: close\nContent-type: ";  // HTTP header
-unsigned char httpMimeTypeHTML[] = "text/html\n\n";              // HTML MIME type
+const code unsigned char httpHeader[] = "HTTP/1.1 200 OK\nContent-Length: 1417\nConnection: close\nContent-type: ";  // HTTP header
+const code unsigned char httpMimeTypeHTML[] = "text/html\n\n";              // HTML MIME type
 const unsigned char httpMimeTypeScript[] = "text/plain\n\n" ;           // TEXT MIME type
-unsigned char httpMethod[] = "GET /";               // Get http method
-unsigned char httpRequ[] = "GET / HTTP/1.1";        // Request
+const const code unsigned char httpImage[] = "HTTP/1.1 200 OK\nConnection: keep-alive\nContent-type:image/jpg\n\n";      // Image  type
+unsigned char httpGetMethod[] = "GET /";
+unsigned char httpGetImage[] = "GET /p1";
+unsigned char httpGetRequ[] = "GET / HTTP/1.1";
+unsigned char httpPostMethod[] = "POST /";
+unsigned char httpPostRequ[] = "POST / HTTP/1.1";
+
+unsigned char   htmlRequest[602];                                        // HTTP request buffer
+unsigned char   dyna[31] ;
+
+char username[15] = "admin";
+char usercheck[15] ="" ;
+char password[9] = "12345678";
+char passcheck[9] = "";
+unsigned int pos[10];
+char i;
+//unsigned long   httpCounter = 0 ;                                       // counter of HTTP requests
+////////////////html change vars/////////////////////
+
+int ij, ik;
+int index_br = 0;
+char buff_slanje;
+char promena1[] = " Times New Roman";
+int pg_size = 0 ;
+int login_size = 1371;
+int p1_size = 9156;
+int timePage_size = 1860;
+int ntpPage_size =1156;
+char sendHTML_mark = 0, sendTimeMark = 0, sendLoginMark = 0, sendNTPMark = 0, sendIMG_mark = 0;
+char admin = 0;
+int session = 0;
+char end_petlja = 0;
+char post_prolaz = 0;
+
 /*
  * configuration structure
  */
-struct
-        {
+struct{
         unsigned char   dhcpen ;                 // LCD line 1 message type
         unsigned char   lcdL2 ;                 // LCD line 2 message type
         short           tz ;                    // time zone (diff in hours to GMT)
         unsigned char   sntpIP[4] ;             // SNTP ip address
         unsigned char   sntpServer[128] ;       // SNTP host name
-        } conf =
-                {
+}       conf = {
                 0,
                 2,
                 0,
                 {0, 0, 0, 0},
-                "swisstime.ethz.ch"             // Zurich, Switzerland: Integrated Systems Lab, Swiss Fed. Inst. of Technology
-                                                // 129.132.2.21: swisstime.ethz.ch
+                "pool.ntp.org"             // Zurich, Switzerland: Integrated Systems Lab, Swiss Fed. Inst. of Technology             // Zurich, Switzerland: Integrated Systems Lab, Swiss Fed. Inst. of Technology
                                                 // Service Area: Switzerland and Europe
-                } ;
+        } ;
 
 /*
  * LCD message type options
@@ -304,267 +306,76 @@ const unsigned char   *MODEoption[] =
 /*
  * stylesheets
  */
-// clock not synchronized : red background
-const char    *CSSred = "\
-HTTP/1.1 200 OK\nContent-type: text/css\n\n\
-body {background-color: #ffccdd;}\
-" ;
-
-// clock synchronized : green background
-const char    *CSSgreen = "\
-HTTP/1.1 200 OK\nContent-type: text/css\n\n\
-body {background-color: #ddffcc;}\
-" ;
-
-/*
- * HTTP + HTML common header
- */
-/*const char    *HTMLheader = "\
-HTTP/1.1 200 OK\nContent-type: text/html\n\n\
-<HTML><HEAD>\
-<TITLE>PME Clock</TITLE>\
-</HEAD><BODY>\
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/s.css\">\
-<center>\
-<h2>PME Clock</h2>\
-" ;*/
-
-/*char    HTMLheader[] = "\
-<HTML><HEAD>\
-<TITLE>PME Clock</TITLE>\
-</HEAD><BODY>\
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/s.css\">\
-<center>\
-<h2>PME Clock</h2>\
-<h3>Time | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3>\
-<script src=/a></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500>\
-<tr><td>Date and Time</td><td align=right><script>document.write(NOW)</script></td></tr>\
-<tr><td>Unix Epoch</td><td align=right><script>document.write(EPOCH)</script></td></tr>\
-<tr><td>Julian Day</td><td align=right><script>document.write(EPOCH / 24 / 3600 + 2440587.5)</script></td></tr>\
-<tr><td>Last sync</td><td align=right><script>document.write(LAST)</script></td></tr>\
-<HTML><HEAD>\
-</table>\
-<br>\
-Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www.pme.rs</a>\
-</center>\
-</BODY></HTML>\
-" ;*/
-
-char HTMLheader[] = "\
-<HTML><HEAD><TITLE>PME Clock</TITLE></HEAD><BODY><link rel=\"stylesheet\" type=\"text/css\" href=\"/s.css\"><center><h2>PME Clock</h2><h3>Time | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3><script src=/a></script><table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500><tr><td>Date and Time</td><td align=right><script>document.write(NOW)</script></td></tr><tr><td>Unix Epoch</td><td align=right><script>document.write(EPOCH)</script></td></tr><tr><td>Julian Day</td><td align=right><script>document.write(EPOCH / 24 / 3600 + 2440587.5)</script></td></tr><tr><td>Last sync</td><td align=right><script>document.write(LAST)</script></td></tr><HTML><HEAD></table><br>Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www.pme.rs</a></center></BODY></HTML>\
-";
-
-
-
-/*
- * Time info
- */
-const char      *HTMLtime = "\
-<h3>Time | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3>\
-<script src=/a></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500>\
-<tr><td>Date and Time</td><td align=right><script>document.write(NOW)</script></td></tr>\
-<tr><td>Unix Epoch</td><td align=right><script>document.write(EPOCH)</script></td></tr>\
-<tr><td>Julian Day</td><td align=right><script>document.write(EPOCH / 24 / 3600 + 2440587.5)</script></td></tr>\
-<tr><td>Last sync</td><td align=right><script>document.write(LAST)</script></td></tr>" ;
-
-/*
- * SNTP info
- */
-/*const char      *HTMLsntp = "\
-<h3><a href=/>Time</a> | SNTP | <a href=/3>Network</a> | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3>\
-<script src=/b></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500>\
-<tr><td>Server</td><td align=right><script>document.write(SNTP)</script></td></tr>\
-<tr><td>Leap</td><td align=right><script>document.write(LEAP)</script></td></tr>\
-<tr><td>Version</td><td align=right><script>document.write(VN)</script></td></tr>\
-<tr><td>Mode</td><td align=right><script>document.write(MODE)</script></td></tr>\
-<tr><td>Stratum</td><td align=right><script>document.write(STRATUM)</script></td></tr>\
-<tr><td>Precision</td><td align=right><script>document.write(Math.pow(2, PRECISION - 256))</script></td></tr>\
-" ;*/
-
-/*
- * Network info
- */
-/*const char      *HTMLnetwork = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | Network | <a href=/4>System</a> | <a href=/admin>ADMIN</a></h3>\
-<script src=/c></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500>\
-<tr><td>Clock IP</td><td align=right><script>document.write(IP)</script></td></tr>\
-<tr><td>Clock MAC</td><td align=right><script>document.write(MAC)</script></td></tr>\
-<tr><td>Network Mask</td><td align=right><script>document.write(MASK)</script></td></tr>\
-<tr><td>Gateway</td><td align=right><script>document.write(GW)</script></td></tr>\
-<tr><td>DNS</td><td align=right><script>document.write(DNS)</script></td></tr>\
-<tr><td>Your IP</td><td align=right><script>document.write(CLIENT)</script></td></tr>" ;*/
-
-/*
- * System info
- */
-/*const char      *HTMLsystem = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | System | <a href=/admin>ADMIN</a></h3>\
-<script src=/d></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=500>\
-<tr><td>Ethernet device</td><td align=right><script>document.write(SYSTEM)</script></td></tr>\
-<tr><td>Fosc</td><td align=right><script>document.write(CLK/1000)</script> Mhz</td></tr>\
-<tr><td>Up Since</td><td align=right><script>document.write(UP)</script></td></tr>\
-<tr><td>HTTP Request #</td><td align=right><script>document.write(REQ)</script></td></tr>\
-" ;*/
-
-
-/*// Stranica za redirekciju na pocetnu admin stranicu
-const char      *HTMLredirect = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script>document.location.replace(\"/admin\")</script>\
-" ;
-// stranica za upisivanje sifre
-const char      *HTMLadmin0 = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script src=/admin/s></script>\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000>\
-<tr> <td>Password</td> <td><script>document.write(PASS)</script></td> </tr>\
-" ;
-
-const char      *HTMLadmin1 = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script src=/admin/s></script>\
-<meta http-equiv=\"refresh\" content=\"180\" />\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000>\
-<tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr>\
-<tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr>\
-<tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr>\
-<tr> <td>IP Address</td> <td><script>document.write(IP0)</script></td> <td><script>document.write(IP1)</script></td> <td><script>document.write(IP2)</script></td> <td><script>document.write(IP3)</script></td> </tr>\
-<tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>\
-" ;
-
-const char      *HTMLadmin2 = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script src=/admin/s></script>\
-<meta http-equiv=\"refresh\" content=\"180\" />\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000>\
-<tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr>\
-<tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr>\
-<tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr>\
-<tr><td>Mask</td><td><script>document.write(M0)</script></td><td><script>document.write(M1)</script></td><td><script>document.write(M2)</script></td><td><script>document.write(M3)</script></td></tr>\
-<tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>\
-" ;
-
-const char      *HTMLadmin3 = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script src=/admin/s></script>\
-<meta http-equiv=\"refresh\" content=\"180\" />\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000>\
-<tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr>\
-<tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr>\
-<tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr>\
-<tr><td>Gateway</td><td><script>document.write(G0)</script></td><td><script>document.write(G1)</script></td><td><script>document.write(G2)</script></td><td><script>document.write(G3)</script></td></tr>\
-<tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>\
-" ;
-
-const char      *HTMLadmin4 = "\
-<h3><a href=/>Time</a> | <a href=/2>SNTP</a> | <a href=/3>Network</a> | <a href=/4>System</a> | ADMIN</h3>\
-<script src=/admin/s></script>\
-<meta http-equiv=\"refresh\" content=\"180\" />\
-<table border=1 style=\"font-size:20px ;font-family: terminal ;\" width=1000>\
-<tr> <td>Password</td> <td><script>document.write(PASS0)</script></td> <td><script>document.write(PASS1)</script></td> <td align=center><a href=/admin/w>Update password</a></td> </tr>\
-<tr><td>Select</td><td align=right><script>document.write(SIP)</script></td></tr>\
-<tr><td>DHCP</td><td align=right><script>document.write(DHCPEN)</script></td></tr>\
-<tr><td>DNS Server</td><td><script>document.write(D0)</script></td><td><script>document.write(D1)</script></td><td><script>document.write(D2)</script></td><td><script>document.write(D3)</script></td></tr>\
-<tr><td>Update IP</td><td align=right><a href=/admin/r>now</a></td></tr>\
-" ;*/
-
-/*
- * HTML common footer
- */
-const   char    *HTMLfooter = "<HTML><HEAD>\
-</table>\
-<br>\
-Pogledajte ceo proizvodni program na <a href=http://www.pme.rs target=_blank>www.pme.rs</a>\
-</center>\
-</BODY></HTML>" ;
-
-
-/*******************************************
- * functions
- */
-
-char lease_tmr = 0;
-char lease_time = 0;
-
-//inicijalizacija i obrada ethernet paketa ukoliko je SPI omogucen - link == 1
-void Eth_Obrada() {
-    if (conf.dhcpen == 0) {
-       
-       if (lease_time >= 60) {
-          lease_time = 0;
-          while (!Net_Ethernet_28j60_renewDHCP(5));  // try to renew until it works
-       }
-    }
-    if (link == 1) {
-
-       //SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
-      // init ethernet board
-      Net_Ethernet_28j60_doPacket();
-
-      for (ik = 0; ik < NUM_OF_SOCKET_28j60; ik++) {
-          if (socket_28j60[ik].open == 0)
-             pos[ik] = 0;
-          }
-       
-    }
-}
 
 /*
  * save conf struct to EEPROM
  */
-void    saveConf()
-        {
-        /*
-         * uncomment the lines below if configuration is to be saved to eeprom
-         */
-        // unsigned char   *ptr ;
-        // unsigned char   i ;
 
-        // ptr = (unsigned char *)&conf ;
-        // for(i = 0 ; i < sizeof(conf) ; i++)
-        //        {
-        //         EEPROM_Write(i, *ptr++) ;
-        //        }
-        }
-/*
- * LCD marquee
- */
-void    mkMarquee(unsigned char l)
-        {
-        unsigned char   len ;
-        char            marqeeBuff[17] ;
+int my_strstr(int index, char *s1)
+{
+  int i, j, k;
+  int flag = 0;
 
-        if((*marquee == 0) || (marquee == 0))
-                {
-                marquee = bufInfo ;
-                }
-        if((len=strlen(marquee)) < 16) {
-          memcpy(marqeeBuff, marquee, len) ;
-          memcpy(marqeeBuff+len, bufInfo, 16-len) ;
-        }
+  //if ((s2 == 0 || s1 == 0)) return 0;
+
+  for( i = index; login_code[i] != '\0'; i++)
+  {
+    if (login_code[i] == s1[0])
+    {
+      for (j = i; ; j++)
+      {
+        if (s1[j-i] == '\0'){ flag = 1;
+        break;}
+        if (login_code[j] == s1[j-i])
+        continue;
         else
-          memcpy(marqeeBuff, marquee, 16) ;
-        marqeeBuff[16] = 0 ;
+        break;
+      }
+    }
+    if (flag == 1)
+    break;
+  }
 
-        
-        }
+   /*k=0;
+   for ( i = j ; i < (j + strlen(s3)) ; i++) {
+       html_code[i] = s3[k];
+       k++;
+   }*/
+   return j;
+}
+int strstr1(int index,char *s2, char *s1)
+{
+  int i, j, k;
+  int flag = 0;
 
-//#define putConstString  Net_Ethernet_28j60_putConstString
-//#define putString  Net_Ethernet_28j60_putString
+  //if ((s2 == 0 || s1 == 0)) return 0;
 
-void DNSavings() {
-     tmzn = 2;
-  
+  for( i = index; s2[i] != '\0'; i++)
+  {
+    if (s2[i] == s1[0])
+    {
+      for (j = i; ; j++)
+      {
+        if (s1[j-i] == '\0'){ flag = 1;
+        break;}
+        if (s2[j] == s1[j-i])
+        continue;
+        else
+        break;
+      }
+    }
+    if (flag == 1)
+    break;
+  }
+
+   /*k=0;
+   for ( i = j ; i < (j + strlen(s3)) ; i++) {
+       html_code[i] = s3[k];
+       k++;
+   }*/
+   return j;
 }
 
-/*
- * convert l (signed) to ascii string into s, no leading spaces
- */
 void    int2str(long l, unsigned char *s)
         {
         unsigned char   i, j, n ;
@@ -608,38 +419,13 @@ void    int2str(long l, unsigned char *s)
                         }
                 }
         }
-
-/*
- * convert ip to ascii string into s
- */
-void    ip2str(unsigned char *s, unsigned char *ip)
-        {
-        unsigned char i ;
-        unsigned char buf[4] ;
-
-        *s = 0 ;
-        for(i = 0 ; i < 4 ; i++)
-                {
-                int2str(ip[i], buf) ;
-                strcat(s, buf) ;
-                if(i != 3)
-                  strcat(s, ".") ;
-                }
-        }
-
-/*
- * convert time struct to t to ascii into s
- * m is mode
- */
-void    ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
-        {
+void    ts2str (unsigned char *s, TimeStruct *t, unsigned char m){
         unsigned char  tmp[6] ;
 
         /*
          * convert date members
          */
-        if(m & TS2STR_DATE)
-                {
+        if(m & TS2STR_DATE){
                 strcpy(s, wday[t->wd]) ;        // week day
                 danuned = t->wd;
                 strcat(s, " ") ;
@@ -659,17 +445,15 @@ void    ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
                 fingodina = godyear3 * 10 + godyear4;
                 strcat(s, tmp + 1) ;
                 strcat(s, " ") ;
-                }
-        else
-                {
+        }
+        else {
                 *s = 0 ;
-                }
+        }
 
         /*
          * convert time members
          */
-        if(m & TS2STR_TIME)
-                {
+        if(m & TS2STR_TIME){
                 ByteToStr(t->hh, tmp) ;         // hour
                 sati = t->hh;
                 strcat(s, tmp + 1) ;
@@ -689,21 +473,227 @@ void    ts2str(unsigned char *s, TimeStruct *t, unsigned char m)
                         *(tmp + 1) = '0' ;
                         }
                 strcat(s, tmp + 1) ;
-                }
+        }
 
         /*
          * convert time zone
          */
-        if(m & TS2STR_TZ)
-                {
+        if(m & TS2STR_TZ){
                 strcat(s, " GMT") ;
                 if(conf.tz > 0)
                         {
                         strcat(s, "+") ;
                         }
                 int2str(conf.tz, s + strlen(s)) ;
+        }
+}
+/*
+ * make SNTP request (ne koristi se u broadcast rezimu)
+ */
+void    mkSNTPrequest(){
+        unsigned char sntpPkt[50];
+        unsigned char* remoteIpAddr;
+        Timestruct t1_c;
+        epoch_fract = presTmr * 274877.906944 ;// zbog tajmera i 2^32
+        if (sntpSync)
+          if (Net_Ethernet_28j60_UserTimerSec >= sntpTimer)
+            if (!sync_flag) {
+              sntpSync = 0;
+              if (!memcmp(conf.sntpIP, "\0\0\0\0", 4))
+                reloadDNS = 1 ; // force to solve DNS
+            }
+
+        if(reloadDNS)   // is SNTP ip address to be reloaded from DNS ?
+                {
+
+                if(isalpha(*conf.sntpServer))   // doest host name start with an alphabetic character ?
+                        {
+                        // yes, try to solve with DNS request
+                             memset(conf.sntpIP, 0, 4);
+                              if(remoteIpAddr = Net_Ethernet_28j60_dnsResolve(conf.sntpServer, 5))
+                                {
+                                // successful : save IP address
+                                memcpy(conf.sntpIP, remoteIpAddr, 4) ;
+                                }
+                        }
+                else
+                        {
+                        // host name is supposed to be an IP address, directly save it
+                        unsigned char *ptr = conf.sntpServer ;
+
+                        conf.sntpIP[0] = atoi(ptr) ;
+                        ptr = strchr(ptr, '.') + 1 ;
+                        conf.sntpIP[1] = atoi(ptr) ;
+                        ptr = strchr(ptr, '.') + 1 ;
+                        conf.sntpIP[2] = atoi(ptr) ;
+                        ptr = strchr(ptr, '.') + 1 ;
+                        conf.sntpIP[3] = atoi(ptr) ;
+                        }
+
+                //saveConf() ;            // store to EEPROM
+
+                reloadDNS = 0 ;         // no further call to DNS
+
+                sntpSync = 0 ;          // clock is not sync for now
+                }
+
+        if(sntpSync)                    // is clock already synchronized from sntp ?
+                {
+                return ;                // yes, no need to request time
+                }
+
+        /*
+         * prepare buffer for SNTP request
+         */
+        memset(sntpPkt, 0, 48) ;        // clear sntp packet
+
+        // FLAGS : byte 0
+        sntpPkt[0] = 0b00011001 ;       // LI = 0 ; VN = 3 ; MODE = 1
+
+        // STRATUM : byte 1 = 0
+
+        // POLL : byte 2
+        sntpPkt[2] = 0x0a ;             // 1024 sec (arbitrary value)
+
+        // PRECISION : byte 3
+        sntpPkt[3] = 0xfa ;             // 0.015625 sec (arbitrary value)
+
+        // DELAY : bytes 4 to 7 = 0.2656 sec (arbitrary value)
+        sntpPkt[6] = 0x44 ;
+
+        // DISPERSION : bytes 8 to 11 = 16 sec (arbitrary value)
+        sntpPkt[9] = 0x10 ;
+
+        // REFERENCE ID : bytes 12 to 15 = 0 (unspecified)
+
+        // REFERENCE TIMESTAMP : bytes 16 to 23 (unspecified)
+        sntpPkt[16] = Highest(lastSync);
+        sntpPkt[17] = Higher(lastSync);
+        sntpPkt[18] = Hi(lastSync);
+        sntpPkt[19] = Lo(lastSync);
+        // ORIGINATE TIMESTAMP : bytes 24 to 31 (unspecified)
+
+        
+        // RECEIVE TIMESTAMP : bytes 32 to 39 (unspecified)
+
+        // TRANSMIT TIMESTAMP : bytes 40 to 47 (unspecified)
+        sntpPkt[40] = Highest(epoch);
+        sntpPkt[41] = Higher(epoch);
+        sntpPkt[42] = Hi(epoch);
+        sntpPkt[43] = Lo(epoch);
+        sntpPkt[44] = Highest(epoch_fract);
+        sntpPkt[45] = Higher(epoch_fract);
+        sntpPkt[46] = Hi(epoch_fract);
+        sntpPkt[47] = Lo(epoch_fract);
+        
+        //
+         /*LongtoStr(lastSync,rez);
+         UART_Write_Text("Ovo je T_ref:");
+         UART_Write_Text(rez);
+         UART_Write(0x0D);
+         UART_Write(0x0A);
+
+         Time_EpochtoDate(epoch + 3600 *tmzn , &t1_c);
+         ts2str(res,&t1_c,TS2STR_TIME);
+         strcat (res, ".");
+         LongtoStr(epoch_fract,fract);
+         strcat(res,fract);
+         UART_Write_Text("Ovo je T1 sa klijenta:");
+         UART_Write_Text(res);
+         UART_Write(0x0D);
+         UART_Write(0x0A);*/
+
+
+        Net_Ethernet_28j60_sendUDP(conf.sntpIP, 123, 123, sntpPkt, 48) ; // transmit UDP packet
+
+        sntpSync = 1 ;  // done
+        sync_flag = 0 ;
+        sntpTimer = Net_Ethernet_28j60_UserTimerSec + 2;
+}
+
+/*******************************************
+ * functions
+ */
+
+char lease_tmr = 0;
+char lease_time = 0;
+
+//inicijalizacija i obrada ethernet paketa ukoliko je SPI omogucen link == 1
+void Eth_Obrada() {
+
+    if (conf.dhcpen == 0) {
+       
+       if (lease_time >= 60) {
+          lease_time = 0;
+          while (!Net_Ethernet_28j60_renewDHCP(5));  // try to renew until it works
+       }
+    }
+    if (link == 1) {
+       if (sync_flag == 1) {
+          sync_flag = 0;
+          mkSNTPrequest();
+       }
+       SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
+       Net_Ethernet_28j60_doPacket() ;
+        for(i = 0; i < NUM_OF_SOCKET_28j60; i++) {
+        if(socket_28j60[i].open == 0)
+       pos[i] = 0;
+       }
+    }
+}
+
+
+/*
+ * LCD marquee
+ */
+void    mkMarquee(unsigned char l)
+        {
+        unsigned char   len ;
+        char            marqeeBuff[17] ;
+
+        if((*marquee == 0) || (marquee == 0))
+                {
+                marquee = bufInfo ;
+                }
+        if((len=strlen(marquee)) < 16) {
+          memcpy(marqeeBuff, marquee, len) ;
+          memcpy(marqeeBuff+len, bufInfo, 16-len) ;
+        }
+        else
+          memcpy(marqeeBuff, marquee, 16) ;
+        marqeeBuff[16] = 0 ;
+
+        
+        }
+
+#define putConstString  Net_Ethernet_28j60_putConstStringTCP
+#define putString  Net_Ethernet_28j60_putStringTCP
+
+void DNSavings() {
+     tmzn = 0;
+  
+}
+
+void    ip2str(unsigned char *s, unsigned char *ip)
+        {
+        unsigned char i ;
+        unsigned char buf[4] ;
+
+        *s = 0 ;
+        for(i = 0 ; i < 4 ; i++)
+                {
+                int2str(ip[i], buf) ;
+                strcat(s, buf) ;
+                if(i != 3)
+                  strcat(s, ".") ;
                 }
         }
+
+/*
+ * convert time struct to t to ascii into s
+ * m is mode
+ */
+
 
 /*
  * convert integer to hex char
@@ -731,39 +721,39 @@ void    byte2hex(unsigned char *s, unsigned char v)
 /*
  * build select HTML tag with LCD options
  */
-/*unsigned int    mkLCDselect(unsigned char l, unsigned char m)
+unsigned int    mkLCDselect(unsigned char l, unsigned char m)
         {
         unsigned char i ;
         unsigned int len ;
 
-        len = putConstString("<select onChange=\\\"document.location.href = '/admin/") ;
-        Net_Ethernet_28j60_putByte('0' + l) ; len++ ;
-        len += putConstString("/' + this.selectedIndex\\\">") ;
+        len = Net_Ethernet_28j60_putConstString("<select onChange=\\\"document.location.href = '/admin/") ;
+        Net_Ethernet_28j60_putByte('0' + l) ; 
+        len++ ;
+        len += Net_Ethernet_28j60_putConstString("/' + this.selectedIndex\\\">") ;
         for(i = 0 ; i < 2 ; i++)
                 {
-                len += putConstString("<option ") ;
+                len += Net_Ethernet_28j60_putConstString("<option ") ;
                 if(i == m)
                         {
-                        len += putConstString(" selected") ;
+                        len += Net_Ethernet_28j60_putConstString(" selected") ;
                         }
-                len += putConstString(">") ;
-                len += putConstString(LCDoption[i]) ;
+                len += Net_Ethernet_28j60_putConstString(">") ;
+                len += Net_Ethernet_28j60_putConstString(LCDoption[i]) ;
                 }
-        len += putConstString("</select>\";") ;
+        len += Net_Ethernet_28j60_putConstString("</select>\";") ;
         return(len) ;
-        }*/
+        }
 
 /*
  * display line
  */
-void mkLCDLine(unsigned char l, unsigned char m)
-        {
+void mkLCDLine(unsigned char l, unsigned char m){
         switch(m)
                 {
                 case 0:
                         // build marquee string
                         memset(bufInfo, 0, sizeof(bufInfo)) ;
-                        if(lastSync)
+                        if(sync_flag)
                                 {
                                 // clock is synchronized
                                 strcpy(bufInfo, "Today is ") ;
@@ -804,107 +794,265 @@ void mkLCDLine(unsigned char l, unsigned char m)
                         //        }
                         break ;
                 }
-        }
-
-/*
- * make SNTP request (ne koristi se u broadcast rezimu)
- */
-void    mkSNTPrequest()
-        {
-        unsigned char sntpPkt[50];
-        unsigned char * remoteIpAddr;
-
-        if (sntpSync)
-          if (Net_Ethernet_28j60_UserTimerSec >= sntpTimer)
-            if (!lastSync) {
-              sntpSync = 0;
-              if (!memcmp(conf.sntpIP, "\0\0\0\0", 4))
-                reloadDNS = 1 ; // force to solve DNS
-            }
-
-        if(reloadDNS)   // is SNTP ip address to be reloaded from DNS ?
-                {
-              
-                if(isalpha(*conf.sntpServer))   // doest host name start with an alphabetic character ?
-                        {
-                        // yes, try to solve with DNS request
-                             memset(conf.sntpIP, 0, 4);
-                              if(remoteIpAddr = Net_Ethernet_28j60_dnsResolve(conf.sntpServer, 5))
-                                {
-                                // successful : save IP address
-                                memcpy(conf.sntpIP, remoteIpAddr, 4) ;
-                                }
-                        }
-                else
-                        {
-                        // host name is supposed to be an IP address, directly save it
-                        unsigned char *ptr = conf.sntpServer ;
-
-                        conf.sntpIP[0] = atoi(ptr) ;
-                        ptr = strchr(ptr, '.') + 1 ;
-                        conf.sntpIP[1] = atoi(ptr) ;
-                        ptr = strchr(ptr, '.') + 1 ;
-                        conf.sntpIP[2] = atoi(ptr) ;
-                        ptr = strchr(ptr, '.') + 1 ;
-                        conf.sntpIP[3] = atoi(ptr) ;
-                        }
-
-                saveConf() ;            // store to EEPROM
-
-                reloadDNS = 0 ;         // no further call to DNS
-
-                sntpSync = 0 ;          // clock is not sync for now
-                }
-
-        if(sntpSync)                    // is clock already synchronized from sntp ?
-                {
-                return ;                // yes, no need to request time
-                }
-
-        /*
-         * prepare buffer for SNTP request
-         */
-        memset(sntpPkt, 0, 48) ;        // clear sntp packet
-
-        // FLAGS : byte 0
-        sntpPkt[0] = 0b00011001 ;       // LI = 0 ; VN = 3 ; MODE = 1
-
-        // STRATUM : byte 1 = 0
-
-        // POLL : byte 2
-        sntpPkt[2] = 0x0a ;             // 1024 sec (arbitrary value)
-
-        // PRECISION : byte 3
-        sntpPkt[3] = 0xfa ;             // 0.015625 sec (arbitrary value)
-
-        // DELAY : bytes 4 to 7 = 0.2656 sec (arbitrary value)
-        sntpPkt[6] = 0x44 ;
-
-        // DISPERSION : bytes 8 to 11 = 16 sec (arbitrary value)
-        sntpPkt[9] = 0x10 ;
-
-        // REFERENCE ID : bytes 12 to 15 = 0 (unspecified)
-
-        // REFERENCE TIMESTAMP : bytes 16 to 23 (unspecified)
-
-        // ORIGINATE TIMESTAMP : bytes 24 to 31 (unspecified)
-
-        // RECEIVE TIMESTAMP : bytes 32 to 39 (unspecified)
-
-        // TRANSMIT TIMESTAMP : bytes 40 to 47 (unspecified)
-
-        Net_Ethernet_28j60_sendUDP(conf.sntpIP, 123, 123, sntpPkt, 48) ; // transmit UDP packet
-
-        sntpSync = 1 ;  // done
-        lastSync = 0 ;
-        sntpTimer = Net_Ethernet_28j60_UserTimerSec + 2;
-        }
+  }
 
 void Rst_Eth() {
      Net_Ethernet_28j60_Rst = 0;
      reset_eth = 1;
      //connect_eth = 1;
 }
+
+/*
+ * incoming TCP request
+ */
+//unsigned int SPI_Ethernet_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
+void Net_Ethernet_28j60_UserTCP(SOCKET_28j60_Dsc *socket)
+        {
+        unsigned char   dyna[64] ;
+        unsigned int    len = 0 ;
+        int    i ;
+        int res = 0;
+        char fbr;
+        
+        
+        // should we close tcp socket after response is sent?
+        // library closes tcp socket by default if canCloseTCP flag is not reset here
+        // flags->canCloseTCP = 0; // 0 - do not close socket
+                          // otherwise - close socket
+
+        if (socket->destPort != 80)                    // I listen only to web request on port 80
+                {
+                return ;                     // return without reply
+                }
+
+        /*
+         * parse TCP frame and check for a GET request
+         */
+       for (i = 0; i < 10 ; i++) {
+       htmlRequest[i] = Net_Ethernet_28j60_getByte();
+       }
+        /*
+         * parse TCP frame and try to find basic realm authorization
+         */
+        if(memcmp(htmlRequest, httpGetImage, 6) == 0){
+         sendIMG_mark = 1;
+         post_prolaz = 2;
+         //UART_Write_Text("Jeste Slika");
+        } else
+        // Check if it is get or post
+        if(memcmp(htmlRequest, httpGetMethod, 5) == 0){
+          if (admin == 0) {
+           sendHTML_mark = 1;
+           post_prolaz = 2;
+           //UART_Write_Text("Jeste Get");
+          }
+          else  if ( (htmlRequest[5] == 't') && (admin == 1) ){
+             sendNTPMark = 0;
+             sendTimeMark = 1;
+             post_prolaz = 2;
+             //UART_Write_Text("Jeste TIME Get");
+          }
+          else  if ( (htmlRequest[5] == 'n') && (admin == 1) ){
+               sendTimeMark = 0;
+               sendNTPMark = 1;
+               post_prolaz = 2;
+               //UART_Write_Text("Jeste NTP Get");
+           }
+     else  if ( (htmlRequest[5] == 'l') && (admin == 1) ){
+     sendHTML_mark = 1;
+     session = 0;
+     admin = 0;
+     post_prolaz = 2;
+     //UART_Write_Text("Jeste NTP Get");
+     }
+  }
+  else if(memcmp(htmlRequest, httpPostMethod, 6) == 0) {
+     //if (admin == 0) {
+        post_prolaz = 0;
+        sendLoginMark = 1;
+
+    /*} else {
+        sendNTPMark = 0;
+        sendTimeMark = 1;
+        prolaz = 2;
+     }*/
+     //UART_Write_Text("Jeste Post");
+     }
+
+  // POST and GET method are supported here
+  if( ((memcmp(htmlRequest, httpGetMethod, 5) && (socket->state != 3))) || ( memcmp(htmlRequest, httpPostMethod, 6) &&( socket->state != 3) )){
+    return;
+    }
+     while( post_prolaz < 2 ){
+       for (len = (MY_MSS_28j60 * post_prolaz); len < (MY_MSS_28j60 * (post_prolaz + 1)); len++){
+       htmlRequest[len] = Net_Ethernet_28j60_getByte();
+       }
+       post_prolaz++;
+       break;
+     }
+
+     if (post_prolaz == 2) {
+
+        if (sendLoginMark == 1) {
+
+          res = 0;
+          res = strstr1(res, htmlRequest,"usr");
+
+          for ( i = 0 ; i < 15 ; i++){
+               if (htmlRequest[(res + 1) + i] == '&')
+               break;
+               else
+               usercheck[i] = htmlRequest[i+(res + 1)];
+
+          }
+          res = strstr1(res, htmlRequest,"psw");
+
+          for ( i = 0 ; i < 8 ; i++){
+               passcheck[i] =  htmlRequest[i+(res + 1)];
+          }
+          sendLoginMark = 0;
+          if ( ((strcmp(usercheck,username) == 0) && (strcmp(passcheck,password) == 0))||(admin == 1) ) {
+               admin = 1;
+               sendTimeMark = 1;
+
+          } else {
+               admin = 0;
+               sendHTML_mark = 1;
+               for (i = 0; i < 15 ; i++)
+               usercheck[i] = 0;
+               for (i = 0; i < 8; i++)
+               passcheck[i] = 0;
+
+          }
+
+       }
+
+     if (sendTimeMark == 1){
+        while(pos[socket->ID] < timePage_size) {
+            if(Net_Ethernet_28j60_putByteTCP(time_code[pos[socket->ID]++], socket) == 0) {
+               pos[socket->ID]--;
+               break;
+            }
+         }
+         if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= timePage_size) ) {
+             Net_Ethernet_28j60_disconnectTCP(socket);
+             socket_28j60[socket->ID].state = 0;
+             pos[socket->ID] = 0;
+             sendTimeMark = 0;
+             post_prolaz = 0;
+          }
+
+      }
+     if (sendNTPMark == 1){
+        while(pos[socket->ID] < ntpPage_size) {
+            if(Net_Ethernet_28j60_putByteTCP(ntp_code[pos[socket->ID]++], socket) == 0) {
+               pos[socket->ID]--;
+               break;
+            }
+         }
+         if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= ntpPage_size) ) {
+             Net_Ethernet_28j60_disconnectTCP(socket);
+             socket_28j60[socket->ID].state = 0;
+             pos[socket->ID] = 0;
+             sendNTPMark = 0;
+             post_prolaz = 0;
+          }
+
+      }
+
+    if (sendHTML_mark == 1)  {
+
+     /*while (pos[socket->ID] < login_size) {
+         // zamena
+        if ( (pos[socket->ID] == prva_promena) || (end_petlja == 1) ) {
+          if (end_petlja == 1) end_petlja = 0;
+          Html_Change(prva_promena, socket, promena1);
+          if (end_petlja == 1) break;
+        }
+
+        else {
+          buff_slanje = login_code[pos[socket->ID]++];
+          if (Net_Ethernet_28j60_putByteTCP(buff_slanje, socket) == 0) {
+             pos[socket->ID]--;
+             break;
+          }
+        }
+      }*/
+         while(pos[socket->ID] < login_size) {
+            if(Net_Ethernet_28j60_putByteTCP(login_code[pos[socket->ID]++], socket) == 0) {
+               pos[socket->ID]--;
+               break;
+            }
+         }
+         if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= login_size) ) {
+             Net_Ethernet_28j60_disconnectTCP(socket);
+             socket_28j60[socket->ID].state = 0;
+             pos[socket->ID] = 0;
+             sendHTML_mark = 0;
+             post_prolaz = 0;
+          }
+
+      }
+
+      if (sendIMG_mark == 1) {
+
+       if (pos[socket->ID] == 0) {
+        Net_Ethernet_28j60_putConstStringTCP(httpImage, socket);
+       }
+       while(pos[socket->ID] < p1_size){
+           if(Net_Ethernet_28j60_putByteTCP(p1[pos[socket->ID]++], socket) == 0) {
+              pos[socket->ID]--;
+              break;
+           }
+        }
+        if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= p1_size) ) {
+             Net_Ethernet_28j60_disconnectTCP(socket);
+             socket_28j60[socket->ID].state = 0;
+             pos[socket->ID] = 0;
+             sendIMG_mark = 0;
+             post_prolaz = 0;
+        }
+
+      }
+
+
+    }
+      /*case 'a':
+
+                        // reply with clock info javascript variables
+                        len = putConstString(httpHeader) ;
+                        len += putConstString(httpMimeTypeScript) ;
+
+                        // add date to reply
+                        ts2str(dyna, &ts, TS2STR_ALL | TS2STR_TZ) ;
+                        len += putConstString("var NOW=\"") ;
+                        len += putString(dyna) ;
+                        len += putConstString("\";") ;
+
+                        // add epoch to reply
+                        int2str(epoch, dyna) ;
+                        len += putConstString("var EPOCH=") ;
+                        len += putString(dyna) ;
+                        len += putConstString(";") ;
+
+                        // add last sync date
+                        if(lastSync == 0)
+                                {
+                                strcpy(dyna, "???") ;
+                                }
+                        else
+                                {
+                                Time_epochToDate(lastSync + tmzn * 3600, &ls) ;
+                                DNSavings();
+                                ts2str(dyna, &ls, TS2STR_ALL | TS2STR_TZ) ;
+                                }
+                        len += putConstString("var LAST=\"") ;
+                        len += putString(dyna) ;
+                        len += putConstString("\";") ;
+
+                        break ;*/
+}
+
 
 // sekvenca bitova koja se salje shift registru za prikaz na displeju
 char Print_Seg(char segm, char tacka) {
@@ -990,7 +1138,6 @@ void PRINT_S(char ledovi) {
          pom++;
     }
 }
-
 // funkcija za prikazivanje vremena i datuma na displeju
 void Display_Time() {
 
@@ -1012,18 +1159,12 @@ void Display_Time() {
         asm nop;
         asm nop;
         asm nop;
-        /*PRINT_S(Print_Seg(sec2, 0));
+        PRINT_S(Print_Seg(sec2, 0));
         PRINT_S(Print_Seg(sec1, 0));
         PRINT_S(Print_Seg(min2, 0));
         PRINT_S(Print_Seg(min1, 0));
         PRINT_S(Print_Seg(hr2, tacka1));
-        PRINT_S(Print_Seg(hr1, tacka2));*/
-        PRINT_S(Print_Seg(sta, 0));
-        PRINT_S(Print_Seg(sta, 0));
-        PRINT_S(Print_Seg(sta, 0));
-        PRINT_S(Print_Seg(sta, 0));
-        PRINT_S(Print_Seg(sta, 0));
-        PRINT_S(Print_Seg(sta, 0));
+        PRINT_S(Print_Seg(hr1, tacka2));
         asm nop;
         asm nop;
         asm nop;
@@ -1047,1047 +1188,6 @@ void Display_Time() {
      }
 
 }
-
-/*
- * incoming TCP request
- */
-//unsigned int Net_Ethernet_28j60_UserTCP(unsigned char *remoteHost, unsigned int remotePort, unsigned int localPort, unsigned int reqLength, TEthPktFlags *flags)
-void Net_Ethernet_28j60_UserTCP(SOCKET_28j60_Dsc *socket) {
-
-        unsigned char   dyna[64] ;
-        unsigned char   getRequest[HTTP_REQUEST_SIZE + 1] ;
-        unsigned int    len = 0 ;
-        int res;
-
-        int    i ;
-        char fbr;
-        unsigned int ij;
-        
-        if (socket->destPort != 80)                    // I listen only to web request on port 80
-                {
-                return;                     // return without reply
-                }
-        for(len = 0; len < 10; len++){
-        getRequest[len] = Net_Ethernet_28j60_getByte();
-        }
-        getRequest[len] = 0;
-        /*
-         * parse TCP frame and check for a GET request
-         */
-       
-        /*if (HTTP_getRequest(getRequest, socket->dataLength, HTTP_REQUEST_SIZE) == 0)
-                {
-                return;                     // no reply if no GET request
-                }*/
-                
-        if(memcmp(getRequest, httpMethod, 5)&&(socket->state != 3)){
-                  return;
-                  } 
-        
-        if(memcmp(getRequest, httpRequ, 9)==0){
-        sendHTML_mark = 1;
-        socketHTML = socket;
-        }
-
-        if((sendHTML_mark == 1)&&(socketHTML == socket)) {
-        
-           if(pos[socket->ID]==0) {
-           // Send HTTP header.
-           sta = 1;
-           Net_Ethernet_28j60_putStringTCP(httpHeader, socket);
-           Net_Ethernet_28j60_putStringTCP(httpMimeTypeHTML, socket);
-           }
-
-           while(pos[socket->ID] < (strlen(HTMLheader+1)) ) {
-           sta = 2;
-           if(Net_Ethernet_28j60_putByteTCP(HTMLheader[pos[socket->ID]++], socket) == 0) {
-           pos[socket->ID]--;
-           sta = 3;
-           break;
-           }
-           }
-           /*while(pos[socket->ID] < strlen(*HTMLtime)) {
-           if(Net_Ethernet_28j60_putByteTCP(HTMLtime[pos[socket->ID]++ - strlen(*HTMLheader)], socket) == 0) {
-           pos[socket->ID]--;
-           break;
-           }
-           }
-           while(pos[socket->ID] < strlen(*HTMLfooter)) {
-           if(Net_Ethernet_28j60_putByteTCP(HTMLfooter[strlen(pos[socket->ID]++ - *HTMLheader) - strlen(*HTMLtime)], socket) == 0) {
-           pos[socket->ID]--;
-           break;
-           }
-           }*/
-           
-           if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= (strlen(HTMLheader)+1))) {
-           //if( Net_Ethernet_28j60_bufferEmptyTCP(socket) && (pos[socket->ID] >= (strlen(*HTMLheader)+strlen(*HTMLtime)+strlen(*HTMLfooter))) ) {
-           Net_Ethernet_28j60_disconnectTCP(socket);
-           socket_28j60[socket->ID].state = 0;
-           sendHTML_mark = 0;
-           pos[socket->ID] = 0;
-           }
-        
-
-        
-           /*if(memcmp(getRequest, path_private, sizeof(path_private) - 1) == 0)   // is path under private section ?
-                {
-
-                 unsigned char   *ptr ;
-
-                // yes, points to sub path
-                ptr = getRequest + sizeof(path_private) - 1;
-
-                        // yes, parse request
-                        if(getRequest[sizeof(path_private)] == 's')
-                                {
-
-                                // request for javascript variables
-                                Net_Ethernet_28j60_putConstStringTCP(httpHeader, socketHTML);
-                                Net_Ethernet_28j60_putConstStringTCP(httpMimeTypeHTML, socketHTML);     // with script MIME type
-
-                                if (admin == 0) {
-
-                                // zahtev za sifru sa web servera
-                                Net_Ethernet_28j60_putConstStringTCP("var PASS=\"", socketHTML) ;
-                                Net_Ethernet_28j60_putConstStringTCP("<input placeholder=",socketHTML) ;
-                                Net_Ethernet_28j60_putStringTCP("password",socketHTML) ;
-                                Net_Ethernet_28j60_putConstStringTCP(" onChange=\\\"document.location.href = '/admin/v/' + this.value\\\" value=\\\"",socketHTML) ;
-                                Net_Ethernet_28j60_putConstStringTCP("\\\">\" ;",socketHTML) ;
-
-                                } else {
-
-                                uzobyte = 1;
-                                // LCD line 1 select + options
-                                Net_Ethernet_28j60_putConstStringTCP("var DHCPEN=\"",socketHTML) ;
-                                len += mkLCDselect(1, conf.dhcpen) ;
-
-
-                                // Old pass
-                                Net_Ethernet_28j60_putConstStringTCP("var PASS0=\"", socketHTML) ;
-                                Net_Ethernet_28j60_putConstStringTCP("<input placeholder=", socketHTML) ;
-                                len += putString(oldSifra) ;
-                                Net_Ethernet_28j60_putConstStringTCP(" onChange=\\\"document.location.href = '/admin/x/' + this.value\\\" value=\\\"",socketHTML) ;
-                                Net_Ethernet_28j60_putConstStringTCP("\\\">\" ;",socketHTML) ;
-
-                                // New pass
-                                len += putConstString("var PASS1=\"") ;
-                                len += putConstString("<input placeholder=") ;
-                                len += putString(newSifra) ;
-                                len += putConstString(" onChange=\\\"document.location.href = '/admin/y/' + this.value\\\" value=\\\"") ;
-                                len += putConstString("\\\">\" ;") ;
-
-
-                                // ukoliko je omogucena dinamicka dodela IP adrese
-                                if (conf.dhcpen == 1) {
-                                // time zone select + options
-                                len += putConstString("var SIP=\"") ;
-                                len += putConstString("<select onChange=\\\"document.location.href = '/admin/u/' + this.selectedIndex\\\">") ;
-                                for(i = 1 ; i < 5 ; i++)
-                                        {
-                                        len += putConstString("<option ") ;
-                                        if(i == s_ip)
-                                                {
-                                                len += putConstString(" selected") ;
-                                                }
-                                        len += putConstString(">") ;
-                                        len += putConstString(IPoption[i-1]) ;
-                                        //int2str(i, dyna) ;
-                                        //len += putString(dyna) ;
-                                        }
-                                len += putConstString("</select>\";") ;
-                                } else {
-                                   s_ip = 1;
-                                }
-                                // podesavanje IP adrese
-                                if (s_ip == 1) {
-                                // IP address 0
-                                len += putConstString("var IP0=\"") ;
-                                len += putConstString("<input placeholder=") ;
-                                len += putString(ipAddrPom0) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
-                                }
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString(">\";") ;
-                                }
-                                // IP address 1
-                                len += putConstString("var IP1=\"") ;
-                                len += putConstString("<input placeholder=") ;
-                                len += putString(ipAddrPom1) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
-                                }
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString(">\";") ;
-                                }
-                                // IP address 2
-                                len += putConstString("var IP2=\"") ;
-                                len += putConstString("<input placeholder=") ;
-                                len += putString(ipAddrPom2) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
-                                }
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString(">\";") ;
-                                }
-                                // IP address 3
-                                len += putConstString("var IP3=\"") ;
-                                len += putConstString("<input placeholder=") ;
-                                len += putString(ipAddrPom3) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
-                                }
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString(">\";") ;
-                                }
-                                }
-
-                                // Izabrana opcija za postavljanje maske
-                                if (s_ip == 2) {
-                                // MASK address 0
-                                len += putConstString("var M0=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(ipMaskPom0) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // MASK address 1
-                                len += putConstString("var M1=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(ipMaskPom1) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // MASK address 2
-                                len += putConstString("var M2=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(ipMaskPom2) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // MASK address 3
-                                len += putConstString("var M3=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(ipMaskPom3) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                }
-
-                                // izabrana opcija za podesavanje Gateway adrese
-                                if (s_ip == 3) {
-                                // GATEWAY address 0
-                                len += putConstString("var G0=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(gwIpAddrPom0) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // GATEWAY address 1
-                                len += putConstString("var G1=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(gwIpAddrPom1) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // GATEWAY address 2
-                                len += putConstString("var G2=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(gwIpAddrPom2) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // GATEWAY address 3
-                                len += putConstString("var G3=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(gwIpAddrPom3) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                //len += putString(txt) ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                }
-                                // izabrana opcija za podesavanje DNS-a
-                                if (s_ip == 4) {
-                                // DNS address 0
-                                len += putConstString("var D0=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(dnsIpAddrPom0) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/n/' + this.value\\\" value=\\\"") ;
-                                }
-
-
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // DNS address 1
-                                len += putConstString("var D1=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(dnsIpAddrPom1) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/o/' + this.value\\\" value=\\\"") ;
-                                }
-
-
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // DNS address 2
-                                len += putConstString("var D2=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(dnsIpAddrPom2) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/p/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                // DNS address 3
-                                len += putConstString("var D3=\"") ;
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("<input placeholder=") ;
-                                   len += putString(dnsIpAddrPom3) ;
-                                   len += putConstString(" onChange=\\\"document.location.href = '/admin/q/' + this.value\\\" value=\\\"") ;
-                                }
-
-                                if (conf.dhcpen == 1) {
-                                   len += putConstString("\\\">\" ;") ;
-                                } else {
-                                  len += putConstString("\";") ;
-                                }
-                                }
-
-                                }
-
-                                }
-                        else
-                                {
-                                // parse path to find parameters
-                                switch(getRequest[sizeof(path_private)])
-                                        {
-                                        case '1' :
-                                                // DHCP Enable selection
-                                                conf.dhcpen = getRequest[sizeof(path_private) + 2] - '0' ;
-                                                EEPROM_Write(103, conf.dhcpen);
-                                                delay_ms(100);
-                                                Rst_Eth();
-                                                saveConf() ;
-                                                break ;
-
-                                        case 'r':
-                                                // force to renew SNTP request  ////////////////////// ovo je za update now
-                                                if (conf.dhcpen == 1) {
-                                                        // upisivanje nove mrezne konfiguracije u eeprom ukoliko je zadovoljen format za adrese
-                                                   ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                                        // provera i upis nove IP adrese
-                                                   if ( (ipAddrPom0[0] >= '1') && (ipAddrPom0[0] <= '9') && (ipAddrPom0[1] >= '0') && (ipAddrPom0[1] <= '9') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(1, (ipAddrPom0[0]-48)*100 + (ipAddrPom0[1]-48)*10 + (ipAddrPom0[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom0[0] < '1') && (ipAddrPom0[1] >= '1') && (ipAddrPom0[1] <= '9') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(1, (ipAddrPom0[1]-48)*10 + (ipAddrPom0[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom0[0] < '1') && (ipAddrPom0[1] < '1') && (ipAddrPom0[2] >= '0') && (ipAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(1, (ipAddrPom0[2]-48));
-                                                   }
-
-                                                   if ( (ipAddrPom1[0] >= '1') && (ipAddrPom1[0] <= '9') && (ipAddrPom1[1] >= '0') && (ipAddrPom1[1] <= '9') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(2, (ipAddrPom1[0]-48)*100 + (ipAddrPom1[1]-48)*10 + (ipAddrPom1[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom1[0] < '1') && (ipAddrPom1[1] >= '1') && (ipAddrPom1[1] <= '9') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(2, (ipAddrPom1[1]-48)*10 + (ipAddrPom1[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom1[0] < '1') && (ipAddrPom1[1] < '1') && (ipAddrPom1[2] >= '0') && (ipAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(2, (ipAddrPom1[2]-48));
-                                                   }
-
-                                                   if ( (ipAddrPom2[0] >= '1') && (ipAddrPom2[0] <= '9') && (ipAddrPom2[1] >= '0') && (ipAddrPom2[1] <= '9') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(3, (ipAddrPom2[0]-48)*100 + (ipAddrPom2[1]-48)*10 + (ipAddrPom2[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom2[0] < '1') && (ipAddrPom2[1] >= '1') && (ipAddrPom2[1] <= '9') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(3, (ipAddrPom2[1]-48)*10 + (ipAddrPom2[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom2[0] < '1') && (ipAddrPom2[1] < '1') && (ipAddrPom2[2] >= '0') && (ipAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(3, (ipAddrPom2[2]-48));
-                                                   }
-
-                                                   if ( (ipAddrPom3[0] >= '1') && (ipAddrPom3[0] <= '9') && (ipAddrPom3[1] >= '0') && (ipAddrPom3[1] <= '9') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(4, (ipAddrPom3[0]-48)*100 + (ipAddrPom3[1]-48)*10 + (ipAddrPom3[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom3[0] < '1') && (ipAddrPom3[1] >= '1') && (ipAddrPom3[1] <= '9') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(4, (ipAddrPom3[1]-48)*10 + (ipAddrPom3[2]-48));
-                                                   }
-                                                   if ( (ipAddrPom3[0] < '1') && (ipAddrPom3[1] < '1') && (ipAddrPom3[2] >= '0') && (ipAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(4, (ipAddrPom3[2]-48));
-                                                   }
-                                                   ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                                   // provera i upis novog Gatewaya
-                                                   if ( (gwIpAddrPom0[0] >= '1') && (gwIpAddrPom0[0] <= '9') && (gwIpAddrPom0[1] >= '0') && (gwIpAddrPom0[1] <= '9') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(5, (gwIpAddrPom0[0]-48)*100 + (gwIpAddrPom0[1]-48)*10 + (gwIpAddrPom0[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom0[0] < '1') && (gwIpAddrPom0[1] >= '1') && (gwIpAddrPom0[1] <= '9') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(5, (gwIpAddrPom0[1]-48)*10 + (gwIpAddrPom0[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom0[0] < '1') && (gwIpAddrPom0[1] < '1') && (gwIpAddrPom0[2] >= '0') && (gwIpAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(5, (gwIpAddrPom0[2]-48));
-                                                   }
-
-                                                   if ( (gwIpAddrPom1[0] >= '1') && (gwIpAddrPom1[0] <= '9') && (gwIpAddrPom1[1] >= '0') && (gwIpAddrPom1[1] <= '9') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(6, (gwIpAddrPom1[0]-48)*100 + (gwIpAddrPom1[1]-48)*10 + (gwIpAddrPom1[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom1[0] < '1') && (gwIpAddrPom1[1] >= '1') && (gwIpAddrPom1[1] <= '9') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(6, (gwIpAddrPom1[1]-48)*10 + (gwIpAddrPom1[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom1[0] < '1') && (gwIpAddrPom1[1] < '1') && (gwIpAddrPom1[2] >= '0') && (gwIpAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(6, (gwIpAddrPom1[2]-48));
-                                                   }
-
-                                                   if ( (gwIpAddrPom2[0] >= '1') && (gwIpAddrPom2[0] <= '9') && (gwIpAddrPom2[1] >= '0') && (gwIpAddrPom2[1] <= '9') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(7, (gwIpAddrPom2[0]-48)*100 + (gwIpAddrPom2[1]-48)*10 + (gwIpAddrPom2[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom2[0] < '1') && (gwIpAddrPom2[1] >= '1') && (gwIpAddrPom2[1] <= '9') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(7, (gwIpAddrPom2[1]-48)*10 + (gwIpAddrPom2[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom2[0] < '1') && (gwIpAddrPom2[1] < '1') && (gwIpAddrPom2[2] >= '0') && (gwIpAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(7, (gwIpAddrPom2[2]-48));
-                                                   }
-
-                                                   if ( (gwIpAddrPom3[0] >= '1') && (gwIpAddrPom3[0] <= '9') && (gwIpAddrPom3[1] >= '0') && (gwIpAddrPom3[1] <= '9') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(8, (gwIpAddrPom3[0]-48)*100 + (gwIpAddrPom3[1]-48)*10 + (gwIpAddrPom3[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom3[0] < '1') && (gwIpAddrPom3[1] >= '1') && (gwIpAddrPom3[1] <= '9') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(8, (gwIpAddrPom3[1]-48)*10 + (gwIpAddrPom3[2]-48));
-                                                   }
-                                                   if ( (gwIpAddrPom3[0] < '1') && (gwIpAddrPom3[1] < '1') && (gwIpAddrPom3[2] >= '0') && (gwIpAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(8, (gwIpAddrPom3[2]-48));
-                                                   }
-                                                   ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                                   // provera i upis nove maske
-                                                   if ( (ipMaskPom0[0] >= '1') && (ipMaskPom0[0] <= '9') && (ipMaskPom0[1] >= '0') && (ipMaskPom0[1] <= '9') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
-                                                      EEPROM_Write(9, (ipMaskPom0[0]-48)*100 + (ipMaskPom0[1]-48)*10 + (ipMaskPom0[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom0[0] < '1') && (ipMaskPom0[1] >= '1') && (ipMaskPom0[1] <= '9') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
-                                                      EEPROM_Write(9, (ipMaskPom0[1]-48)*10 + (ipMaskPom0[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom0[0] < '1') && (ipMaskPom0[1] < '1') && (ipMaskPom0[2] >= '0') && (ipMaskPom0[2] <= '9') ) {
-                                                      EEPROM_Write(9, (ipMaskPom0[2]-48));
-                                                   }
-
-                                                   if ( (ipMaskPom1[0] >= '1') && (ipMaskPom1[0] <= '9') && (ipMaskPom1[1] >= '0') && (ipMaskPom1[1] <= '9') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
-                                                      EEPROM_Write(10, (ipMaskPom1[0]-48)*100 + (ipMaskPom1[1]-48)*10 + (ipMaskPom1[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom1[0] < '1') && (ipMaskPom1[1] >= '1') && (ipMaskPom1[1] <= '9') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
-                                                      EEPROM_Write(10, (ipMaskPom1[1]-48)*10 + (ipMaskPom1[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom1[0] < '1') && (ipMaskPom1[1] < '1') && (ipMaskPom1[2] >= '0') && (ipMaskPom1[2] <= '9') ) {
-                                                      EEPROM_Write(10, (ipMaskPom1[2]-48));
-                                                   }
-
-                                                   if ( (ipMaskPom2[0] >= '1') && (ipMaskPom2[0] <= '9') && (ipMaskPom2[1] >= '0') && (ipMaskPom2[1] <= '9') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
-                                                      EEPROM_Write(11, (ipMaskPom2[0]-48)*100 + (ipMaskPom2[1]-48)*10 + (ipMaskPom2[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom2[0] < '1') && (ipMaskPom2[1] >= '1') && (ipMaskPom2[1] <= '9') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
-                                                      EEPROM_Write(11, (ipMaskPom2[1]-48)*10 + (ipMaskPom2[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom2[0] < '1') && (ipMaskPom2[1] < '1') && (ipMaskPom2[2] >= '0') && (ipMaskPom2[2] <= '9') ) {
-                                                      EEPROM_Write(11, (ipMaskPom2[2]-48));
-                                                   }
-
-                                                   if ( (ipMaskPom3[0] >= '1') && (ipMaskPom3[0] <= '9') && (ipMaskPom3[1] >= '0') && (ipMaskPom3[1] <= '9') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
-                                                      EEPROM_Write(12, (ipMaskPom3[0]-48)*100 + (ipMaskPom3[1]-48)*10 + (ipMaskPom3[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom3[0] < '1') && (ipMaskPom3[1] >= '1') && (ipMaskPom3[1] <= '9') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
-                                                      EEPROM_Write(12, (ipMaskPom3[1]-48)*10 + (ipMaskPom3[2]-48));
-                                                   }
-                                                   if ( (ipMaskPom3[0] < '1') && (ipMaskPom3[1] < '1') && (ipMaskPom3[2] >= '0') && (ipMaskPom3[2] <= '9') ) {
-                                                      EEPROM_Write(12, (ipMaskPom3[2]-48));
-                                                   }
-                                                   ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                                   //provera i upis novog DNS-a
-                                                   if ( (dnsIpAddrPom0[0] >= '1') && (dnsIpAddrPom0[0] <= '9') && (dnsIpAddrPom0[1] >= '0') && (dnsIpAddrPom0[1] <= '9') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(13, (dnsIpAddrPom0[0]-48)*100 + (dnsIpAddrPom0[1]-48)*10 + (dnsIpAddrPom0[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom0[0] < '1') && (dnsIpAddrPom0[1] >= '1') && (dnsIpAddrPom0[1] <= '9') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(13, (dnsIpAddrPom0[1]-48)*10 + (dnsIpAddrPom0[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom0[0] < '1') && (dnsIpAddrPom0[1] < '1') && (dnsIpAddrPom0[2] >= '0') && (dnsIpAddrPom0[2] <= '9') ) {
-                                                      EEPROM_Write(13, (dnsIpAddrPom0[2]-48));
-                                                   }
-
-                                                   if ( (dnsIpAddrPom1[0] >= '1') && (dnsIpAddrPom1[0] <= '9') && (dnsIpAddrPom1[1] >= '0') && (dnsIpAddrPom1[1] <= '9') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(14, (dnsIpAddrPom1[0]-48)*100 + (dnsIpAddrPom1[1]-48)*10 + (dnsIpAddrPom1[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom1[0] < '1') && (dnsIpAddrPom1[1] >= '1') && (dnsIpAddrPom1[1] <= '9') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(14, (dnsIpAddrPom1[1]-48)*10 + (dnsIpAddrPom1[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom1[0] < '1') && (dnsIpAddrPom1[1] < '1') && (dnsIpAddrPom1[2] >= '0') && (dnsIpAddrPom1[2] <= '9') ) {
-                                                      EEPROM_Write(14, (dnsIpAddrPom1[2]-48));
-                                                   }
-
-                                                   if ( (dnsIpAddrPom2[0] >= '1') && (dnsIpAddrPom2[0] <= '9') && (dnsIpAddrPom2[1] >= '0') && (dnsIpAddrPom2[1] <= '9') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(15, (dnsIpAddrPom2[0]-48)*100 + (dnsIpAddrPom2[1]-48)*10 + (dnsIpAddrPom2[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom2[0] < '1') && (dnsIpAddrPom2[1] >= '1') && (dnsIpAddrPom2[1] <= '9') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(15, (dnsIpAddrPom2[1]-48)*10 + (dnsIpAddrPom2[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom2[0] < '1') && (dnsIpAddrPom2[1] < '1') && (dnsIpAddrPom2[2] >= '0') && (dnsIpAddrPom2[2] <= '9') ) {
-                                                      EEPROM_Write(15, (dnsIpAddrPom2[2]-48));
-                                                   }
-
-                                                   if ( (dnsIpAddrPom3[0] >= '1') && (dnsIpAddrPom3[0] <= '9') && (dnsIpAddrPom3[1] >= '0') && (dnsIpAddrPom3[1] <= '9') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(16, (dnsIpAddrPom3[0]-48)*100 + (dnsIpAddrPom3[1]-48)*10 + (dnsIpAddrPom3[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom3[0] < '1') && (dnsIpAddrPom3[1] >= '1') && (dnsIpAddrPom3[1] <= '9') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(16, (dnsIpAddrPom3[1]-48)*10 + (dnsIpAddrPom3[2]-48));
-                                                   }
-                                                   if ( (dnsIpAddrPom3[0] < '1') && (dnsIpAddrPom3[1] < '1') && (dnsIpAddrPom3[2] >= '0') && (dnsIpAddrPom3[2] <= '9') ) {
-                                                      EEPROM_Write(16, (dnsIpAddrPom3[2]-48));
-                                                   }
-                                                   delay_ms(100);
-                                                   Rst_Eth();
-                                                }
-                                                break ;
-                                        case 'n':
-                                                /////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                if (conf.dhcpen == 1) {
-                                                   if (s_ip == 1) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,IpAddrPom0);
-                                                   }
-                                                   if (s_ip == 2) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,ipMaskPom0);
-                                                   }
-                                                   if (s_ip == 3) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,gwIpAddrPom0);
-                                                   }
-                                                   if (s_ip == 4) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,dnsIpAddrPom0);
-                                                   }
-                                                }
-                                                break ;
-                                        case 'o':
-                                                ////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                if (conf.dhcpen == 1) {
-                                                   if (s_ip == 1) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,IpAddrPom1);
-                                                   }
-                                                   if (s_ip == 2) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,ipMaskPom1);
-                                                   }
-                                                   if (s_ip == 3) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,gwIpAddrPom1);
-                                                   }
-                                                   if (s_ip == 4) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,dnsIpAddrPom1);
-                                                   }
-                                                }
-                                                break ;
-                                        case 'p':
-                                                ////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                if (conf.dhcpen == 1) {
-                                                   if (s_ip == 1) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,IpAddrPom2);
-                                                   }
-                                                   if (s_ip == 2) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,ipMaskPom2);
-                                                   }
-                                                   if (s_ip == 3) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,gwIpAddrPom2);
-                                                   }
-                                                   if (s_ip == 4) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,dnsIpAddrPom2);
-                                                   }
-                                                }
-                                                break ;
-                                        case 'q':
-                                                ////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-                                                if (conf.dhcpen == 1) {
-                                                   if (s_ip == 1) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,IpAddrPom3);
-                                                   }
-                                                   if (s_ip == 2) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,ipMaskPom3);
-                                                   }
-                                                   if (s_ip == 3) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,gwIpAddrPom3);
-                                                   }
-                                                   if (s_ip == 4) {
-                                                      pomocni = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                      ByteToStr(pomocni,dnsIpAddrPom3);
-                                                   }
-                                                }
-                                                break ;
-                                        case 'v':
-                                                //////////////////////\\////////////////////// ovo je izgleda da uzme iz polja
-
-                                                pomocnaSifra[0] = getRequest[sizeof(path_private) + 2] ;
-                                                pomocnaSifra[1] = getRequest[sizeof(path_private) + 3] ;
-                                                pomocnaSifra[2] = getRequest[sizeof(path_private) + 4] ;
-                                                pomocnaSifra[3] = getRequest[sizeof(path_private) + 5] ;
-                                                pomocnaSifra[4] = getRequest[sizeof(path_private) + 6] ;
-                                                pomocnaSifra[5] = getRequest[sizeof(path_private) + 7] ;
-                                                pomocnaSifra[6] = getRequest[sizeof(path_private) + 8] ;
-                                                pomocnaSifra[7] = getRequest[sizeof(path_private) + 9] ;
-                                                pomocnaSifra[8] = 0;
-
-                                                // uspesno ulogovanje na admin stranicu
-                                                if (strcmp(sifra,pomocnaSifra) == 0) {
-                                                   tmr_rst_en = 1;
-                                                   admin = 1;
-                                                   len = 0;
-                                                   //len += putConstString(HTMLheader) ;
-                                                   //len += putConstString(HTMLredirect) ;
-                                                   len += putConstString(HTMLfooter) ;
-                                                   goto ZAVRSI;
-
-                                                }
-                                                break ;
-                                        case 'x':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-
-                                                oldSifra[0] = getRequest[sizeof(path_private) + 2] ;
-                                                oldSifra[1] = getRequest[sizeof(path_private) + 3] ;
-                                                oldSifra[2] = getRequest[sizeof(path_private) + 4] ;
-                                                oldSifra[3] = getRequest[sizeof(path_private) + 5] ;
-                                                oldSifra[4] = getRequest[sizeof(path_private) + 6] ;
-                                                oldSifra[5] = getRequest[sizeof(path_private) + 7] ;
-                                                oldSifra[6] = getRequest[sizeof(path_private) + 8] ;
-                                                oldSifra[7] = getRequest[sizeof(path_private) + 9] ;
-                                                oldSifra[8] = 0;
-                                                break ;
-                                        case 'y':
-                                                /////////////////////////////////////////////////////// ovo je izgleda da uzme iz polja
-
-                                                newSifra[0] = getRequest[sizeof(path_private) + 2] ;
-                                                newSifra[1] = getRequest[sizeof(path_private) + 3] ;
-                                                newSifra[2] = getRequest[sizeof(path_private) + 4] ;
-                                                newSifra[3] = getRequest[sizeof(path_private) + 5] ;
-                                                newSifra[4] = getRequest[sizeof(path_private) + 6] ;
-                                                newSifra[5] = getRequest[sizeof(path_private) + 7] ;
-                                                newSifra[6] = getRequest[sizeof(path_private) + 8] ;
-                                                newSifra[7] = getRequest[sizeof(path_private) + 9] ;
-                                                newSifra[8] = 0;
-                                                break ;
-
-                                        case 'w' :
-                                                        // upis nove sifre uz proveru da li je uslov zadovoljen za promenu
-                                                if (strcmp(sifra, oldSifra) == 0) {
-                                                   rest = strcpy(sifra, newSifra);
-                                                   admin = 0;
-                                                }
-                                                EEPROM_Write(20, sifra[0]);
-                                                EEPROM_Write(21, sifra[1]);
-                                                EEPROM_Write(22, sifra[2]);
-                                                EEPROM_Write(23, sifra[3]);
-                                                EEPROM_Write(24, sifra[4]);
-                                                EEPROM_Write(25, sifra[5]);
-                                                EEPROM_Write(26, sifra[6]);
-                                                EEPROM_Write(27, sifra[7]);
-                                                EEPROM_Write(28, sifra[8]);
-                                                strcpy(oldSifra, "OLD     ");
-                                                strcpy(newSifra, "NEW     ");
-                                                delay_ms(100);
-                                                break ;
-                                        case 'u':
-                                                if (conf.dhcpen == 1) {
-                                                   s_ip = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                   s_ip += 1 ;
-                                                }
-                                                saveConf() ;
-                                                break ;
-
-                                        case 't':
-                                                // time zone
-                                                conf.tz = atoi(&getRequest[sizeof(path_private) + 2]) ;
-                                                conf.tz -= 11 ;
-                                                Eeprom_Write(102, conf.tz);
-                                                delay_ms(100);
-                                                break ;
-                                        }
-                                // reply to browser with admin HTML pages
-                                   //len += putConstString(HTMLheader) ;
-                                   if (admin == 0) {
-                                     // len += putConstString(HTMLadmin0);
-                                   } else {
-                                      if (s_ip == 1) {
-                                      //   len += putConstString(HTMLadmin1) ;
-                                      }
-                                      if (s_ip == 2) {
-                                      //   len += putConstString(HTMLadmin2) ;
-                                      }
-                                      if (s_ip == 3) {
-                                      //   len += putConstString(HTMLadmin3) ;
-                                      }
-                                      if (s_ip == 4) {
-                                       //  len += putConstString(HTMLadmin4) ;
-                                      }
-                                   }
-                                   len += putConstString(HTMLfooter) ;
-                                }
-                        //}
-                }
-        else switch(getRequest[1])
-                {
-                // not in private zone, parse request path
-                case 's':
-                        // reply with stylesheet
-                        if(lastSync == 0)
-                                {
-                                Net_Ethernet_28j60_putConstStringTCP(CSSred, socketHTML) ;          // not sync
-                                }
-                        else
-                                {
-                                Net_Ethernet_28j60_putConstStringTCP(CSSgreen, socketHTML) ;        // sync
-                                }
-                        break ;
-                case 'a':
-
-                        // reply with clock info javascript variables
-                        Net_Ethernet_28j60_putConstStringTCP(httpHeader,socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(httpMimeTypeScript,socketHTML) ;
-
-                        // add date to reply
-                        ts2str(dyna, &ts, TS2STR_ALL | TS2STR_TZ) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var NOW=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";" , socketHTML) ;
-
-                        // add epoch to reply
-                        int2str(epoch, dyna) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var EPOCH=", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(";" ,socketHTML) ;
-
-                        // add last sync date
-                        if(lastSync == 0)
-                                {
-                                strcpy(dyna, "???") ;
-                                }
-                        else
-                                {
-                                Time_epochToDate(lastSync + tmzn * 3600, &ls) ;
-                                DNSavings();
-                                ts2str(dyna, &ls, TS2STR_ALL | TS2STR_TZ) ;
-                                }
-                        Net_Ethernet_28j60_putConstStringTCP("var LAST=\"",socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";",socketHTML) ;
-
-                        break ;
-
-                case 'b':
-
-                        // reply with sntp info javascript variables
-                        Net_Ethernet_28j60_putConstStringTCP(httpHeader,socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(httpMimeTypeScript,socketHTML) ;
-
-                        // reply is made of the IP MASK in human readable format
-                        ip2str(dyna, conf.sntpIP) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var SNTP=\"",socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(conf.sntpServer,socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("(" ,socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(")" ,socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";" ,socketHTML) ;
-
-                        // add sntp stratum to reply
-                        if(serverStratum == 0)
-                                {
-                                strcpy(dyna, "Unspecified") ;
-                                }
-                        else if(serverStratum == 1)
-                                {
-                                strcpy(dyna, "1 (primary)") ;
-                                }
-                        else if(serverStratum < 16)
-                                {
-                                int2str(serverStratum, dyna) ;
-                                strcat(dyna, "(secondary)") ;
-                                }
-                        else
-                                {
-                                int2str(serverStratum, dyna) ;
-                                strcat(dyna, " (reserved)") ;
-                                }
-                        Net_Ethernet_28j60_putConstStringTCP("var STRATUM=\"",socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        // add sntp flags to reply
-                        switch(serverFlags & 0b11000000)
-                                {
-                                case 0b00000000: strcpy(dyna, "No warning") ; break ;
-                                case 0b01000000: strcpy(dyna, "Last minute has 61 seconds") ; break ;
-                                case 0b10000000: strcpy(dyna, "Last minute has 59 seconds") ; break ;
-                                case 0b11000000: strcpy(dyna, "SNTP server not synchronized") ; break ;
-                                }
-                        Net_Ethernet_28j60_putConstStringTCP("var LEAP=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        int2str(serverPrecision, dyna) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var PRECISION=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        switch(serverFlags & 0b00111000)
-                                {
-                                case 0b00011000: strcpy(dyna, "IPv4 only") ; break ;
-                                case 0b00110000: strcpy(dyna, "IPv4, IPv6 and OSI") ; break ;
-                                default: strcpy(dyna, "Undefined") ; break ;
-                                }
-                        Net_Ethernet_28j60_putConstStringTCP("var VN=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        switch(serverFlags & 0b00000111)
-                                {
-                                case 0b00000000: strcpy(dyna, "Reserved") ; break ;
-                                case 0b00000001: strcpy(dyna, "Symmetric active") ; break ;
-                                case 0b00000010: strcpy(dyna, "Symmetric passive") ; break ;
-                                case 0b00000011: strcpy(dyna, "Client") ; break ;
-                                case 0b00000100: strcpy(dyna, "Server") ; break ;
-                                case 0b00000101: strcpy(dyna, "Broadcast") ; break ;
-                                case 0b00000110: strcpy(dyna, "Reserved for NTP control message") ; break ;
-                                case 0b00000111: strcpy(dyna, "Reserved for private use") ; break ;
-                                }
-                        Net_Ethernet_28j60_putConstStringTCP("var MODE=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        break ;
-
-                case 'c':
-
-                        // reply with network info javascript variables
-                        Net_Ethernet_28j60_putConstStringTCP(httpHeader, socketHTML) ;              // HTTP header
-                        Net_Ethernet_28j60_putConstStringTCP(httpMimeTypeScript, socketHTML) ;     // with text MIME type
-
-                        // reply is made of the remote host IP address in human readable format
-                        ip2str(dyna, ipAddr) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var IP=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        byte2hex(dyna, macAddr[0]) ;
-                        byte2hex(dyna + 3, macAddr[1]) ;
-                        byte2hex(dyna + 6, macAddr[2]) ;
-                        byte2hex(dyna + 9, macAddr[3]) ;
-                        byte2hex(dyna + 12, macAddr[4]) ;
-                        byte2hex(dyna + 15, macAddr[5]) ;
-                        *(dyna + 17) = 0 ;
-                        Net_Ethernet_28j60_putConstStringTCP("var MAC=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        // reply is made of the remote host IP address in human readable format
-                        ip2str(dyna, socket->remoteIP) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var CLIENT=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        // reply is made of the ROUTER address in human readable format
-                        ip2str(dyna, gwIpAddr) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var GW=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        // reply is made of the IP MASK in human readable format
-                        ip2str(dyna, ipMask) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var MASK=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        // reply is made of the IP MASK in human readable format
-                        ip2str(dyna, dnsIpAddr) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var DNS=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        break ;
-
-                case 'd':
-                        {
-                        // reply with system info javascript variables
-                        TimeStruct t ;
-                        //admin = 0;
-                        Net_Ethernet_28j60_putConstStringTCP(httpHeader, socketHTML) ;              // HTTP header
-                        Net_Ethernet_28j60_putConstStringTCP(httpMimeTypeScript, socketHTML) ;     // with text MIME type
-
-                        Net_Ethernet_28j60_putConstStringTCP("var SYSTEM=\"ENC28J60\";", socketHTML) ;
-
-                        int2str(Clock_kHz(), dyna) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var CLK=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-                        // add HTTP requests counter to reply
-                        int2str(httpCounter, dyna) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var REQ=" , socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(";", socketHTML) ;
-                        // obrada vremena
-                        Time_epochToDate(epoch - Net_Ethernet_28j60_UserTimerSec + tmzn * 3600, &t) ;
-                        DNSavings();
-                        ts2str(dyna, &t, TS2STR_ALL | TS2STR_TZ) ;
-                        Net_Ethernet_28j60_putConstStringTCP("var UP=\"", socketHTML) ;
-                        Net_Ethernet_28j60_putStringTCP(dyna, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP("\";", socketHTML) ;
-
-
-                        break ;
-                        }
-
-                case '4':
-                        admin = 0;
-                        strcpy(oldSifra, "OLD     ");
-                        strcpy(newSifra, "NEW     ");
-                        // reply with system info HTML page
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLheader, socketHTML) ;
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLsystem ,socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(HTMLfooter,socketHTML) ;
-                        break ;
-
-                case '3':
-                        admin = 0;
-                        strcpy(oldSifra, "OLD     ");
-                        strcpy(newSifra, "NEW     ");
-                        // reply with network info HTML page
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLheader, socketHTML) ;
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLnetwork, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(HTMLfooter, socketHTML) ;
-                        break ;
-
-                case '2':
-                        admin = 0;
-                        strcpy(oldSifra, "OLD     ");
-                        strcpy(newSifra, "NEW     ");
-                        // reply with sntp info HTML page
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLheader, socketHTML) ;
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLsntp, socketHTML) ;
-                        Net_Ethernet_28j60_putConstStringTCP(HTMLfooter, socketHTML) ;
-                        break ;
-
-                case '1':
-                default:
-                        if (uzobyte == 1) {
-                           uzobyte = 0;
-                        } else {
-                           admin = 0;
-                           strcpy(oldSifra, "OLD     ");
-                           strcpy(newSifra, "NEW     ");
-                        }
-                        // reply with clock info HTML page
-                        //Net_Ethernet_28j60_putConstStringTCP(HTMLheader,socket) ;
-                        Net_Ethernet_28j60_putConstStringTCP(HTMLtime,socket);
-                        Net_Ethernet_28j60_putConstStringTCP(HTMLfooter,socket) ;
-
-                        if( Net_Ethernet_28j60_bufferEmptyTCP(socket))  {
-                        Net_Ethernet_28j60_disconnectTCP(socket);
-                        sendHTML_mark = 0;
-                        pos[socket->ID] = 0;
-                        }
-
-
-                }*/
-
-        httpCounter++ ;                             // one more request done
-        
-
-        ZAVRSI:
-        //return(len) ;                               // return to the library with the number of bytes to transmit
-        
-        junk = 0;
-        
-        }
-     }
 
 // funkcija za prikaz IP adrese na displeju
 void Print_IP() {
@@ -2119,63 +1219,169 @@ void Print_IP() {
      asm CLRWDT;
      delay_ms(500);
      asm CLRWDT;
+
 }
 
 /*
  * incoming UDP request
  */
-//unsigned int  Net_Ethernet_28j60_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
-unsigned int Net_Ethernet_28j60_UserUDP(UDP_28j60_Dsc *udpDsc)
-        {
+/*unsigned int  SPI_Ethernet_UserUDP(unsigned char *remoteHost, unsigned int remotePort, unsigned int destPort, unsigned int reqLength, TEthPktFlags *flags)
+        {*/
+        
+unsigned int Net_Ethernet_28j60_UserUDP(UDP_28j60_Dsc *udpDsc) {
+
         unsigned char   i ;
+        long delta;
+
         char broadcmd[20];
+        //char dyna[31];
+        
+
         // udp terminal za otkrivanje ip adrese 
         if (udpDsc->destPort == 10001) {
+
            if (udpDsc->dataLength == 9) {
               for (i = 0 ; i < 9 ; i++) {
                   broadcmd[i] = Net_Ethernet_28j60_getByte() ;
               }
               if ( (broadcmd[0] == 'I') && (broadcmd[1] == 'D') && (broadcmd[2] == 'E') && (broadcmd[3] == 'N') && (broadcmd[4] == 'T') && (broadcmd[5] == 'I') && (broadcmd[6] == 'F') && (broadcmd[7] == 'Y') && (broadcmd[8] == '!') ) {
+
                  Print_IP();
+
               }
            }
         }
+
         // udp terminal za obradu sntp zahteva
         if(udpDsc->destPort == 123)             // check SNTP port number
                 {
-                if (udpDsc->dataLength == 48) {
-                
-                  unsigned long    tts ;
+                if (udpDsc->remoteIP[3] == 10 && modeChange == 0){
+                  return (0);
+                }
 
+                 else if (udpDsc->dataLength == 48) {
+                  epoch_fract = presTmr * 274877.906944 ;
+                  t_dst = epoch;
+                  t_dst_fract = epoch_fract ;
                   serverFlags = Net_Ethernet_28j60_getByte() ;
                   serverStratum = Net_Ethernet_28j60_getByte() ;
-                  Net_Ethernet_28j60_getByte() ;        // skip poll
+                  poll = Net_Ethernet_28j60_getByte() ;        // skip poll
                   serverPrecision = Net_Ethernet_28j60_getByte() ;
 
-                  for(i = 0 ; i < 36 ; i++)
-                          {
-                          Net_Ethernet_28j60_getByte() ; // skip all unused fileds
-                          }
+                  for(i = 0 ; i < 20 ; i++){
+                    Net_Ethernet_28j60_getByte() ;// skip all unused fileds
+                  }
+                  //t1
 
-                  // store transmit timestamp
-                  Highest(tts) = Net_Ethernet_28j60_getByte() ;
-                  Higher(tts) = Net_Ethernet_28j60_getByte() ;
-                  Hi(tts) = Net_Ethernet_28j60_getByte() ;
-                  Lo(tts) = Net_Ethernet_28j60_getByte() ;
+                  Highest(t_org) = Net_Ethernet_28j60_getByte() ;
+                  Higher(t_org) = Net_Ethernet_28j60_getByte() ;
+                  Hi(t_org) = Net_Ethernet_28j60_getByte() ;
+                  Lo(t_org) = Net_Ethernet_28j60_getByte() ;
+                  Highest(t_org_fract) = Net_Ethernet_28j60_getByte() ;
+                  Higher(t_org_fract) = Net_Ethernet_28j60_getByte() ;
+                  Hi(t_org_fract) = Net_Ethernet_28j60_getByte() ;
+                  Lo(t_org_fract) = Net_Ethernet_28j60_getByte() ;
 
+                  //t2
+                  Highest(t_rec) = Net_Ethernet_28j60_getByte() ;
+                  Higher(t_rec) = Net_Ethernet_28j60_getByte() ;
+                  Hi(t_rec) = Net_Ethernet_28j60_getByte() ;
+                  Lo(t_rec) = Net_Ethernet_28j60_getByte() ;
+                  Highest(t_rec_fract) = Net_Ethernet_28j60_getByte() ;
+                  Higher(t_rec_fract) = Net_Ethernet_28j60_getByte() ;
+                  Hi(t_rec_fract) = Net_Ethernet_28j60_getByte() ;
+                  Lo(t_rec_fract) = Net_Ethernet_28j60_getByte() ;
+                  //t3
+                  Highest(t_xmt) = Net_Ethernet_28j60_getByte() ;
+                  Higher(t_xmt) = Net_Ethernet_28j60_getByte() ;
+                  Hi(t_xmt) = Net_Ethernet_28j60_getByte() ;
+                  Lo(t_xmt) = Net_Ethernet_28j60_getByte() ;
+                  Highest(t_xmt_fract) = Net_Ethernet_28j60_getByte() ;
+                  Higher(t_xmt_fract) = Net_Ethernet_28j60_getByte() ;
+                  Hi(t_xmt_fract) = Net_Ethernet_28j60_getByte() ;
+                  Lo(t_xmt_fract) = Net_Ethernet_28j60_getByte() ;
+
+                  //uart print times
+                 /*LongtoStr(t_org,rez);
+                  Time_EpochtoDate(t_org + 3600 *tmzn , &t1_s);
+                  ts2str(rez,&t1_s,TS2STR_TIME);
+                  strcat (rez, ".");
+                  LongtoStr(t_org_fract,fract);
+                  strcat(rez,fract);
+                  UART_Write_Text("Ovo je t1 sa servera:");
+                  UART_Write_Text(rez);
+                  UART_Write(0x0D);
+                  UART_Write(0x0A);*/
+
+                  t_rec = t_rec - 2208988800;
+                  /*LongtoStr(t_rec,rez);
+                  strcat (rez, ".");
+                  LongtoStr(t_rec_fract,fract);
+                  strcat(rez,fract);
+                  UART_Write_Text("Ovo je t2:");
+                  UART_Write_Text(rez);
+                  UART_Write(0x0D);
+                  UART_Write(0x0A);*/
+
+                  t_xmt =  t_xmt - 2208988800;
+
+                /*LongtoStr(t_xmt,rez);
+                  strcat (rez, ".");
+                  LongtoStr(t_xmt_fract,fract);
+                  strcat(rez,fract);
+                  UART_Write_Text("Ovo je t3:");
+                  UART_Write_Text(rez);
+                  UART_Write(0x0D);
+                  UART_Write(0x0A);
+
+                  LongtoStr(t_dst,rez);
+                  strcat (rez, ".");
+                  LongtoStr(t_dst_fract,fract);
+                  strcat(rez,fract);
+                  UART_Write_Text("Ovo je t4 na klijentu:");
+                  UART_Write_Text(rez);
+                  UART_Write(0x0D);
+                  UART_Write(0x0A);*/
+
+
+                  if (t_dst == t_org){
+                  delta = ( t_dst_fract - t_org_fract) - (t_xmt_fract - t_rec_fract );
+                  /*LongtoStr(delta, rez);
+                  UART_Write_Text("Ovo je t4 = t1:");
+                  UART_Write_Text(rez);
+                  UART_Write(0x0D);
+                  UART_Write(0x0A);*/
+                  }
+                  else if (t_dst != t_org){
+                  delta = (4294967295 -  t_org_fract + t_dst_fract) - (t_xmt_fract - t_rec_fract );
+                  /*LongtoStr(delta, rez);
+                  UART_Write_Text("Ovo NIJE! t4 = t1:");
+                  UART_Write_Text(rez);
+                  UART_Write(0x0D);
+                  UART_Write(0x0A);*/
+                  }
                   // convert sntp timestamp to unix epoch
-                  epoch = tts - 2208988800 ;
+                  if ( (presTmr + delta /(2 * 274877.906944))  > 15625 ){
+                  epoch  = t_xmt + 1;
+                  presTmr = (presTmr + delta / (2 * 274877.906944)) - 15625;
+                  epoch_fract = presTmr * 274877.906944 ;
+                  //lastSync = epoch;
+                  }
+                  else {
+                  epoch = t_xmt;
+                  epoch_fract += delta / 2;
 
+                  }
                   // save last synchronization timestamp
-                  lastSync = epoch ;
-
+                  lastSync =  epoch;
                   // update display
                   marquee = bufInfo ;
                   
                   notime = 0;
                   notime_ovf = 0;
 
-                  Time_epochToDate(epoch + tmzn * 3600l, &ts) ;
+                  Time_epochToDate(epoch + tmzn * 3600, &ts) ;
+
                   presTmr = 0;
                   DNSavings();
                   if (lcdEvent) {
@@ -2196,6 +1402,14 @@ unsigned int Net_Ethernet_28j60_UserUDP(UDP_28j60_Dsc *udpDsc)
                 }
         }
 // funkcije prekida
+void InitTimer1(){
+  T1CON         = 0x01;
+  TMR1IF_bit    = 0;
+  TMR1H         = 0x63;
+  TMR1L         = 0xC0;
+  TMR1IE_bit    = 1;
+  INTCON        = 0xC0;
+}
 void interrupt() {
         //prekid UARTA
      if (PIR1.RCIF == 1) {
@@ -2215,43 +1429,38 @@ void interrupt() {
      // prekid timer0
      if (INTCON.TMR0IF) {
         presTmr++ ;
-        lcdTmr++ ;
-        if (presTmr == 15625) {
-
-           ////////// ADMIN RELOAD ///////////////////////////////
-           if (tmr_rst_en == 1) {
-              tmr_rst++;
-              if (tmr_rst == 178) {
-                 tmr_rst = 0;
-                 tmr_rst_en = 0;
-                 admin = 0;
-              }
-           } else {
-              tmr_rst = 0;
-           }
-           ////////// ADMIN RELOAD ///////////////////////////////
-
-           ////////// NO TIME ////////////////////////////////////
-           notime++;
-           if (notime == 32) {
-              notime = 0;
-              notime_ovf = 1;
-           }
-           ////////// NO TIME ////////////////////////////////////
         
-           ////////// LEASE TIME /////////////////////////////////
-           if ( (lease_tmr == 1) && (lease_time < 250) ) {
-              lease_time++;
-           } else {
-              lease_time = 0;
-           }
-           ////////// LEASE TIME /////////////////////////////////
+        if (presTmr == 15625) {
 
            ////////// ETH TIME ///////////////////////////////////
            Net_Ethernet_28j60_UserTimerSec++ ;
            epoch++ ;
            presTmr = 0 ;
            ////////// ETH TIME ///////////////////////////////////
+        }
+        INTCON.TMR0IF = 0 ;              // clear timer0 overflow flag
+
+     }
+     if (TMR1IF_bit){
+
+         lcdTmr++;
+         cnt++;
+         if (modeChange == 0){
+             modeCnt++;
+            if (modeCnt == ipAddr[3]){
+               sntpSync = 0;
+               sync_flag = 1;
+               modeChange = 1;
+               modeCnt = 0;
+               }
+
+         }
+         if (cnt == 200){
+
+            if (admin == 1){
+            session++;
+            }
+
 
            ////////// TIMER ZA RESET ENC28J60 ////////////////////
            if (timer_flag < 2555) {
@@ -2260,6 +1469,22 @@ void interrupt() {
               timer_flag = 0;
            }
            ////////// TIMER ZA RESET ENC28J60 ////////////////////
+           
+           ////////// NO TIME ////////////////////////////////////
+           notime++;
+           if (notime == 32) {
+              notime = 0;
+              notime_ovf = 1;
+           }
+           ////////// NO TIME ////////////////////////////////////
+
+           ////////// LEASE TIME /////////////////////////////////
+           if ( (lease_tmr == 1) && (lease_time < 250) ) {
+              lease_time++;
+           } else {
+              lease_time = 0;
+           }
+           ////////// LEASE TIME /////////////////////////////////
 
            ////////// AUTO SNTP SEND REQUEST /////////////////////
            ////////// 1 hr
@@ -2267,6 +1492,7 @@ void interrupt() {
            if (req_tmr_1 == 60) {
               req_tmr_1 = 0;
               req_tmr_2++;
+
            }
            if (req_tmr_2 == 60) {
               req_tmr_2 = 0;
@@ -2285,15 +1511,24 @@ void interrupt() {
               rst_fab_flag++;
            }
            ////////// RESET NA FABRICKA //////////////////////////
+          cnt = 0;
+         }
+         ////////// ADMIN RELOAD ///////////////////////////////
+         if (session == 120){
+         admin = 0;
+         session = 0;
+         sendHTML_mark = 1;
+         }
+          ////////// ADMIN RELOAD ///////////////////////////////
+         if (lcdTmr == 40) {
+         lcdEvent = 1;
+         lcdTmr = 0;
+         }
 
-        }
-
-        if (lcdTmr == 3125) {
-           lcdEvent = 1;
-           lcdTmr = 0;
-        }
-        INTCON.TMR0IF = 0 ;              // clear timer0 overflow flag
-     }
+           TMR1H         = 0x63;
+           TMR1L         = 0xC0;
+           TMR1IF_bit = 0;
+      }
 }
 
 // Funkcija za gasenje displeja
@@ -2414,7 +1649,6 @@ void Mem_Read() {
   asm nop;
   //SPI1_Init();
   SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
-  
 }
 
 /*
@@ -2430,7 +1664,7 @@ void main() {
      PORTC = 0;
 
      Com_En_Direction = 0;
-     Com_En = 0;
+     Com_En = 1;
 
      Kom_En_1_Direction = 0;
      Kom_En_1 = 1;
@@ -2477,19 +1711,16 @@ void main() {
      PWM1_Set_Duty(max_light);      // 90
      //BCKL = 1;
 
-     for(ik = 0; ik < NUM_OF_SOCKET_28j60; ik++)
-     pos[ik] = 0;
-
      UART1_Init(9600);
      PIE1.RCIE = 1;
      GIE_bit = 1;
      PEIE_bit = 1;
+     InitTimer1();
 
      T0CON = 0b11000000 ;
      INTCON.TMR0IF = 0 ;
      INTCON.TMR0IE = 1 ;
-
-
+     Net_Ethernet_28j60_stackInitTCP();
      // beskonacna petlja
      while(1) {
 
@@ -2523,6 +1754,9 @@ void main() {
              }
 
              // postavljanje pocetnih mreznih parametra
+             /*ipAddr[0]    = 172;
+             ipAddr[1]    = 24;
+             ipAddr[2]    = 171;*/
              ipAddr[0]    = 192;
              ipAddr[1]    = 168;
              ipAddr[2]    = 1;
@@ -2669,8 +1903,10 @@ void main() {
              prvi_timer = 1;
              drugi_timer = 0;
              timer_flag = 0;
-
              Print_Pme();
+             
+             modeChange = 0;
+             
            }
            if ( (prvi_timer == 1) && (timer_flag >= 1) ) {
               prvi_timer = 0;
@@ -2691,7 +1927,7 @@ void main() {
               tacka1 = 1;
               Print_Pme();
               //SPI1_Init() ;
-
+              SPI1_Init_Advanced(_SPI_MASTER_OSC_DIV16, _SPI_DATA_SAMPLE_MIDDLE, _SPI_CLK_IDLE_LOW, _SPI_LOW_2_HIGH);
               Print_Pme();
               if (conf.dhcpen == 0) {
                  Mem_Read();
@@ -2702,8 +1938,9 @@ void main() {
 
                  dhcp_flag = 1;
                  EEPROM_Write(105, dhcp_flag);
+
                  Net_Ethernet_28j60_Init(macAddr, ipAddr, Net_Ethernet_28j60_FULLDUPLEX) ;
-                 Net_Ethernet_28j60_stackInitTCP();
+                 
                  while (Net_Ethernet_28j60_initDHCP(5) == 0) ; // try to get one from DHCP until it works
                  memcpy(ipAddr,    Net_Ethernet_28j60_getIpAddress(),    4) ; // get assigned IP address
                  memcpy(ipMask,    Net_Ethernet_28j60_getIpMask(),       4) ; // get assigned IP mask
@@ -2752,19 +1989,24 @@ void main() {
              
                  dhcp_flag = 0;
                  EEPROM_Write(105, dhcp_flag);
+             
                  delay_ms(100);
                  Print_IP();
+                 
+                 modeChange = 0;
+
+
               }
               if (conf.dhcpen == 1) {
                  lease_tmr = 0;
                  Mem_Read();
-                 Net_Ethernet_28j60_stackInitTCP();
-                 SPI1_Init();
-                 SPI_Rd_Ptr = SPI1_Read;
                  Net_Ethernet_28j60_Init(macAddr, ipAddr, Net_Ethernet_28j60_FULLDUPLEX) ;
                  Net_Ethernet_28j60_confNetwork(ipMask, gwIpAddr, dnsIpAddr) ;
-
                  Print_IP();
+                 
+                 modeChange = 0;
+
+
               }
               tacka1 = 0;
               Print_Pme();
@@ -2853,8 +2095,9 @@ void main() {
               }
               Display_Time();
            }
-           
-           Time_epochToDate(epoch + tmzn * 3600l, &ts) ;
+
+           Time_epochToDate(epoch + tmzn * 3600, &ts) ;
+
            Eth_Obrada();
            DNSavings();
            if (lcdEvent) {

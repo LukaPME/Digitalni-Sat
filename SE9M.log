@@ -1,21 +1,18 @@
-0	1	mikroCPIC1618.exe -MSF -DBG -pP18F46K20 -DL -O11111114 -fo32 -N"D:\Luka-Probe\Git\Digitalni-Sat\SE9M.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"D:\Luka-Probe\Git\Digitalni-Sat\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\Network_Ethernet_PIC\Uses\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -IP"D:\Luka-Probe\Git\Digitalni-Sat\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\Network_Ethernet_PIC\Uses\" "SE9M.c" "httpUtils.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_MemManager.mcl" "__Lib_Conversions.mcl" "__Lib_Sprintf.mcl" "__Lib_PrintOut.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Trigonometry.mcl" "__Lib_Button.mcl" "__Lib_Keypad4x4.mcl" "__Lib_Manchester.mcl" "__Lib_OneWire.mcl" "__Lib_PS2.mcl" "__Lib_Sound.mcl" "__Lib_SoftI2C.mcl" "__Lib_SoftSPI.mcl" "__Lib_SoftUART.mcl" "__Lib_ADC_A_D.mcl" "__Lib_EEPROM_1024.mcl" "__Lib_FLASH_w64_e64.mcl" "__Lib_I2C_c34.mcl" "__Lib_PWM_c21.mcl" "__Lib_SPI_c345.mcl" "__Lib_UART_c67.mcl" "__Lib_PortExpander.mcl" "__Lib_CANSPI.mcl" "__Lib_CF.mcl" "__Lib_CFFat16.mcl" "__Lib_GlcdFonts.mcl" "__Lib_Glcd.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl" "__Lib_Mmc.mcl" "__Lib_MmcFat16.mcl" "__Lib_MmcFat16Constants.mcl" "__Lib_RS485.mcl" "__Lib_S1D13700.mcl" "__Lib_T6963C.mcl" "__Lib_SPIGlcd.mcl" "__Lib_SPILcd.mcl" "__Lib_SPILcd8.mcl" "__Lib_SPIT6963C.mcl" "__Lib_TFT.mcl" "__Lib_TFT_16bit.mcl" "__Lib_TouchPanel_TFT.mcl" "__Lib_TouchPanel.mcl" "__Lib_NetEthEnc24j600.mcl" "__Lib_NetEthEnc24j600_Defs.mcl" "__Lib_NetEthEnc28j60.mcl" "__Lib_NetEthEnc28j60_Defs.mcl"	 
+0	1	mikroCPIC1618.exe -MSF -DBG -pP18F46K20 -DL -O11111114 -fo32 -N"D:\Luka-Probe\MicroC\NTP + Server\SE9M.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"D:\Luka-Probe\MicroC\NTP + Server\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\Network_Ethernet_PIC\Uses\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -IP"D:\Luka-Probe\MicroC\NTP + Server\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\Network_Ethernet_PIC\Uses\" "SE9M.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_MemManager.mcl" "__Lib_Conversions.mcl" "__Lib_Sprintf.mcl" "__Lib_PrintOut.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Trigonometry.mcl" "__Lib_Button.mcl" "__Lib_Keypad4x4.mcl" "__Lib_Manchester.mcl" "__Lib_OneWire.mcl" "__Lib_PS2.mcl" "__Lib_SoftI2C.mcl" "__Lib_SoftSPI.mcl" "__Lib_SoftUART.mcl" "__Lib_ADC_A_D.mcl" "__Lib_EEPROM_1024.mcl" "__Lib_FLASH_w64_e64.mcl" "__Lib_I2C_c34.mcl" "__Lib_PWM_c21.mcl" "__Lib_SPI_c345.mcl" "__Lib_UART_c67.mcl" "__Lib_PortExpander.mcl" "__Lib_CANSPI.mcl" "__Lib_CF.mcl" "__Lib_CFFat16.mcl" "__Lib_GlcdFonts.mcl" "__Lib_Glcd.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl" "__Lib_Mmc.mcl" "__Lib_MmcFat16.mcl" "__Lib_MmcFat16Constants.mcl" "__Lib_RS485.mcl" "__Lib_S1D13700.mcl" "__Lib_T6963C.mcl" "__Lib_NetEthEnc24j600.mcl" "__Lib_NetEthEnc24j600_Defs.mcl" "__Lib_NetEthEnc28j60.mcl" "__Lib_NetEthEnc28j60_Defs.mcl"	 
 hint: 0	1139	Available RAM: 3915 [bytes], Available ROM: 65536 [bytes]	 
-hint: 8	1354	 warning: The macro is redefined     #define Net_Ethernet_28j60_HALFDUPLEX 0     previously macro "Net_Ethernet_28j60_HALFDUPLEX" defined as: #define Net_Ethernet_28j60_HALFDUPLEX  0b0 	D:\Luka-Probe\Git\Digitalni-Sat\SE9M.c
-hint: 9	1354	 warning: The macro is redefined     #define Net_Ethernet_28j60_FULLDUPLEX 1     previously macro "Net_Ethernet_28j60_FULLDUPLEX" defined as: #define Net_Ethernet_28j60_FULLDUPLEX  0b1 	D:\Luka-Probe\Git\Digitalni-Sat\SE9M.c
+hint: 7	1354	 warning: The macro is redefined     #define Net_Ethernet_28j60_HALFDUPLEX 0     previously macro "Net_Ethernet_28j60_HALFDUPLEX" defined as: #define Net_Ethernet_28j60_HALFDUPLEX  0b0 	D:\Luka-Probe\MicroC\NTP + Server\SE9M.c
+hint: 8	1354	 warning: The macro is redefined     #define Net_Ethernet_28j60_FULLDUPLEX 1     previously macro "Net_Ethernet_28j60_FULLDUPLEX" defined as: #define Net_Ethernet_28j60_FULLDUPLEX  0b1 	D:\Luka-Probe\MicroC\NTP + Server\SE9M.c
 diagnostics: 0	122	Compilation Started	timelib.h
-hint: 1057	1163	Variable 'dyna' has been declared, but not used	SE9M.c
-hint: 1060	1163	Variable 'res' has been declared, but not used	SE9M.c
-hint: 1062	1163	Variable 'i' has been declared, but not used	SE9M.c
-hint: 1063	1163	Variable 'fbr' has been declared, but not used	SE9M.c
-hint: 1064	1163	Variable 'ij' has been declared, but not used	SE9M.c
-diagnostics: 2869	123	Compiled Successfully	SE9M.c
-diagnostics: 0	122	Compilation Started	httputils.h
-diagnostics: 311	123	Compiled Successfully	httpUtils.c
-hint: 306	1164	Variable 'len' has been eliminated by optimizer	httpUtils.c
-diagnostics: 0	127	All files Compiled in 437 ms	 
-hint: 0	1144	Used RAM (bytes): 3159 (81%)  Free RAM (bytes): 756 (19%)	Used RAM (bytes): 3159 (81%)  Free RAM (bytes): 756 (19%)
-hint: 0	1144	Used ROM (bytes): 39527 (60%)  Free ROM (bytes): 26009 (40%)	Used ROM (bytes): 39527 (60%)  Free ROM (bytes): 26009 (40%)
+hint: 316	1163	Variable 'k' has been declared, but not used	SE9M.c
+hint: 348	1163	Variable 'k' has been declared, but not used	SE9M.c
+hint: 496	1163	Variable 't1_c' has been declared, but not used	SE9M.c
+hint: 811	1163	Variable 'dyna' has been declared, but not used	SE9M.c
+hint: 815	1163	Variable 'fbr' has been declared, but not used	SE9M.c
+diagnostics: 2112	123	Compiled Successfully	SE9M.c
+diagnostics: 0	127	All files Compiled in 484 ms	 
+hint: 0	1144	Used RAM (bytes): 3468 (89%)  Free RAM (bytes): 447 (11%)	Used RAM (bytes): 3468 (89%)  Free RAM (bytes): 447 (11%)
+hint: 0	1144	Used ROM (bytes): 60277 (92%)  Free ROM (bytes): 5259 (8%)	Used ROM (bytes): 60277 (92%)  Free ROM (bytes): 5259 (8%)
 diagnostics: 0	125	Project Linked Successfully	SE9M.mcppi
-diagnostics: 0	128	Linked in 764 ms	 
-diagnostics: 0	129	Project 'SE9M.mcppi' completed: 1310 ms	 
-diagnostics: 0	103	Finished successfully: 30 Aug 2018, 14:53:42	SE9M.mcppi
+diagnostics: 0	128	Linked in 951 ms	 
+diagnostics: 0	129	Project 'SE9M.mcppi' completed: 1513 ms	 
+diagnostics: 0	103	Finished successfully: 28 Sep 2018, 08:52:15	SE9M.mcppi
